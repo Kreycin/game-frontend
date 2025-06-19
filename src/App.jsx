@@ -5,7 +5,8 @@ import SkillCard from './components/SkillCard';
 import VideoSection from './components/VideoSection';
 import CollapsiblePanel from './components/CollapsiblePanel'; // ★★★ Import Component ใหม่ ★★★
 
-const STRAPI_API_URL = 'http://localhost:1337/api/character-sheet';
+const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
+const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
 
 const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
