@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import EffectItem from './EffectItem'; // ★★★ Import Component ใหม่ ★★★
+import EffectItem from './EffectItem';
 
-// SkillCard เวอร์ชันที่เรียกใช้ EffectItem
-const SkillCard = ({ skill }) => {
-  const API_BASE_URL = 'http://localhost:1337';
+// รับ API_ENDPOINT เข้ามาเป็น prop
+const SkillCard = ({ skill, API_ENDPOINT }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!skill) return null;
@@ -23,7 +22,8 @@ const SkillCard = ({ skill }) => {
         <div className="skill-icon-and-name">
           {skill.Skill_Icon && skill.Skill_Icon.length > 0 && (
             <img 
-              src={`${API_BASE_URL}${skill.Skill_Icon[0].url}`} 
+              // ใช้ API_ENDPOINT จาก prop
+              src={`<span class="math-inline">\{API\_ENDPOINT\}</span>{skill.Skill_Icon[0].url}`} 
               alt={skill.Skill_Name} 
               className="skill-icon-small"
             />
@@ -32,7 +32,7 @@ const SkillCard = ({ skill }) => {
         </div>
         <span className={`toggle-icon ${isExpanded ? 'expanded' : ''}`}>▼</span>
       </div>
-      
+
       <div className="skill-details-collapsible">
         <p className="skill-type-small">{skill.Skill_Type}</p>
         <div className="skill-description-small">
@@ -40,9 +40,9 @@ const SkillCard = ({ skill }) => {
         </div>
         {skill.skill_effects && skill.skill_effects.length > 0 && (
             <div className="effects-list-in-skill">
-              {/* ★★★ เรียกใช้ EffectItem ที่นี่ ★★★ */}
               {skill.skill_effects.map((effect) => (
-                <EffectItem key={effect.id} effect={effect} />
+                // ส่ง API_ENDPOINT ต่อไปให้ EffectItem
+                <EffectItem key={effect.id} effect={effect} API_ENDPOINT={API_ENDPOINT} />
               ))}
             </div>
           )}
