@@ -1,14 +1,15 @@
+// path: game-frontend/src/App.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import SkillCard from './components/SkillCard';
 import VideoSection from './components/VideoSection';
 import CollapsiblePanel from './components/CollapsiblePanel';
-import StatItem from './components/StatItem'; // Import StatItem เข้ามา
+import StatItem from './components/StatItem';
 
-// ★★★ ตัวแปรนี้จะดึง URL ของ Backend มาจาก Environment Variables บน Vercel ★★★
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
-const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
+// ★★★ แก้ไข: เราจะใช้แค่ API_ENDPOINT ในการ fetch ข้อมูล ไม่ใช่การต่อ URL รูปภาพ ★★★
+const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`; 
 
 const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
@@ -41,8 +42,8 @@ function App() {
     const fetchCharacters = async () => {
       try {
         const response = await axios.get(STRAPI_API_URL);
-        // ★★★ แก้ไขการเข้าถึงข้อมูลให้ถูกต้องตามโครงสร้าง Strapi V4 ★★★
-        const processedData = response.data.data.map(char => char.attributes);
+        // แก้ไขการเข้าถึงข้อมูลให้ถูกต้องตามโครงสร้าง Strapi V4
+        const processedData = response.data.data.map(item => ({ id: item.id, ...item.attributes }));
         setCharacters(processedData);
       } catch (err) {
         setError(err);
@@ -62,18 +63,16 @@ function App() {
     <div className="App">
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
-        // ★★★ แก้ไขการเข้าถึง URL ของรูปภาพให้ถูกต้อง ★★★
+        // ดึง URL ของรูปภาพออกมา
         const mainArtUrl = char.Main_Art?.data?.attributes?.url;
         
         return (
-          <div key={char.Character_ID} className="character-sheet-container">
+          <div key={char.id} className="character-sheet-container">
             <aside className="left-sidebar">
-              {/* ★★★ แก้ไขการแสดงผลรูปภาพ ★★★ */}
-              {mainArtUrl && (<img src={`${API_ENDPOINT}${mainArtUrl}`} alt={char.Name} className="main-character-art"/>)}
+              {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
               
               <CollapsiblePanel title="Main Stats" defaultExpanded={true}>
                 <div className="stats-grid">
-                  {/* ★★★ ปรับปรุงโค้ดให้ใช้ StatItem Component ★★★ */}
                   <StatItem label="ATK" value={char.ATK} />
                   <StatItem label="DEF" value={char.DEF} />
                   <StatItem label="HP" value={char.HP} />
@@ -83,7 +82,6 @@ function App() {
 
               <CollapsiblePanel title="Special" defaultExpanded={true}>
                 <div className="stats-grid-special">
-                  {/* ★★★ ปรับปรุงโค้ดให้ใช้ StatItem Component ★★★ */}
                   <StatItem label="Lifesteal" value={char.Lifesteal} />
                   <StatItem label="Penetration" value={char.Penetration} />
                   <StatItem label="CRIT Rate" value={char.CRIT_rate} />
@@ -103,14 +101,12 @@ function App() {
 
               <CollapsiblePanel title="Enhancements">
                   {char.enhancements && char.enhancements.map((enh) => {
-                    // ★★★ แก้ไขการเข้าถึง URL ของรูปภาพ ★★★
                     const enhancementIconUrl = enh.Enhancement_Icon?.data?.[0]?.attributes?.url;
                     return (
                       <div key={enh.id} className="enhancement-item">
-                        {/* ★★★ แก้ไขการแสดงผลรูปภาพ ★★★ */}
                         {enhancementIconUrl && (
                           <img 
-                            src={`${API_ENDPOINT}${enhancementIconUrl}`} 
+                            src={enhancementIconUrl} 
                             alt="Enhancement Icon" 
                             className="enhancement-icon"
                           />
@@ -133,8 +129,8 @@ function App() {
               
               <section className="skills-grid">
                 {char.skills && char.skills.length > 0 ? (
-                  // ★★★ ส่ง API_ENDPOINT เป็น prop ให้ SkillCard ★★★
-                  char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} API_ENDPOINT={API_ENDPOINT} />))
+                  // ★★★ ไม่ต้องส่ง API_ENDPOINT อีกต่อไป ★★★
+                  char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
                 ) : (
                   <p>No skills available.</p>
                 )}

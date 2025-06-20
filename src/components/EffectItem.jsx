@@ -1,10 +1,13 @@
+// path: game-frontend/src/components/EffectItem.jsx
 import React, { useState } from 'react';
 
-// รับ API_ENDPOINT เข้ามาเป็น prop
-const EffectItem = ({ effect, API_ENDPOINT }) => { 
+const EffectItem = ({ effect }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!effect) return null;
+
+  // ดึง URL ของไอคอนออกมา
+  const iconUrl = effect.Effect_Icon?.data?.attributes?.url;
 
   const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
@@ -17,10 +20,9 @@ const EffectItem = ({ effect, API_ENDPOINT }) => {
     <div className="effect-item-in-skill">
       <div className="effect-header-clickable" onClick={() => setIsExpanded(!isExpanded)}>
         <div className="effect-header-in-skill">
-          {effect.Effect_Icon && (
+          {iconUrl && (
             <img 
-              // ใช้ API_ENDPOINT จาก prop
-              src={`<span class="math-inline">\{API\_ENDPOINT\}</span>{effect.Effect_Icon.url}`} 
+              src={iconUrl} // ★★★ ใช้ URL เต็มจาก Cloudinary โดยตรง ★★★
               alt={effect.Effect_Name} 
               className="effect-icon-in-skill" 
             />
@@ -29,7 +31,7 @@ const EffectItem = ({ effect, API_ENDPOINT }) => {
         </div>
         <span className={`toggle-icon-small ${isExpanded ? 'expanded' : ''}`}>▼</span>
       </div>
-
+      
       <div className={`effect-details-collapsible ${isExpanded ? 'expanded' : ''}`}>
         <div className="effect-description-in-skill">
           {renderRichText(effect.Description)}

@@ -1,11 +1,14 @@
+// path: game-frontend/src/components/SkillCard.jsx
 import React, { useState } from 'react';
 import EffectItem from './EffectItem';
 
-// รับ API_ENDPOINT เข้ามาเป็น prop
-const SkillCard = ({ skill, API_ENDPOINT }) => {
+const SkillCard = ({ skill }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!skill) return null;
+
+  // ดึง URL ของไอคอนออกมา
+  const iconUrl = skill.Skill_Icon?.data?.[0]?.attributes?.url;
 
   const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
@@ -20,10 +23,9 @@ const SkillCard = ({ skill, API_ENDPOINT }) => {
       <span className="skill-level-tag">Lv.3</span>
       <div className="skill-card-header-clickable" onClick={() => setIsExpanded(!isExpanded)}>
         <div className="skill-icon-and-name">
-          {skill.Skill_Icon && skill.Skill_Icon.length > 0 && (
+          {iconUrl && (
             <img 
-              // ใช้ API_ENDPOINT จาก prop
-              src={`<span class="math-inline">\{API\_ENDPOINT\}</span>{skill.Skill_Icon[0].url}`} 
+              src={iconUrl} // ★★★ ใช้ URL เต็มจาก Cloudinary โดยตรง ★★★
               alt={skill.Skill_Name} 
               className="skill-icon-small"
             />
@@ -32,7 +34,7 @@ const SkillCard = ({ skill, API_ENDPOINT }) => {
         </div>
         <span className={`toggle-icon ${isExpanded ? 'expanded' : ''}`}>▼</span>
       </div>
-
+      
       <div className="skill-details-collapsible">
         <p className="skill-type-small">{skill.Skill_Type}</p>
         <div className="skill-description-small">
@@ -41,8 +43,7 @@ const SkillCard = ({ skill, API_ENDPOINT }) => {
         {skill.skill_effects && skill.skill_effects.length > 0 && (
             <div className="effects-list-in-skill">
               {skill.skill_effects.map((effect) => (
-                // ส่ง API_ENDPOINT ต่อไปให้ EffectItem
-                <EffectItem key={effect.id} effect={effect} API_ENDPOINT={API_ENDPOINT} />
+                <EffectItem key={effect.id} effect={effect} />
               ))}
             </div>
           )}
