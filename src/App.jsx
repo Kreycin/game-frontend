@@ -1,4 +1,3 @@
-// path: game-frontend/src/App.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -8,7 +7,6 @@ import CollapsiblePanel from './components/CollapsiblePanel';
 import StatItem from './components/StatItem';
 
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
-// ★★★ แก้ไข: เราจะใช้แค่ API_ENDPOINT ในการ fetch ข้อมูล ไม่ใช่การต่อ URL รูปภาพ ★★★
 const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`; 
 
 const renderRichText = (richTextArray) => {
@@ -42,12 +40,10 @@ function App() {
     const fetchCharacters = async () => {
       try {
         const response = await axios.get(STRAPI_API_URL);
-        // แก้ไขการเข้าถึงข้อมูลให้ถูกต้องตามโครงสร้าง Strapi V4
         const processedData = response.data.data.map(item => ({ id: item.id, ...item.attributes }));
         setCharacters(processedData);
       } catch (err) {
         setError(err);
-        console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
@@ -63,7 +59,6 @@ function App() {
     <div className="App">
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
-        // ดึง URL ของรูปภาพออกมา
         const mainArtUrl = char.Main_Art?.data?.attributes?.url;
         
         return (
@@ -129,7 +124,6 @@ function App() {
               
               <section className="skills-grid">
                 {char.skills && char.skills.length > 0 ? (
-                  // ★★★ ไม่ต้องส่ง API_ENDPOINT อีกต่อไป ★★★
                   char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
                 ) : (
                   <p>No skills available.</p>
