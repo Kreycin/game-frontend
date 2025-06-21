@@ -25,65 +25,64 @@ body {
 
 
 /* ================================== */
-/* === LAYOUT SECTION (RE-WRITTEN) === */
+/* === LAYOUT SECTION (MOBILE FIRST APPROACH) === */
 /* ================================== */
 
-/* --- 1. Desktop Layout (Default) --- */
+/* --- 1. Base Styles (for Mobile & Tablet Portrait) --- */
 .character-sheet-container {
-  display: grid;
-  grid-template-columns: 320px 1fr; /* Two columns: Left is 320px, Right takes the rest */
-  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Use a slightly smaller gap for smaller screens */
   max-width: 1400px;
   margin: auto;
-  align-items: start;
 }
 
-/* Explicitly place items in the LEFT column */
-.main-character-art,
-.panel-main-stats,
-.panel-special-stats,
-.panel-enhancements {
-  grid-column: 1;
-}
-
-/* Explicitly place items in the RIGHT column */
-.character-header,
-.skills-grid,
-.video-section {
-  grid-column: 2;
-}
+/* Use 'order' to arrange components correctly in the single column view */
+.character-header { order: 1; }
+.main-character-art { order: 2; }
+.panel-main-stats { order: 3; }
+.panel-special-stats { order: 4; }
+.skills-grid { order: 5; }
+.panel-enhancements { order: 6; }
+.video-section { order: 7; }
 
 
-/* --- 2. Tablet & Mobile Layout Override --- */
-@media (max-width: 1024px) {
+/* --- 2. Desktop Layout Override --- */
+/* This block only applies when the screen is WIDER than 1024px */
+@media (min-width: 1025px) {
   .character-sheet-container {
-    /* Change to a single-column layout */
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
   }
 
-  /*
-    Force ALL layout items back into the single column.
-    This overrides the desktop settings above.
-    The order will follow the JSX structure, which is already correct.
-  */
+  /* Reset the order property so the grid can take over */
+  .character-sheet-container > * {
+    order: 0;
+  }
+
+  /* Place items into their respective grid columns */
   .main-character-art,
   .panel-main-stats,
   .panel-special-stats,
-  .panel-enhancements,
+  .panel-enhancements {
+    grid-column: 1;
+  }
+
   .character-header,
   .skills-grid,
   .video-section {
-    grid-column: 1;
+    grid-column: 2;
   }
 }
 
 /* ================================== */
-/* === COMPONENT STYLES (UNCHANGED) === */
+/* === COMPONENT STYLES (MOSTLY UNCHANGED) === */
 /* ================================== */
 
-.main-character-art { 
-  width: 100%; 
-  border-radius: 8px; 
+.main-character-art {
+  width: 100%;
+  border-radius: 8px;
   border: 1px solid var(--border-color);
   box-sizing: border-box;
 }
@@ -128,17 +127,17 @@ body {
   border-top: 1px solid var(--border-color);
 }
 
-.stats-grid, .stats-grid-special { 
-  display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  gap: 0.5rem 1rem; 
+.stats-grid, .stats-grid-special {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
 }
 
-.stat-item { 
-  display: flex; 
-  justify-content: space-between; 
-  padding: 0.4rem 0; 
-  font-size: 0.9rem; 
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
   border-bottom: 1px solid #333;
 }
 .stat-item:last-child {
@@ -148,10 +147,10 @@ body {
 
 .enhancement-item {
   display: grid;
-  grid-template-columns: auto 1fr; 
-  gap: 0.75rem; 
-  align-items: start; 
-  font-size: 0.85rem; 
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  font-size: 0.85rem;
   margin-bottom: 0.75rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
@@ -161,14 +160,14 @@ body {
 .enhancement-item p { margin: 0; line-height: 1.5; }
 
 
-.character-header { 
-  background-color: var(--surface-color-opaque); 
-  backdrop-filter: blur(8px); 
-  -webkit-backdrop-filter: blur(8px); 
-  border: 1px solid var(--border-color); 
-  padding: 1.5rem; 
-  border-radius: 8px; 
-  text-align: center; 
+.character-header {
+  background-color: var(--surface-color-opaque);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
 }
 .character-header h1 { margin: 0 0 0.5rem 0; }
 .tags { display: flex; justify-content: center; gap: 1rem; }
@@ -177,25 +176,39 @@ body {
 .tag-role { background-color: var(--surface-color-light); }
 
 
-.skills-grid { 
-  display: grid; 
-  grid-template-columns: repeat(4, 1fr); 
+.skills-grid {
+  display: grid;
+  /* Default to 1 column for mobile, will be overridden for wider screens */
+  grid-template-columns: 1fr;
   gap: 1.5rem;
   align-items: start;
 }
 
-.skill-card-small { 
-  background-color: var(--surface-color-opaque); 
-  backdrop-filter: blur(8px); 
-  -webkit-backdrop-filter: blur(8px); 
-  border: 1px solid var(--border-color); 
-  padding: 1rem; 
-  border-radius: 8px; 
-  box-sizing: border-box; 
-  display: flex; 
-  flex-direction: column; 
-  transition: background-color 0.2s; 
-  position: relative; 
+/* Overriding skills grid for larger screens */
+@media (min-width: 551px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1025px) {
+  .skills-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+.skill-card-small {
+  background-color: var(--surface-color-opaque);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.2s;
+  position: relative;
 }
 .skill-card-small.expanded { background-color: rgba(45, 45, 45, 0.9); }
 .skill-card-header-clickable { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; cursor: pointer; }
@@ -273,20 +286,11 @@ body {
   border: 0;
 }
 
-/* --- Other Responsive Adjustments --- */
-@media (max-width: 768px) { 
-  .skills-grid { 
-    grid-template-columns: repeat(2, 1fr); 
-  } 
-}
-
-@media (max-width: 550px) { 
-  .skills-grid { 
-    grid-template-columns: 1fr; 
-  } 
-  .App { 
-    padding: 1rem; 
-  } 
+/* Final fine-tuning for small mobile screens */
+@media (max-width: 550px) {
+  .App {
+    padding: 1rem;
+  }
   .stats-grid, .stats-grid-special {
     grid-template-columns: 1fr;
   }
