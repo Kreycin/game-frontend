@@ -24,69 +24,50 @@ body {
 }
 
 /* ================================== */
-/* === FINAL LAYOUT (STICKY SIDEBAR) === */
+/* === LAYOUT: GRID TEMPLATE AREAS === */
 /* ================================== */
 
-/* --- 1. Mobile & Tablet Portrait (Flexbox Layout) --- */
+/* --- 1. Mobile & Tablet Portrait Layout --- */
 .character-sheet-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  display: grid;
   max-width: 1400px;
   margin: auto;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "art"
+    "main-stats"
+    "special-stats"
+    "skills"
+    "enhancements"
+    "showcase";
 }
 
-/* Re-use the JSX structure from the "Reset" version */
-.layout-header,
-.layout-skills,
-.layout-showcase {
-  order: 1; /* Main content comes first */
-}
-
-.layout-art,
-.layout-main-stats,
-.layout-special-stats,
-.layout-enhancements {
-  order: 2; /* Sidebar content comes second */
-}
-
-
-/* --- 2. Desktop & Tablet Landscape (Grid with Sticky Sidebar) --- */
+/* --- 2. Desktop & Tablet Landscape Layout --- */
 @media (min-width: 1025px) {
   .character-sheet-container {
-    display: grid;
+    gap: 2rem;
     grid-template-columns: 320px 1fr;
-    gap: 2rem;
-    align-items: start; /* This prevents items from stretching vertically */
-  }
-
-  /* Reset flexbox ordering for desktop */
-  .character-sheet-container > * {
-    order: 0;
-  }
-
-  /* Assign items to their columns */
-  .layout-art,
-  .layout-main-stats,
-  .layout-special-stats,
-  .layout-enhancements {
-    grid-column: 1;
-    display: flex; /* This helps organize the items inside */
-    flex-direction: column;
-    gap: 2rem;
-    position: sticky; /* <<< นี่คือหัวใจของการแก้ไขทั้งหมด */
-    top: 2rem;       /* <<< ระยะห่างจากขอบบน */
-  }
-
-  .layout-header,
-  .layout-skills,
-  .layout-showcase {
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    grid-template-areas:
+      "art   header"
+      "art   skills"
+      "main-stats    skills"
+      "special-stats skills"
+      "enhancements  skills"
+      ".             showcase"; /* Use a dot for an empty space */
   }
 }
+
+/* --- Assigning components to grid areas --- */
+.layout-header { grid-area: header; }
+.layout-art { grid-area: art; }
+.layout-main-stats { grid-area: main-stats; }
+.layout-special-stats { grid-area: special-stats; }
+.layout-skills { grid-area: skills; }
+.layout-enhancements { grid-area: enhancements; }
+.layout-showcase { grid-area: showcase; }
+
 
 /* ================================== */
 /* === COMPONENT STYLES === */
@@ -192,17 +173,36 @@ body {
   display: grid;
   gap: 1.5rem;
   align-items: start;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr; /* Default for mobile */
 }
 
-@media (max-width: 768px) {
+/* Responsive columns for Skills Grid */
+@media (min-width: 551px) {
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media (max-width: 550px) {
+/* ในไฟล์ src/App.css */
+
+/* --- แก้ไขเฉพาะส่วนนี้ --- */
+@media (min-width: 1025px) {
+  .character-sheet-container {
+    gap: 2rem;
+    grid-template-columns: 320px 1fr;
+    align-items: start; /* <<<< เพิ่มแค่บรรทัดนี้เข้ามาครับ */
+    grid-template-areas:
+      "art              header"
+      "art              skills"
+      "main-stats       skills"
+      "special-stats    skills"
+      "enhancements     skills"
+      "showcase         skills";
+  }
+
+  /* 2. จัดการคอลัมน์ภายใน skills-grid โดยเฉพาะ */
   .skills-grid {
-    grid-template-columns: 1fr;
+    /* เราจะยังใช้ grid-template-columns เหมือนเดิม แต่จะเอาไว้ที่นี่ */
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
