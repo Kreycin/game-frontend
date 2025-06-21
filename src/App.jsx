@@ -60,30 +60,17 @@ function App() {
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
         const mainArtUrl = char.Main_Art?.data?.attributes?.url;
-        const avatarUrl = char.Avatar?.data?.attributes?.url;
 
         return (
-          // ★★★ เราจะใช้ grid-areas ในการควบคุม Layout ★★★
+          // ★★★ โครงสร้างใหม่ที่เรียบง่ายขึ้น ★★★
           <div key={char.id} className="character-sheet-container">
 
-            {/* ★ ย้ายรูปหลักออกมาเพื่อให้ควบคุมตำแหน่งได้ */}
-            <div className="character-art-area">
-              {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
-            </div>
-
-            {/* ★ ย้าย Header ออกมาเพื่อให้ควบคุมตำแหน่งได้ */}
-            <header className="character-header-area">
-              {avatarUrl && <img src={avatarUrl} alt={`${char.Name} Avatar`} className="header-avatar"/>}
-              <div className="header-text">
-                <h1>{char.Name}</h1>
-                <div className="tags">
-                  <span className={`tag-rarity ${char.Rarity}`}>{char.Rarity}</span>
-                  <span className="tag-role">{char.Role}</span>
-                </div>
-              </div>
-            </header>
-
             <aside className="sidebar-area">
+              {/* ★ นำ Main Art กลับเข้ามาไว้ใน Sidebar ★ */}
+              <div className="character-art-area">
+                {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
+              </div>
+
               <CollapsiblePanel title="Main Stats" defaultExpanded={true}>
                 <div className="stats-grid">
                   <StatItem label="ATK" value={char.ATK} />
@@ -96,7 +83,6 @@ function App() {
               <CollapsiblePanel title="Special" defaultExpanded={true}>
                 <div className="stats-grid-special">
                   <StatItem label="Lifesteal" value={char.Lifesteal} />
-                  <StatItem label="Penetration" value={char.Penetration} />
                   {/* ... ใส่ StatItem ที่เหลือ ... */}
                 </div>
               </CollapsiblePanel>
@@ -107,11 +93,7 @@ function App() {
                     return (
                       <div key={enh.id} className="enhancement-item">
                         {enhancementIconUrl && (
-                          <img 
-                            src={enhancementIconUrl} 
-                            alt="Enhancement Icon" 
-                            className="enhancement-icon"
-                          />
+                          <img src={enhancementIconUrl} alt="Enhancement Icon" className="enhancement-icon" />
                         )}
                         <div>{renderRichText(enh.Description)}</div>
                       </div>
@@ -121,6 +103,14 @@ function App() {
             </aside>
 
             <main className="main-content-area">
+              <header className="character-header-area">
+                <h1>{char.Name}</h1>
+                <div className="tags">
+                  <span className={`tag-rarity ${char.Rarity}`}>{char.Rarity}</span>
+                  <span className="tag-role">{char.Role}</span>
+                </div>
+              </header>
+
               <section className="skills-grid">
                 {char.skills && char.skills.length > 0 ? (
                   char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
