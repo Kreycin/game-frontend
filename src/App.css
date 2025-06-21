@@ -196,8 +196,7 @@ body {
       "main-stats       skills"
       "special-stats    skills"
       "enhancements     skills" /* <<< ทำให้ skills กินพื้นที่ยาวลงมา */
-      "showcase         skills"
-      "showcase         showcase";/* <<< showcase จะอยู่ใต้ skills */
+      "showcase         skills";/* <<< showcase จะอยู่ใต้ skills */
   }
 
   /* 2. จัดการคอลัมน์ภายใน skills-grid โดยเฉพาะ */
