@@ -191,12 +191,12 @@ body {
     gap: 2rem;
     grid-template-columns: 320px 1fr;
     grid-template-areas:
-      "header        header"
-      "art           skills"
-      "art           skills"
-      "main-stats    skills"
-      "special-stats showcase"  /* <<< ทำให้ skills กินพื้นที่ยาวลงมา */
-      "enhancements  showcase";/* <<< showcase จะอยู่ใต้ skills */
+      "art              header"
+      "art              skills"
+      "main-stats       skills"
+      "special-stats    skills"
+      "enhancements     showcase"  /* <<< ทำให้ skills กินพื้นที่ยาวลงมา */
+      ".                showcase";/* <<< showcase จะอยู่ใต้ skills */
   }
 
   /* 2. จัดการคอลัมน์ภายใน skills-grid โดยเฉพาะ */
