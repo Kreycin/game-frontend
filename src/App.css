@@ -177,6 +177,37 @@ body {
   height: 100%;
   border: 0;
 }
-@media (max-width: 1200px) { .character-sheet-container { grid-template-columns: 1fr; } .left-sidebar { position: static; } }
-@media (max-width: 768px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .skills-grid { grid-template-columns: 1fr; } .App { padding: 1rem; } }
+/* === วางโค้ดนี้แทนที่ส่วน @media ของเดิมทั้งหมด === */
+
+@media (max-width: 1024px) {
+  .character-sheet-container {
+    /* เปลี่ยนเป็น 1 คอลัมน์ */
+    grid-template-columns: 1fr;
+  }
+
+  .left-sidebar {
+    /* ยกเลิกการ sticky และสั่งให้ไปอยู่ลำดับที่ 2 */
+    position: static; 
+    order: 2; 
+  }
+
+  .main-content {
+    /* สั่งให้มาเป็นลำดับที่ 1 */
+    order: 1; 
+  }
+}
+
+@media (max-width: 768px) { 
+  .skills-grid { 
+    grid-template-columns: repeat(2, 1fr); 
+  } 
+}
+
+@media (max-width: 480px) { 
+  .skills-grid { 
+    grid-template-columns: 1fr; 
+  } 
+  .App { 
+    padding: 1rem; 
+  } 
+}
