@@ -194,7 +194,8 @@ body {
       "art           skills"
       "main-stats    skills"
       "special-stats skills"
-      "enhancements  showcase"; /* <--- แก้ไขบรรทัดนี้ */
+      "enhancements  skills"   /* <--- แก้ไขที่ 1: บอกให้ skills ยังคงอยู่ตรงนี้ */
+      ".             showcase"; /* <--- แก้ไขที่ 2: ย้าย showcase กลับไปอยู่แถวของตัวเอง */
   }
 }
 
