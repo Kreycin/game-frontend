@@ -246,17 +246,28 @@ body {
 
 /* --- @media query ที่เขียนขึ้นใหม่ทั้งหมด --- */
 
+/* แก้ไขเฉพาะส่วนนี้ใน src/App.css */
+
 @media (max-width: 1024px) {
   .character-sheet-container {
     grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ */
   }
 
-  /* คืนค่าให้ทุกชิ้นส่วนกลับมาอยู่คอลัมน์เดียวกัน */
+  /* คืนค่าให้ทุกชิ้นส่วนกลับมาอยู่คอลัมน์เดียวกัน และลบการจัดลำดับออกไปก่อน */
   .character-sheet-container > * {
     grid-column: auto;
+    order: 0; /* เพิ่มบรรทัดนี้: รีเซ็ตลำดับสำหรับ iPad แนวนอน */
   }
 
-  /* จัดลำดับการแสดงผลใหม่ */
+  /* --- เพิ่มส่วนนี้เข้ามาใหม่ --- */
+  /* จัดลำดับใหม่เฉพาะเมื่อหน้าจอแคบมากๆ (iPad แนวตั้งและมือถือ) */
+  .character-sheet-container {
+    display: flex; /* เปลี่ยนเป็น Flexbox เพื่อใช้ order */
+    flex-direction: column;
+  }
+  /* --- จบส่วนที่เพิ่มเข้ามา --- */
+
+  /* ย้ายการจัดลำดับมาไว้ตรงนี้แทน */
   .character-header { order: 1; }
   .main-character-art { order: 2; }
   .panel-main-stats { order: 3; }
