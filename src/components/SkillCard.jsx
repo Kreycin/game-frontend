@@ -1,4 +1,3 @@
-// path: game-frontend/src/components/SkillCard.jsx
 import React, { useState } from 'react';
 import EffectItem from './EffectItem';
 
@@ -7,8 +6,7 @@ const SkillCard = ({ skill }) => {
 
   if (!skill) return null;
 
-  // ดึง URL ของไอคอนออกมา
-  const iconUrl = skill.Skill_Icon?.data?.[0]?.attributes?.url;
+  const iconUrl = skill.Skill_Icon?.[0]?.url; // ★★★ แก้ไขตรงนี้ ★★★
 
   const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
@@ -25,7 +23,7 @@ const SkillCard = ({ skill }) => {
         <div className="skill-icon-and-name">
           {iconUrl && (
             <img 
-              src={iconUrl} // ★★★ ใช้ URL เต็มจาก Cloudinary โดยตรง ★★★
+              src={iconUrl} 
               alt={skill.Skill_Name} 
               className="skill-icon-small"
             />

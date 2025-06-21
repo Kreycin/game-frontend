@@ -59,7 +59,7 @@ function App() {
     <div className="App">
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
-        const mainArtUrl = char.Main_Art?.data?.attributes?.url;
+        const mainArtUrl = char.Main_Art?.url; // ★★★ แก้ไขตรงนี้ ★★★
         
         return (
           <div key={char.id} className="character-sheet-container">
@@ -96,7 +96,7 @@ function App() {
 
               <CollapsiblePanel title="Enhancements">
                   {char.enhancements && char.enhancements.map((enh) => {
-                    const enhancementIconUrl = enh.Enhancement_Icon?.data?.[0]?.attributes?.url;
+                    const enhancementIconUrl = enh.Enhancement_Icon?.[0]?.url; // ★★★ แก้ไขตรงนี้ ★★★
                     return (
                       <div key={enh.id} className="enhancement-item">
                         {enhancementIconUrl && (

@@ -1,4 +1,3 @@
-// path: game-frontend/src/components/EffectItem.jsx
 import React, { useState } from 'react';
 
 const EffectItem = ({ effect }) => {
@@ -6,8 +5,7 @@ const EffectItem = ({ effect }) => {
 
   if (!effect) return null;
 
-  // ดึง URL ของไอคอนออกมา
-  const iconUrl = effect.Effect_Icon?.data?.attributes?.url;
+  const iconUrl = effect.Effect_Icon?.url; // ★★★ แก้ไขตรงนี้ ★★★
 
   const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
@@ -22,7 +20,7 @@ const EffectItem = ({ effect }) => {
         <div className="effect-header-in-skill">
           {iconUrl && (
             <img 
-              src={iconUrl} // ★★★ ใช้ URL เต็มจาก Cloudinary โดยตรง ★★★
+              src={iconUrl}
               alt={effect.Effect_Name} 
               className="effect-icon-in-skill" 
             />
