@@ -1,4 +1,3 @@
-/* --- ชุดสี Dark Theme เดิมที่นายชอบ --- */
 :root {
   --background-color: #1a1a1a;
   --surface-color-opaque: rgba(36, 36, 36, 0.85);
@@ -9,123 +8,97 @@
   --text-color-secondary: #b0b0b0;
   --accent-color-ur: #ffc107;
 }
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  background-image: url('https://cdn.discordapp.com/attachments/1374249946295042081/1385198123147722762/Gyokko-UR_Workspace.png?ex=685531c8&is=6853e048&hm=34e9b65d861f2d26a6d011e17c95f04a6ccc1fad6f556fb794ce6b017a2c6088&');
+  background-image: url('https://images.unsplash.com/photo-1587327901594-81e85111d408?q=80&w=2070');
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-attachment: fixed;
   color: var(--text-color-primary);
 }
-
 .App {
   padding: 2rem;
 }
 
-/* --- โครงสร้าง Layout หลัก --- */
+/* --- ★★★ โครงสร้าง Layout หลักใหม่ ★★★ --- */
 .character-sheet-container {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 2rem;
   max-width: 1400px;
   margin: auto;
-  align-items: start;
+  gap: 2rem;
+  /* กำหนดพื้นที่สำหรับ Desktop */
+  grid-template-areas:
+    "art header"
+    "art sidebar"
+    "main main";
+  grid-template-columns: 320px 1fr;
 }
-
-/* --- แถบด้านข้างซ้าย --- */
-.left-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  position: sticky; 
-  top: 2rem;
-}
+.character-art-area { grid-area: art; position: sticky; top: 2rem; }
+.character-header-area { grid-area: header; }
+.sidebar-area { grid-area: sidebar; display: flex; flex-direction: column; gap: 1.5rem; }
+.main-content-area { grid-area: main; }
+/* ------------------------------------ */
 
 .main-character-art { width: 100%; border-radius: 8px; border: 1px solid var(--border-color); }
 
-/* --- ★★★ สไตล์ใหม่สำหรับกล่องวิเศษ (Collapsible Panel) ★★★ --- */
+.character-header-area {
+  background-color: var(--surface-color-opaque);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.header-avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--border-color); }
+.header-text h1 { margin: 0 0 0.5rem 0; }
+.tags { display: flex; gap: 1rem; }
+.tag-rarity, .tag-role { padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500; }
+.tag-rarity.UR { background-color: var(--accent-color-ur); color: #000; }
+.tag-role { background-color: var(--surface-color-light); }
+
 .collapsible-panel {
   background-color: var(--surface-color-opaque);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 1rem;
 }
-
 .panel-header-clickable {
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  /* ทำให้คลิกโดนง่ายขึ้น */
-  margin: -1rem;
   padding: 1rem;
 }
-
-.collapsible-panel h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: var(--accent-color-ur);
-}
-
+.collapsible-panel h3 { margin: 0; font-size: 1.1rem; color: var(--accent-color-ur); }
 .panel-content-collapsible {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease-out, padding-top 0.4s ease-out, margin-top 0.4s ease-out;
-  padding-top: 0;
-  margin-top: 0;
+  transition: max-height 0.4s ease-out;
 }
-
 .collapsible-panel.expanded .panel-content-collapsible {
-  max-height: 2000px; /* ให้สูงไว้ก่อน */
-  transition: max-height 0.4s ease-in, padding-top 0.4s ease-in, margin-top 0.4s ease-in;
-  padding-top: 1rem;
-  margin-top: 1rem;
+  max-height: 2000px; /* เพิ่มค่าให้รองรับเนื้อหาเยอะๆ */
+  transition: max-height 0.4s ease-in;
+}
+.panel-content-inner {
+  padding: 0 1rem 1rem 1rem;
   border-top: 1px solid var(--border-color);
 }
-/* ----------------------------------------------------------------- */
 
-
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
-.stats-grid-special { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
+.stats-grid, .stats-grid-special { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
 .stat-item { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.9rem; border-bottom: 1px solid #333;}
 .stat-item span { color: var(--text-color-secondary); }
-
-.enhancement-item {
-  display: grid;
-  grid-template-columns: auto 1fr; 
-  gap: 0.75rem; 
-  align-items: start; 
-  font-size: 0.85rem; 
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--border-color);
-}
-.enhancement-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.stat-item:last-child { border-bottom: none; }
+.enhancement-item { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; align-items: start; font-size: 0.85rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); }
+.enhancement-item:last-child { border-bottom: none; padding-bottom: 0; }
 .enhancement-icon { width: 24px; height: 24px; margin-top: 2px; }
-.enhancement-item p { margin: 0; display: inline; white-space: pre-wrap; line-height: 1.5; font-weight: bold; }
-.enhancement-item strong { margin-right: 0.5rem; color: var(--accent-color-ur); }
+.enhancement-item p { margin: 0; line-height: 1.5; }
 
-
-/* --- เนื้อหาหลักด้านขวา --- */
-.main-content { display: flex; flex-direction: column; gap: 2rem; }
-.character-header { background-color: var(--surface-color-opaque); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 8px; text-align: center; }
-.character-header h1 { margin: 0 0 0.5rem 0; }
-.tags { display: flex; justify-content: center; gap: 1rem; }
-.tag-rarity, .tag-role { padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500; }
-.tag-rarity.UR { background-color: var(--accent-color-ur); color: #000; }
-.tag-role { background-color: var(--surface-color-light); }
-
-/* --- ตารางสกิล --- */
-.skills-grid { 
-  display: grid; 
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 1.5rem;
-  align-items: start;
-}
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
 .skill-card-small { background-color: var(--surface-color-opaque); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border-color); padding: 1rem; border-radius: 8px; box-sizing: border-box; display: flex; flex-direction: column; transition: background-color 0.2s; position: relative; }
 .skill-card-small.expanded { background-color: rgba(45, 45, 45, 0.9); }
 .skill-card-header-clickable { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; cursor: pointer; }
@@ -138,12 +111,10 @@ body {
 .toggle-icon { transition: transform 0.3s ease; font-size: 1rem; color: var(--text-color-secondary); }
 .toggle-icon.expanded { transform: rotate(180deg); }
 .skill-type-small { font-size: 0.8rem; color: var(--text-color-secondary); margin: 0.5rem 0 0.75rem 0; padding-top: 0.5rem; border-top: 1px solid var(--border-color); }
-.skill-description-small p { margin: 0; font-size: 0.8rem; color: #ccc; line-height: 1.5; white-space: pre-wrap; font-weight: bold; margin-bottom: 0.5em; }
-.skill-description-small p:last-child { margin-bottom: 0;}
+.skill-description-small p { margin: 0; font-size: 0.85rem; color: #ccc; line-height: 1.5; }
 
-/* ... สไตล์สำหรับ Effects (ถูกต้องแล้ว) ... */
 .effects-list-in-skill { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem; }
-.effect-item-in-skill { background-color: var(--surface-color-dark); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85em; width: 100%; box-sizing: border-box; }
+.effect-item-in-skill { background-color: var(--surface-color-dark); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.9em; width: 100%; box-sizing: border-box; }
 .effect-header-clickable { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
 .effect-header-in-skill { display: flex; align-items: center; gap: 0.4rem; }
 .effect-icon-in-skill { width: 16px; height: 16px; }
@@ -153,15 +124,8 @@ body {
 .toggle-icon-small { transition: transform 0.3s ease; font-size: 0.8rem; color: var(--text-color-secondary); }
 .toggle-icon-small.expanded { transform: rotate(180deg); }
 .effect-description-in-skill { width: 100%; padding-left: calc(16px + 0.4rem); box-sizing: border-box; font-size: 0.9em; color: var(--text-color-secondary); padding-top: 0.5rem;}
-.effect-description-in-skill p { margin: 0; line-height: 1.4; white-space: pre-wrap; font-weight: bold; margin-bottom: 0.5em;}
-.effect-description-in-skill p:last-child { margin-bottom: 0;}
+.effect-description-in-skill p { margin: 0; line-height: 1.4;}
 
-
-/* --- Responsive --- */
-@media (max-width: 1200px) { .character-sheet-container { grid-template-columns: 1fr; } .left-sidebar { position: static; } }
-@media (max-width: 768px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 480px) { .skills-grid { grid-template-columns: 1fr; } .App { padding: 1rem; } }
-/* --- สไตล์สำหรับวิดีโอ ★★★ --- */
 .video-section {
   background-color: var(--surface-color-opaque);
   backdrop-filter: blur(8px);
@@ -170,20 +134,8 @@ body {
   padding: 1.5rem;
   border-radius: 8px;
 }
-
-.video-header-clickable {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-.video-header-clickable h3 {
-  margin: 0;
-  border-bottom: none;
-  padding-bottom: 0;
-}
-
+.video-header-clickable { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.video-header-clickable h3 { margin: 0; }
 .video-collapsible-area {
   max-height: 0;
   overflow: hidden;
@@ -191,28 +143,37 @@ body {
   margin-top: 0;
   padding-top: 0;
 }
-
 .video-collapsible-area.expanded {
-  max-height: 1000px; /* ให้สูงไว้ก่อน */
+  max-height: 1000px; /* เพิ่มค่าให้รองรับวิดีโอขนาดใหญ่ */
   transition: max-height 0.5s ease-in, margin-top 0.5s ease-in, padding-top 0.5s ease-in;
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border-color);
 }
+.video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 6px; }
+.video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-  height: 0;
-  overflow: hidden;
-  border-radius: 6px;
+/* --- ★★★ Media Query สำหรับ Tablet และ Mobile ★★★ --- */
+@media (max-width: 1024px) {
+  .character-sheet-container {
+    /* จัดเรียงใหม่เป็น 1 คอลัมน์ */
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "art"
+      "sidebar"
+      "main";
+  }
+  .character-art-area {
+    position: static; /* ยกเลิกการ sticky */
+  }
 }
 
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
+@media (max-width: 480px) {
+  .App { padding: 1rem; }
+  .character-header-area {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
 }
