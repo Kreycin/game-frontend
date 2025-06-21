@@ -23,45 +23,29 @@ body {
   padding: 2rem;
 }
 
-
 /* ================================== */
-/* === LAYOUT SECTION (MOBILE FIRST APPROACH) === */
+/* === LAYOUT SECTION (GRID-ONLY APPROACH) === */
 /* ================================== */
 
-/* --- 1. Base Styles (for Mobile & Tablet Portrait) --- */
+/* --- 1. Base Styles (Mobile & Tablet Portrait use a single-column GRID) --- */
 .character-sheet-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem; /* Use a slightly smaller gap for smaller screens */
+  display: grid;
+  grid-template-columns: 1fr; /* Default to a single column */
+  gap: 1.5rem;
   max-width: 1400px;
   margin: auto;
 }
-
-/* Use 'order' to arrange components correctly in the single column view */
-.character-header { order: 1; }
-.main-character-art { order: 2; }
-.panel-main-stats { order: 3; }
-.panel-special-stats { order: 4; }
-.skills-grid { order: 5; }
-.panel-enhancements { order: 6; }
-.video-section { order: 7; }
-
 
 /* --- 2. Desktop Layout Override --- */
 /* This block only applies when the screen is WIDER than 1024px */
 @media (min-width: 1025px) {
   .character-sheet-container {
-    display: grid;
+    /* Change to a two-column grid layout */
     grid-template-columns: 320px 1fr;
     gap: 2rem;
   }
 
-  /* Reset the order property so the grid can take over */
-  .character-sheet-container > * {
-    order: 0;
-  }
-
-  /* Place items into their respective grid columns */
+  /* Place items into their respective grid columns for desktop view */
   .main-character-art,
   .panel-main-stats,
   .panel-special-stats,
@@ -77,7 +61,7 @@ body {
 }
 
 /* ================================== */
-/* === COMPONENT STYLES (MOSTLY UNCHANGED) === */
+/* === COMPONENT STYLES === */
 /* ================================== */
 
 .main-character-art {
@@ -178,13 +162,12 @@ body {
 
 .skills-grid {
   display: grid;
-  /* Default to 1 column for mobile, will be overridden for wider screens */
-  grid-template-columns: 1fr;
   gap: 1.5rem;
   align-items: start;
+  grid-template-columns: 1fr; /* Default for mobile */
 }
 
-/* Overriding skills grid for larger screens */
+/* Responsive columns for Skills Grid */
 @media (min-width: 551px) {
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
