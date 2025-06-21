@@ -184,13 +184,25 @@ body {
 }
 /* ในไฟล์ src/App.css */
 
-/* --- ค้นหาส่วนนี้ --- */
+/* --- แก้ไขเฉพาะส่วนนี้ --- */
 @media (min-width: 1025px) {
-  .skills-grid {
-    /* ของเดิม: grid-template-columns: repeat(4, 1fr); */
+  /* 1. กำหนดโครงสร้างหลักของหน้าจอใหญ่ */
+  .character-sheet-container {
+    gap: 2rem;
+    grid-template-columns: 320px 1fr;
+    grid-template-areas:
+      "art           header"
+      "art           skills"
+      "main-stats    skills"
+      "special-stats skills"
+      "enhancements  skills"  /* <<< ทำให้ skills กินพื้นที่ยาวลงมา */
+      ".             showcase";/* <<< showcase จะอยู่ใต้ skills */
+  }
 
-    /* แก้เป็นแบบนี้: */
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  /* 2. จัดการคอลัมน์ภายใน skills-grid โดยเฉพาะ */
+  .skills-grid {
+    /* เราจะยังใช้ grid-template-columns เหมือนเดิม แต่จะเอาไว้ที่นี่ */
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
