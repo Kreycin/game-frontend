@@ -113,10 +113,11 @@ body {
   transition: max-height 0.4s ease-in;
 }
 
+/* ในไฟล์ src/App.css */
+
 .panel-content-inner {
-  padding: 1rem;
-  padding-top: 1rem;
-  margin-top: -1rem;
+  /* เพิ่มระยะห่างภายใน: บน-ล่าง 1rem, ซ้าย-ขวา 1.25rem */
+  padding: 1rem 1.25rem;
   border-top: 1px solid var(--border-color);
 }
 
@@ -231,7 +232,7 @@ body {
 .toggle-icon { transition: transform 0.3s ease; font-size: 1rem; color: var(--text-color-secondary); }
 .toggle-icon.expanded { transform: rotate(180deg); }
 .skill-type-small { font-size: 0.8rem; color: var(--text-color-secondary); margin: 0.5rem 0 0.75rem 0; padding-top: 0.5rem; border-top: 1px solid var(--border-color); }
-.skill-description-small p { margin: 0; font-size: 0.85rem; color: #ccc; line-height: 1.5; white-space: pre-wrap; }
+.skill-description-small p { margin: 0; font-size: 0.85rem; color: #ccc; line-height: 1.5;  white-space: pre-wrap; }
 .effects-list-in-skill { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem; }
 .effect-item-in-skill { background-color: var(--surface-color-dark); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85em; width: 100%; box-sizing: border-box; }
 .effect-header-clickable { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
