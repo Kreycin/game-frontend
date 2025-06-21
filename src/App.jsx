@@ -7,7 +7,7 @@ import CollapsiblePanel from './components/CollapsiblePanel';
 import StatItem from './components/StatItem';
 
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
-const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`; 
+const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
 
 const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
@@ -28,8 +28,6 @@ const getYouTubeEmbedUrl = (url) => {
   return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 };
 
-
-// --- เริ่มต้นก๊อปปี้จากตรงนี้ ---
 function App() {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,21 +58,21 @@ function App() {
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
         const mainArtUrl = char.Main_Art?.url;
-        
-        // >>>>>>>>>> นี่คือส่วน return ที่เราแก้ไขกัน <<<<<<<<<<
+
         return (
           <div key={char.id} className="character-sheet-container">
-            <header className="character-header">
+            {/* We add specific classNames to each element for precise CSS grid control */}
+            <header className="character-header layout-header">
               <h1>{char.Name}</h1>
               <div className="tags">
                 <span className={`tag-rarity ${char.Rarity}`}>{char.Rarity}</span>
                 <span className="tag-role">{char.Role}</span>
               </div>
             </header>
-            
-            {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
-            
-            <CollapsiblePanel title="Main Stats" defaultExpanded={true} className="panel-main-stats">
+
+            {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art layout-art"/>)}
+
+            <CollapsiblePanel title="Main Stats" defaultExpanded={true} className="layout-main-stats">
               <div className="stats-grid">
                 <StatItem label="ATK" value={char.ATK} />
                 <StatItem label="DEF" value={char.DEF} />
@@ -83,7 +81,7 @@ function App() {
               </div>
             </CollapsiblePanel>
 
-            <CollapsiblePanel title="Special" defaultExpanded={true} className="panel-special-stats">
+            <CollapsiblePanel title="Special" defaultExpanded={true} className="layout-special-stats">
               <div className="stats-grid-special">
                 <StatItem label="Lifesteal" value={char.Lifesteal} />
                 <StatItem label="Penetration" value={char.Penetration} />
@@ -102,7 +100,7 @@ function App() {
               </div>
             </CollapsiblePanel>
 
-            <section className="skills-grid">
+            <section className="skills-grid layout-skills">
               {char.skills && char.skills.length > 0 ? (
                 char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
               ) : (
@@ -110,7 +108,7 @@ function App() {
               )}
             </section>
 
-            <CollapsiblePanel title="Enhancements" className="panel-enhancements">
+            <CollapsiblePanel title="Enhancements" className="layout-enhancements">
                 {char.enhancements && char.enhancements.map((enh) => {
                   const enhancementIconUrl = enh.Enhancement_Icon?.url;
                   return (
@@ -123,15 +121,13 @@ function App() {
                   )
                 })}
             </CollapsiblePanel>
-            
-            <VideoSection embedUrl={embedUrl} />
 
+            <VideoSection embedUrl={embedUrl} className="layout-showcase" />
           </div>
         )
       })}
     </div>
   );
 }
-// --- สิ้นสุดการก๊อปปี้ตรงนี้ ---
 
 export default App;

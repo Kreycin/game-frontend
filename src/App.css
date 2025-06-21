@@ -24,41 +24,50 @@ body {
 }
 
 /* ================================== */
-/* === LAYOUT SECTION (GRID-ONLY APPROACH) === */
+/* === LAYOUT: GRID TEMPLATE AREAS === */
 /* ================================== */
 
-/* --- 1. Base Styles (Mobile & Tablet Portrait use a single-column GRID) --- */
+/* --- 1. Mobile & Tablet Portrait Layout --- */
 .character-sheet-container {
   display: grid;
-  grid-template-columns: 1fr; /* Default to a single column */
-  gap: 1.5rem;
   max-width: 1400px;
   margin: auto;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "art"
+    "main-stats"
+    "special-stats"
+    "skills"
+    "enhancements"
+    "showcase";
 }
 
-/* --- 2. Desktop Layout Override --- */
-/* This block only applies when the screen is WIDER than 1024px */
+/* --- 2. Desktop & Tablet Landscape Layout --- */
 @media (min-width: 1025px) {
   .character-sheet-container {
-    /* Change to a two-column grid layout */
-    grid-template-columns: 320px 1fr;
     gap: 2rem;
-  }
-
-  /* Place items into their respective grid columns for desktop view */
-  .main-character-art,
-  .panel-main-stats,
-  .panel-special-stats,
-  .panel-enhancements {
-    grid-column: 1;
-  }
-
-  .character-header,
-  .skills-grid,
-  .video-section {
-    grid-column: 2;
+    grid-template-columns: 320px 1fr;
+    grid-template-areas:
+      "art   header"
+      "art   skills"
+      "main-stats    skills"
+      "special-stats skills"
+      "enhancements  skills"
+      ".             showcase"; /* Use a dot for an empty space */
   }
 }
+
+/* --- Assigning components to grid areas --- */
+.layout-header { grid-area: header; }
+.layout-art { grid-area: art; }
+.layout-main-stats { grid-area: main-stats; }
+.layout-special-stats { grid-area: special-stats; }
+.layout-skills { grid-area: skills; }
+.layout-enhancements { grid-area: enhancements; }
+.layout-showcase { grid-area: showcase; }
+
 
 /* ================================== */
 /* === COMPONENT STYLES === */
