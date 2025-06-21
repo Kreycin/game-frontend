@@ -22,8 +22,8 @@ const getYouTubeEmbedUrl = (url) => {
   let videoId = '';
   if (url.includes('v=')) {
     videoId = url.split('v=')[1].split('&')[0];
-  } else if (url.includes('youtu.be/')) {
-    videoId = url.split('youtu.be/')[1];
+  } else if (url.includes('youtube.com/embed/')) {
+    videoId = url.split('embed/')[1];
   }
   if (videoId) {
     return `https://www.youtube.com/embed/${videoId}`;
@@ -62,14 +62,11 @@ function App() {
         const mainArtUrl = char.Main_Art?.data?.attributes?.url;
 
         return (
-          // ★★★ โครงสร้างใหม่ที่เรียบง่ายขึ้น ★★★
+          // ★★★ กลับมาใช้โครงสร้าง 2 คอลัมน์แบบเดิม ★★★
           <div key={char.id} className="character-sheet-container">
 
-            <aside className="sidebar-area">
-              {/* ★ นำ Main Art กลับเข้ามาไว้ใน Sidebar ★ */}
-              <div className="character-art-area">
-                {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
-              </div>
+            <aside className="left-sidebar">
+              {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
 
               <CollapsiblePanel title="Main Stats" defaultExpanded={true}>
                 <div className="stats-grid">
@@ -83,7 +80,19 @@ function App() {
               <CollapsiblePanel title="Special" defaultExpanded={true}>
                 <div className="stats-grid-special">
                   <StatItem label="Lifesteal" value={char.Lifesteal} />
-                  {/* ... ใส่ StatItem ที่เหลือ ... */}
+                  <StatItem label="Penetration" value={char.Penetration} />
+                  <StatItem label="CRIT Rate" value={char.CRIT_rate} />
+                  <StatItem label="CRIT Res" value={char.CRIT_Res} />
+                  <StatItem label="Debuff Acc" value={char.Debuff_Acc} />
+                  <StatItem label="Debuff Res" value={char.Debuff_Res} />
+                  <StatItem label="Accuracy" value={char.Accuracy} />
+                  <StatItem label="Doge" value={char.Doge} />
+                  <StatItem label="Healing Amt" value={char.Healing_Amt} />
+                  <StatItem label="Healing Amt(P)" value={char.Healing_Amt_P} />
+                  <StatItem label="Extra DMG" value={char.Extra_DMG} />
+                  <StatItem label="DMG Res" value={char.DMG_Res} />
+                  <StatItem label="CRIT DMG Res" value={char.CRIT_DMG_Res} />
+                  <StatItem label="CRIT DMG" value={char.CRIT_DMG} />
                 </div>
               </CollapsiblePanel>
 
@@ -102,8 +111,8 @@ function App() {
               </CollapsiblePanel>
             </aside>
 
-            <main className="main-content-area">
-              <header className="character-header-area">
+            <main className="main-content">
+              <header className="character-header">
                 <h1>{char.Name}</h1>
                 <div className="tags">
                   <span className={`tag-rarity ${char.Rarity}`}>{char.Rarity}</span>
