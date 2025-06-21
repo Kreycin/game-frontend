@@ -117,8 +117,8 @@ body {
 
 .panel-content-inner {
   /* เพิ่มระยะห่างภายใน: บน-ล่าง 1rem, ซ้าย-ขวา 1.25rem */
-  padding: 1rem 4.25rem;
-  border-top: 1px solid var(--border-color);
+  padding: 1rem 40.25rem;
+  border-top: 0.5px solid var(--border-color);
 }
 
 /* --- 1. สำหรับ Main Stats และ Special Stats --- */
