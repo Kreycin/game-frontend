@@ -248,33 +248,44 @@ body {
 
 /* แก้ไขเฉพาะส่วนนี้ใน src/App.css */
 
+/* ---- วางทับเฉพาะส่วน @media (max-width: 1024px) และส่วนที่เล็กกว่า ---- */
+
 @media (max-width: 1024px) {
   .character-sheet-container {
-    grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ */
+    /* เปลี่ยนกลับเป็น 1 คอลัมน์สำหรับ Tablet แนวตั้งและมือถือ */
+    grid-template-columns: 1fr; 
   }
 
-  /* คืนค่าให้ทุกชิ้นส่วนกลับมาอยู่คอลัมน์เดียวกัน และลบการจัดลำดับออกไปก่อน */
+  /*
+   * หัวใจของการแก้ไข: สั่งให้ทุกชิ้นส่วนใน Grid
+   * ไปเริ่มต้นที่คอลัมน์ 1 และแถว auto โดยอัตโนมัติ
+   * ซึ่งจะทำให้มันเรียงต่อกันเป็นแถวเดียวจากบนลงล่าง
+  */
   .character-sheet-container > * {
-    grid-column: auto;
-    order: 0; /* เพิ่มบรรทัดนี้: รีเซ็ตลำดับสำหรับ iPad แนวนอน */
+    grid-column: 1 / -1; /* -1 หมายถึงกินความกว้างไปจนสุด */
   }
 
-  /* --- เพิ่มส่วนนี้เข้ามาใหม่ --- */
-  /* จัดลำดับใหม่เฉพาะเมื่อหน้าจอแคบมากๆ (iPad แนวตั้งและมือถือ) */
-  .character-sheet-container {
-    display: flex; /* เปลี่ยนเป็น Flexbox เพื่อใช้ order */
-    flex-direction: column;
-  }
-  /* --- จบส่วนที่เพิ่มเข้ามา --- */
+  /* * ไม่จำเป็นต้องใช้ order อีกต่อไป เพราะ Grid จะเรียงลำดับ
+    * ตามโครงสร้าง JSX ที่เราทำไว้ตั้งแต่แรก ซึ่งถูกต้องอยู่แล้ว!
+  */
+}
 
-  /* ย้ายการจัดลำดับมาไว้ตรงนี้แทน */
-  .character-header { order: 1; }
-  .main-character-art { order: 2; }
-  .panel-main-stats { order: 3; }
-  .panel-special-stats { order: 4; }
-  .skills-grid { order: 5; }
-  .panel-enhancements { order: 6; }
-  .video-section { order: 7; }
+@media (max-width: 768px) { 
+  .skills-grid { 
+    grid-template-columns: repeat(2, 1fr); 
+  } 
+}
+
+@media (max-width: 550px) {
+  .skills-grid { 
+    grid-template-columns: 1fr; 
+  } 
+  .App { 
+    padding: 1rem; 
+  } 
+  .stats-grid, .stats-grid-special {
+    grid-template-columns: 1fr; 
+  }
 }
 
 @media (max-width: 768px) { 
