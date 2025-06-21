@@ -72,7 +72,7 @@ function App() {
 
             {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art layout-art"/>)}
 
-            <CollapsiblePanel title="Main Stats" defaultExpanded={true} className="layout-main-stats">
+            <CollapsiblePanel title="Main Stats" defaultExpanded={false} className="layout-main-stats">
               <div className="stats-grid">
                 <StatItem label="ATK" value={char.ATK} />
                 <StatItem label="DEF" value={char.DEF} />
@@ -81,7 +81,7 @@ function App() {
               </div>
             </CollapsiblePanel>
 
-            <CollapsiblePanel title="Special" defaultExpanded={true} className="layout-special-stats">
+            <CollapsiblePanel title="Special" defaultExpanded={false} className="layout-special-stats">
               <div className="stats-grid-special">
                 <StatItem label="Lifesteal" value={char.Lifesteal} />
                 <StatItem label="Penetration" value={char.Penetration} />
