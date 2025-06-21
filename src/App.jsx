@@ -40,6 +40,7 @@ function App() {
         const processedData = response.data.data.map(item => ({ id: item.id, ...item.attributes }));
         setCharacters(processedData);
       } catch (err) {
+        console.error(">>> DETAILED FETCH ERROR:", err);
         setError(err);
       } finally {
         setLoading(false);
@@ -57,24 +58,12 @@ function App() {
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
         const mainArtUrl = char.Main_Art?.url;
-
+        
         return (
-          // ★★★ กำหนด className ให้แต่ละส่วนหลัก ★★★
           <div key={char.id} className="character-sheet-container">
-
-            <header className="character-header">
-              <h1>{char.Name}</h1>
-              <div className="tags">
-                <span className={`tag-rarity ${char.Rarity}`}>{char.Rarity}</span>
-                <span className="tag-role">{char.Role}</span>
-              </div>
-            </header>
-
-            <div className="character-art">
+            <aside className="left-sidebar">
               {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
-            </div>
-
-            <div className="main-stats">
+              
               <CollapsiblePanel title="Main Stats" defaultExpanded={true}>
                 <div className="stats-grid">
                   <StatItem label="ATK" value={char.ATK} />
@@ -83,9 +72,7 @@ function App() {
                   <StatItem label="SPD" value={char.SPD} />
                 </div>
               </CollapsiblePanel>
-            </div>
 
-            <div className="special-stats">
               <CollapsiblePanel title="Special" defaultExpanded={true}>
                 <div className="stats-grid-special">
                   <StatItem label="Lifesteal" value={char.Lifesteal} />
@@ -104,17 +91,7 @@ function App() {
                   <StatItem label="CRIT DMG" value={char.CRIT_DMG} />
                 </div>
               </CollapsiblePanel>
-            </div>
 
-            <section className="skills">
-              {char.skills && char.skills.length > 0 ? (
-                char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
-              ) : (
-                <p>No skills available.</p>
-              )}
-            </section>
-
-            <div className="enhancements">
               <CollapsiblePanel title="Enhancements">
                   {char.enhancements && char.enhancements.map((enh) => {
                     const enhancementIconUrl = enh.Enhancement_Icon?.url;
@@ -128,11 +105,27 @@ function App() {
                     )
                   })}
               </CollapsiblePanel>
-            </div>
+            </aside>
 
-            <div className="showcase">
+            <main className="main-content">
+              <header className="character-header">
+                <h1>{char.Name}</h1>
+                <div className="tags">
+                  <span className={`tag-rarity ${char.Rarity}`}>{char.Rarity}</span>
+                  <span className="tag-role">{char.Role}</span>
+                </div>
+              </header>
+              
+              <section className="skills-grid">
+                {char.skills && char.skills.length > 0 ? (
+                  char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
+                ) : (
+                  <p>No skills available.</p>
+                )}
+              </section>
+
               <VideoSection embedUrl={embedUrl} />
-            </div>
+            </main>
           </div>
         )
       })}
