@@ -113,12 +113,9 @@ body {
   transition: max-height 0.4s ease-in;
 }
 
-/* ในไฟล์ src/App.css */
-
 .panel-content-inner {
-  /* เพิ่มระยะห่างภายใน: บน-ล่าง 1rem, ซ้าย-ขวา 1.25rem */
-  padding: 1rem 40.25rem;
-  border-top: 0.5px solid var(--border-color);
+  padding: 1rem 1.5rem !important; /* <<< เพิ่ม !important เพื่อบังคับใช้ */
+  border-top: 1px solid var(--border-color);
 }
 
 /* --- 1. สำหรับ Main Stats และ Special Stats --- */
@@ -148,14 +145,13 @@ body {
   gap: 0.75rem;
   align-items: start;
   font-size: 0.85rem;
-  margin-bottom: 0.75rem;
-  padding: 0.75rem 0; /* << แก้ไข/เพิ่มบรรทัดนี้: เพิ่ม padding บน-ล่าง */
+  padding-top: 0; /* <<< แก้ไข: ลดระยะห่างด้านบน */
+  padding-bottom: 0.75rem; /* <<< เพิ่ม: กำหนดระยะห่างด้านล่าง */
   border-bottom: 1px solid var(--border-color);
 }
 .enhancement-item:last-child {
   border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
+  padding-bottom: 0; /* <<< เพิ่ม: ไม่ต้องมีระยะห่างด้านล่างสำหรับอันสุดท้าย */
 }
 .enhancement-icon { width: 24px; height: 24px; margin-top: 2px; }
 .enhancement-item p { margin: 0; line-height: 1.5; }
