@@ -121,10 +121,12 @@ body {
   border-top: 1px solid var(--border-color);
 }
 
+/* --- 1. สำหรับ Main Stats และ Special Stats --- */
 .stats-grid, .stats-grid-special {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem 1rem;
+  padding: 0.5rem 0; /* << เพิ่มบรรทัดนี้: เพิ่มระยะห่างบน-ล่างให้ Grid */
 }
 
 .stat-item {
@@ -139,6 +141,7 @@ body {
 }
 .stat-item span { color: var(--text-color-secondary); }
 
+/* --- 2. สำหรับ Enhancements --- */
 .enhancement-item {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -146,10 +149,14 @@ body {
   align-items: start;
   font-size: 0.85rem;
   margin-bottom: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding: 0.75rem 0; /* << แก้ไข/เพิ่มบรรทัดนี้: เพิ่ม padding บน-ล่าง */
   border-bottom: 1px solid var(--border-color);
 }
-.enhancement-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.enhancement-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
 .enhancement-icon { width: 24px; height: 24px; margin-top: 2px; }
 .enhancement-item p { margin: 0; line-height: 1.5; }
 
