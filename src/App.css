@@ -114,8 +114,8 @@ body {
 }
 
 .panel-content-inner {
-  /* กำหนดระยะห่างภายในให้ชัดเจน: บน-ล่าง 1rem, ซ้าย-ขวา 1.5rem (24px) */
-  padding: 1rem 1.5rem;
+  /* ลองใช้หน่วยเป็นเปอร์เซ็นต์ตามที่นายแนะนำ! */
+  padding: 1rem 10%; /* บน-ล่าง 1rem, ซ้าย-ขวา 5% ของความกว้างกล่อง */
   border-top: 1px solid var(--border-color);
 }
 
