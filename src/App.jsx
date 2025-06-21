@@ -45,7 +45,19 @@ function App() {
         const processedData = response.data.data.map(item => ({ id: item.id, ...item.attributes }));
         setCharacters(processedData);
       } catch (err) {
+        // ★★★ นี่คือส่วนที่เราเพิ่มเข้ามาเพื่อดู Error แบบละเอียด ★★★
+        console.error(">>> DETAILED FETCH ERROR:", err);
+        if (err.response) {
+          console.error(">>> Response Data:", err.response.data);
+          console.error(">>> Response Status:", err.response.status);
+          console.error(">>> Response Headers:", err.response.headers);
+        } else if (err.request) {
+          console.error(">>> Request Data:", err.request);
+        } else {
+          console.error('>>> Error Message:', err.message);
+        }
         setError(err);
+        // ★★★ สิ้นสุดส่วนที่เพิ่ม ★★★
       } finally {
         setLoading(false);
       }
@@ -57,17 +69,18 @@ function App() {
   if (error) return <p>Error fetching data: {error.message}</p>;
   if (!characters || characters.length === 0) return <p>No character data found.</p>;
 
+  // ... ส่วน JSX ที่เหลือเหมือนเดิมทั้งหมด ...
   return (
     <div className="App">
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
         const mainArtUrl = char.Main_Art?.url;
-        
+
         return (
           <div key={char.id} className="character-sheet-container">
             <aside className="left-sidebar">
               {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
-              
+
               <CollapsiblePanel title="Main Stats" defaultExpanded={true}>
                 <div className="stats-grid">
                   <StatItem label="ATK" value={char.ATK} />
@@ -98,9 +111,7 @@ function App() {
 
               <CollapsiblePanel title="Enhancements">
                   {char.enhancements && char.enhancements.map((enh) => {
-                    // ★★★ นี่คือจุดที่แก้ไข ★★★
-                    // ลบ [0] ออก เพราะ Enhancement_Icon เป็นรูปเดี่ยว
-                    const enhancementIconUrl = enh.Enhancement_Icon?.url; 
+                    const enhancementIconUrl = enh.Enhancement_Icon?.url;
                     return (
                       <div key={enh.id} className="enhancement-item">
                         {enhancementIconUrl && (
@@ -125,7 +136,7 @@ function App() {
                   <span className="tag-role">{char.Role}</span>
                 </div>
               </header>
-              
+
               <section className="skills-grid">
                 {char.skills && char.skills.length > 0 ? (
                   char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
