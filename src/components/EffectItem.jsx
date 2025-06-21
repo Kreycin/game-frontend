@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 const EffectItem = ({ effect }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   if (!effect) return null;
-  // ★★★ แก้ไขการเข้าถึง URL ให้เรียบง่ายและถูกต้อง ★★★
   const iconUrl = effect.Effect_Icon?.url;
 
   const renderRichText = (richTextArray) => {
-      // ... (เหมือนเดิม)
+    if (!richTextArray) return null;
+    return richTextArray.map((block, index) => (
+      <p key={index}>{block.children.map(child => child.text).join('')}</p>
+    ));
   };
 
   return (
@@ -27,7 +29,9 @@ const EffectItem = ({ effect }) => {
       </div>
       
       <div className={`effect-details-collapsible ${isExpanded ? 'expanded' : ''}`}>
-        {/* ... (เหมือนเดิม) ... */}
+        <div className="effect-description-in-skill">
+          {renderRichText(effect.Description)}
+        </div>
       </div>
     </div>
   );

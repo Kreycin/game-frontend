@@ -17,11 +17,9 @@ const renderRichText = (richTextArray) => {
     ));
 };
 
-// ★★★ แก้ไขฟังก์ชัน YouTube ให้ถูกต้อง ★★★
 const getYouTubeEmbedUrl = (url) => {
   if (!url) return null;
   let videoId = null;
-  // Regex to find video ID from various YouTube URL formats
   const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
   const match = url.match(regex);
   if (match && match[1]) {
@@ -59,7 +57,6 @@ function App() {
     <div className="App">
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
-        // ★★★ แก้ไขการเข้าถึง URL ให้เรียบง่ายและถูกต้อง ★★★
         const mainArtUrl = char.Main_Art?.url;
         
         return (
@@ -97,7 +94,6 @@ function App() {
 
               <CollapsiblePanel title="Enhancements">
                   {char.enhancements && char.enhancements.map((enh) => {
-                    // ★★★ แก้ไขการเข้าถึง URL ให้เรียบง่ายและถูกต้อง ★★★
                     const enhancementIconUrl = enh.Enhancement_Icon?.url;
                     return (
                       <div key={enh.id} className="enhancement-item">
