@@ -190,6 +190,7 @@ body {
   .character-sheet-container {
     gap: 2rem;
     grid-template-columns: 320px 1fr;
+    align-items: start;
     grid-template-areas:
       "art              header"
       "art              skills"
