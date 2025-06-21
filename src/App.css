@@ -1,73 +1,53 @@
-:root {
-  --background-color: #1a1a1a;
-  --surface-color-opaque: rgba(36, 36, 36, 0.85);
-  --surface-color-light: rgba(45, 45, 45, 0.85);
-  --surface-color-dark: rgba(31, 31, 31, 0.9);
-  --border-color: #444;
-  --text-color-primary: rgba(255, 255, 255, 0.9);
-  --text-color-secondary: #b0b0b0;
-  --accent-color-ur: #ffc107;
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  background-image: url('https://images.unsplash.com/photo-1587327901594-81e85111d408?q=80&w=2070');
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed;
-  color: var(--text-color-primary);
-}
+/* ลบส่วน :root {...} และ body {...} 
+  ที่เคยอยู่ด้านบนสุดของไฟล์นี้ทิ้งไป
+  แล้วโค้ดส่วนที่เหลือจะเริ่มต้นที่ .App แบบนี้
+*/
 
 .App {
   padding: 2rem;
 }
 
 /* ================================== */
-/* === LAYOUT: GRID TEMPLATE AREAS === */
+/* === CLEAN LAYOUT SECTION === */
 /* ================================== */
 
-/* --- 1. Mobile & Tablet Portrait Layout --- */
-.character-sheet-container {
+.character-sheet {
   display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
   max-width: 1400px;
   margin: auto;
-  gap: 1.5rem;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "header"
-    "art"
-    "main-stats"
-    "special-stats"
-    "skills"
-    "enhancements"
-    "showcase";
+  align-items: start;
 }
 
-/* --- 2. Desktop & Tablet Landscape Layout --- */
-@media (min-width: 1025px) {
-  .character-sheet-container {
-    gap: 2rem;
-    grid-template-columns: 320px 1fr;
-    grid-template-areas:
-      "art   header"
-      "art   skills"
-      "main-stats    skills"
-      "special-stats skills"
-      "enhancements  skills"
-      ".             showcase"; /* Use a dot for an empty space */
+.character-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: sticky;
+  top: 2rem;
+}
+
+.character-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .character-sheet {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .character-sidebar {
+    position: static;
+    order: 2;
+  }
+  .character-main-content {
+    order: 1;
   }
 }
-
-/* --- Assigning components to grid areas --- */
-.layout-header { grid-area: header; }
-.layout-art { grid-area: art; }
-.layout-main-stats { grid-area: main-stats; }
-.layout-special-stats { grid-area: special-stats; }
-.layout-skills { grid-area: skills; }
-.layout-enhancements { grid-area: enhancements; }
-.layout-showcase { grid-area: showcase; }
-
 
 /* ================================== */
 /* === COMPONENT STYLES === */
@@ -114,17 +94,14 @@ body {
 }
 
 .panel-content-inner {
-  /* ลองใช้หน่วยเป็นเปอร์เซ็นต์ตามที่นายแนะนำ! */
-  padding: 1rem 5%; /* บน-ล่าง 1rem, ซ้าย-ขวา 5% ของความกว้างกล่อง */
+  padding: 1rem 1.5rem;
   border-top: 1px solid var(--border-color);
 }
 
-/* --- 1. สำหรับ Main Stats และ Special Stats --- */
 .stats-grid, .stats-grid-special {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem 1rem;
-  padding: 0.5rem 0; /* << เพิ่มบรรทัดนี้: เพิ่มระยะห่างบน-ล่างให้ Grid */
 }
 
 .stat-item {
@@ -139,15 +116,13 @@ body {
 }
 .stat-item span { color: var(--text-color-secondary); }
 
-/* --- 2. สำหรับ Enhancements --- */
 .enhancement-item {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.75rem;
   align-items: start;
   font-size: 0.85rem;
-  margin-bottom: 0; /* เอา margin-bottom ออก */
-  padding-bottom: 0.75rem; /* ใช้ padding-bottom แทนเพื่อควบคุมระยะห่าง */
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border-color);
 }
 .enhancement-item:last-child {
@@ -155,8 +130,11 @@ body {
   padding-bottom: 0;
 }
 .enhancement-icon { width: 24px; height: 24px; margin-top: 2px; }
-.enhancement-item p { margin: 0; line-height: 1.5; }
-
+.enhancement-item p {
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
 
 .character-header {
   background-color: var(--surface-color-opaque);
@@ -173,44 +151,12 @@ body {
 .tag-rarity.UR { background-color: var(--accent-color-ur); color: #000; }
 .tag-role { background-color: var(--surface-color-light); }
 
-
 .skills-grid {
   display: grid;
   gap: 1.5rem;
   align-items: start;
-  grid-template-columns: 1fr; /* Default for mobile */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
-
-/* Responsive columns for Skills Grid */
-@media (min-width: 551px) {
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-/* ในไฟล์ src/App.css */
-
-/* --- แก้ไขเฉพาะส่วนนี้ --- */
-@media (min-width: 1025px) {
-  .character-sheet-container {
-    gap: 2rem;
-    grid-template-columns: 320px 1fr;
-    align-items: start; /* <<<< เพิ่มแค่บรรทัดนี้เข้ามาครับ */
-    grid-template-areas:
-      "art              header"
-      "art              skills"
-      "main-stats       skills"
-      "special-stats    skills"
-      "enhancements     skills"
-      "showcase         skills";
-  }
-
-  /* 2. จัดการคอลัมน์ภายใน skills-grid โดยเฉพาะ */
-  .skills-grid {
-    /* เราจะยังใช้ grid-template-columns เหมือนเดิม แต่จะเอาไว้ที่นี่ */
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 
 .skill-card-small {
   background-color: var(--surface-color-opaque);
@@ -236,7 +182,16 @@ body {
 .toggle-icon { transition: transform 0.3s ease; font-size: 1rem; color: var(--text-color-secondary); }
 .toggle-icon.expanded { transform: rotate(180deg); }
 .skill-type-small { font-size: 0.8rem; color: var(--text-color-secondary); margin: 0.5rem 0 0.75rem 0; padding-top: 0.5rem; border-top: 1px solid var(--border-color); }
-.skill-description-small p { margin: 0; font-size: 0.85rem; color: #ccc; line-height: 1.5;  white-space: pre-wrap; }
+.skill-description-small {
+  padding: 0 0.5rem;
+}
+.skill-description-small p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #ccc;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
 .effects-list-in-skill { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem; }
 .effect-item-in-skill { background-color: var(--surface-color-dark); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85em; width: 100%; box-sizing: border-box; }
 .effect-header-clickable { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -247,9 +202,20 @@ body {
 .effect-details-collapsible.expanded { max-height: 200px; transition: max-height 0.3s ease-in; }
 .toggle-icon-small { transition: transform 0.3s ease; font-size: 0.8rem; color: var(--text-color-secondary); }
 .toggle-icon-small.expanded { transform: rotate(180deg); }
-.effect-description-in-skill { width: 100%; padding-left: calc(16px + 0.4rem); box-sizing: border-box; font-size: 0.9em; color: var(--text-color-secondary); padding-top: 0.5rem;}
-.effect-description-in-skill p { margin: 0; line-height: 1.4; white-space: pre-wrap;}
-
+.effect-description-in-skill {
+  width: 100%;
+  padding-left: calc(16px + 0.4rem);
+  padding-right: 0.75rem;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  color: var(--text-color-secondary);
+  padding-top: 0.5rem;
+}
+.effect-description-in-skill p {
+  margin: 0;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
 
 .video-section {
   background-color: var(--surface-color-opaque);
@@ -301,7 +267,6 @@ body {
   border: 0;
 }
 
-/* Final fine-tuning for small mobile screens */
 @media (max-width: 550px) {
   .App {
     padding: 1rem;
