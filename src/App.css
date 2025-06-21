@@ -182,9 +182,19 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+/* ในไฟล์ src/App.css */
+
+/* --- 2. Desktop & Tablet Landscape Layout --- */
 @media (min-width: 1025px) {
-  .skills-grid {
-    grid-template-columns: repeat(4, 1fr);
+  .character-sheet-container {
+    gap: 2rem;
+    grid-template-columns: 320px 1fr;
+    grid-template-areas:
+      "art           header"
+      "art           skills"
+      "main-stats    skills"
+      "special-stats skills"
+      "enhancements  showcase"; /* <--- แก้ไขบรรทัดนี้ */
   }
 }
 
