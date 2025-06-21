@@ -23,40 +23,69 @@ body {
   padding: 2rem;
 }
 
-/* --- โค้ดที่แก้ไขและเพิ่มเติม --- */
 
+/* ================================== */
+/* === LAYOUT SECTION (RE-WRITTEN) === */
+/* ================================== */
+
+/* --- 1. Desktop Layout (Default) --- */
 .character-sheet-container {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 320px 1fr; /* Two columns: Left is 320px, Right takes the rest */
   gap: 2rem;
   max-width: 1400px;
   margin: auto;
   align-items: start;
 }
 
-/* จัดวาง Component ต่างๆ ลงใน Grid สำหรับจอ Desktop */
-.character-header,
-.skills-grid,
-.video-section {
-  grid-column: 2 / 3; /* คอลัมน์ขวา */
-}
-
+/* Explicitly place items in the LEFT column */
 .main-character-art,
 .panel-main-stats,
 .panel-special-stats,
 .panel-enhancements {
-  grid-column: 1 / 2; /* คอลัมน์ซ้าย */
-  display: flex;
-  flex-direction: column;
+  grid-column: 1;
 }
-/* --- สิ้นสุดส่วนที่แก้ไข --- */
 
+/* Explicitly place items in the RIGHT column */
+.character-header,
+.skills-grid,
+.video-section {
+  grid-column: 2;
+}
+
+
+/* --- 2. Tablet & Mobile Layout Override --- */
+@media (max-width: 1024px) {
+  .character-sheet-container {
+    /* Change to a single-column layout */
+    grid-template-columns: 1fr;
+  }
+
+  /*
+    Force ALL layout items back into the single column.
+    This overrides the desktop settings above.
+    The order will follow the JSX structure, which is already correct.
+  */
+  .main-character-art,
+  .panel-main-stats,
+  .panel-special-stats,
+  .panel-enhancements,
+  .character-header,
+  .skills-grid,
+  .video-section {
+    grid-column: 1;
+  }
+}
+
+/* ================================== */
+/* === COMPONENT STYLES (UNCHANGED) === */
+/* ================================== */
 
 .main-character-art { 
   width: 100%; 
   border-radius: 8px; 
   border: 1px solid var(--border-color);
-  box-sizing: border-box; /* เพิ่มเพื่อให้ขนาดถูกต้อง */
+  box-sizing: border-box;
 }
 
 .collapsible-panel {
@@ -88,7 +117,7 @@ body {
 }
 
 .collapsible-panel.expanded .panel-content-collapsible {
-  max-height: 2000px; /* เพิ่มความสูงเผื่อข้อมูลเยอะ */
+  max-height: 2000px;
   transition: max-height 0.4s ease-in;
 }
 
@@ -244,39 +273,14 @@ body {
   border: 0;
 }
 
-/* --- @media query ที่เขียนขึ้นใหม่ทั้งหมด --- */
-
-/* แก้ไขเฉพาะส่วนนี้ใน src/App.css */
-
-/* ---- วางทับเฉพาะส่วน @media (max-width: 1024px) และส่วนที่เล็กกว่า ---- */
-
-@media (max-width: 1024px) {
-  .character-sheet-container {
-    /* เปลี่ยนกลับเป็น 1 คอลัมน์สำหรับ Tablet แนวตั้งและมือถือ */
-    grid-template-columns: 1fr; 
-  }
-
-  /*
-   * หัวใจของการแก้ไข: สั่งให้ทุกชิ้นส่วนใน Grid
-   * ไปเริ่มต้นที่คอลัมน์ 1 และแถว auto โดยอัตโนมัติ
-   * ซึ่งจะทำให้มันเรียงต่อกันเป็นแถวเดียวจากบนลงล่าง
-  */
-  .character-sheet-container > * {
-    grid-column: 1 / -1; /* -1 หมายถึงกินความกว้างไปจนสุด */
-  }
-
-  /* * ไม่จำเป็นต้องใช้ order อีกต่อไป เพราะ Grid จะเรียงลำดับ
-    * ตามโครงสร้าง JSX ที่เราทำไว้ตั้งแต่แรก ซึ่งถูกต้องอยู่แล้ว!
-  */
-}
-
+/* --- Other Responsive Adjustments --- */
 @media (max-width: 768px) { 
   .skills-grid { 
     grid-template-columns: repeat(2, 1fr); 
   } 
 }
 
-@media (max-width: 550px) {
+@media (max-width: 550px) { 
   .skills-grid { 
     grid-template-columns: 1fr; 
   } 
@@ -284,24 +288,6 @@ body {
     padding: 1rem; 
   } 
   .stats-grid, .stats-grid-special {
-    grid-template-columns: 1fr; 
-  }
-}
-
-@media (max-width: 768px) { 
-  .skills-grid { 
-    grid-template-columns: repeat(2, 1fr); 
-  } 
-}
-
-@media (max-width: 550px) { /* ปรับ breakpoint ให้เหมาะสมกับมือถือมากขึ้น */
-  .skills-grid { 
-    grid-template-columns: 1fr; 
-  } 
-  .App { 
-    padding: 1rem; 
-  } 
-  .stats-grid, .stats-grid-special {
-    grid-template-columns: 1fr; /* ค่าพลังเรียงเป็น 1 คอลัมน์ในจอมือถือ */
+    grid-template-columns: 1fr;
   }
 }
