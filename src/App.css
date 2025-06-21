@@ -8,6 +8,7 @@
   --text-color-secondary: #b0b0b0;
   --accent-color-ur: #ffc107;
 }
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -17,9 +18,13 @@ body {
   background-attachment: fixed;
   color: var(--text-color-primary);
 }
+
 .App {
   padding: 2rem;
 }
+
+/* --- โค้ดที่แก้ไขและเพิ่มเติม --- */
+
 .character-sheet-container {
   display: grid;
   grid-template-columns: 320px 1fr;
@@ -28,14 +33,32 @@ body {
   margin: auto;
   align-items: start;
 }
-.left-sidebar {
+
+/* จัดวาง Component ต่างๆ ลงใน Grid สำหรับจอ Desktop */
+.character-header,
+.skills-grid,
+.video-section {
+  grid-column: 2 / 3; /* คอลัมน์ขวา */
+}
+
+.main-character-art,
+.panel-main-stats,
+.panel-special-stats,
+.panel-enhancements {
+  grid-column: 1 / 2; /* คอลัมน์ซ้าย */
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  position: sticky; 
-  top: 2rem;
 }
-.main-character-art { width: 100%; border-radius: 8px; border: 1px solid var(--border-color); }
+/* --- สิ้นสุดส่วนที่แก้ไข --- */
+
+
+.main-character-art { 
+  width: 100%; 
+  border-radius: 8px; 
+  border: 1px solid var(--border-color);
+  box-sizing: border-box; /* เพิ่มเพื่อให้ขนาดถูกต้อง */
+}
+
 .collapsible-panel {
   background-color: var(--surface-color-opaque);
   backdrop-filter: blur(8px);
@@ -43,6 +66,7 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
 }
+
 .panel-header-clickable {
   display: flex;
   justify-content: space-between;
@@ -50,30 +74,49 @@ body {
   cursor: pointer;
   padding: 1rem;
 }
+
 .collapsible-panel h3 {
   margin: 0;
   font-size: 1.1rem;
   color: var(--accent-color-ur);
 }
+
 .panel-content-collapsible {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease-out;
 }
+
 .collapsible-panel.expanded .panel-content-collapsible {
-  max-height: 2000px;
+  max-height: 2000px; /* เพิ่มความสูงเผื่อข้อมูลเยอะ */
   transition: max-height 0.4s ease-in;
 }
+
 .panel-content-inner {
   padding: 1rem;
   padding-top: 1rem;
   margin-top: -1rem;
   border-top: 1px solid var(--border-color);
 }
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
-.stats-grid-special { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1rem; }
-.stat-item { display: flex; justify-content: space-between; padding: 0.4rem 0; font-size: 0.9rem; border-bottom: 1px solid #333;}
+
+.stats-grid, .stats-grid-special { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 0.5rem 1rem; 
+}
+
+.stat-item { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: 0.4rem 0; 
+  font-size: 0.9rem; 
+  border-bottom: 1px solid #333;
+}
+.stat-item:last-child {
+  border-bottom: none;
+}
 .stat-item span { color: var(--text-color-secondary); }
+
 .enhancement-item {
   display: grid;
   grid-template-columns: auto 1fr; 
@@ -86,22 +129,45 @@ body {
 }
 .enhancement-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .enhancement-icon { width: 24px; height: 24px; margin-top: 2px; }
-.enhancement-item p { margin: 0; display: inline; white-space: pre-wrap; line-height: 1.5; font-weight: bold; margin-bottom: 0.5em;}
-.enhancement-item p:last-child { margin-bottom: 0;}
-.main-content { display: flex; flex-direction: column; gap: 2rem; }
-.character-header { background-color: var(--surface-color-opaque); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 8px; text-align: center; }
+.enhancement-item p { margin: 0; line-height: 1.5; }
+
+
+.character-header { 
+  background-color: var(--surface-color-opaque); 
+  backdrop-filter: blur(8px); 
+  -webkit-backdrop-filter: blur(8px); 
+  border: 1px solid var(--border-color); 
+  padding: 1.5rem; 
+  border-radius: 8px; 
+  text-align: center; 
+}
 .character-header h1 { margin: 0 0 0.5rem 0; }
 .tags { display: flex; justify-content: center; gap: 1rem; }
 .tag-rarity, .tag-role { padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500; }
 .tag-rarity.UR { background-color: var(--accent-color-ur); color: #000; }
 .tag-role { background-color: var(--surface-color-light); }
+
+
 .skills-grid { 
   display: grid; 
   grid-template-columns: repeat(4, 1fr); 
   gap: 1.5rem;
   align-items: start;
 }
-.skill-card-small { background-color: var(--surface-color-opaque); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border-color); padding: 1rem; border-radius: 8px; box-sizing: border-box; display: flex; flex-direction: column; transition: background-color 0.2s; position: relative; }
+
+.skill-card-small { 
+  background-color: var(--surface-color-opaque); 
+  backdrop-filter: blur(8px); 
+  -webkit-backdrop-filter: blur(8px); 
+  border: 1px solid var(--border-color); 
+  padding: 1rem; 
+  border-radius: 8px; 
+  box-sizing: border-box; 
+  display: flex; 
+  flex-direction: column; 
+  transition: background-color 0.2s; 
+  position: relative; 
+}
 .skill-card-small.expanded { background-color: rgba(45, 45, 45, 0.9); }
 .skill-card-header-clickable { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; cursor: pointer; }
 .skill-icon-and-name { display: flex; align-items: center; gap: 0.75rem; }
@@ -113,8 +179,7 @@ body {
 .toggle-icon { transition: transform 0.3s ease; font-size: 1rem; color: var(--text-color-secondary); }
 .toggle-icon.expanded { transform: rotate(180deg); }
 .skill-type-small { font-size: 0.8rem; color: var(--text-color-secondary); margin: 0.5rem 0 0.75rem 0; padding-top: 0.5rem; border-top: 1px solid var(--border-color); }
-.skill-description-small p { margin: 0; font-size: 0.8rem; color: #ccc; line-height: 1.5; white-space: pre-wrap; font-weight: bold; margin-bottom: 0.5em; }
-.skill-description-small p:last-child { margin-bottom: 0;}
+.skill-description-small p { margin: 0; font-size: 0.85rem; color: #ccc; line-height: 1.5; white-space: pre-wrap; }
 .effects-list-in-skill { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.75rem; }
 .effect-item-in-skill { background-color: var(--surface-color-dark); padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.85em; width: 100%; box-sizing: border-box; }
 .effect-header-clickable { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -126,8 +191,9 @@ body {
 .toggle-icon-small { transition: transform 0.3s ease; font-size: 0.8rem; color: var(--text-color-secondary); }
 .toggle-icon-small.expanded { transform: rotate(180deg); }
 .effect-description-in-skill { width: 100%; padding-left: calc(16px + 0.4rem); box-sizing: border-box; font-size: 0.9em; color: var(--text-color-secondary); padding-top: 0.5rem;}
-.effect-description-in-skill p { margin: 0; line-height: 1.4; white-space: pre-wrap; font-weight: bold; margin-bottom: 0.5em;}
-.effect-description-in-skill p:last-child { margin-bottom: 0;}
+.effect-description-in-skill p { margin: 0; line-height: 1.4; white-space: pre-wrap;}
+
+
 .video-section {
   background-color: var(--surface-color-opaque);
   backdrop-filter: blur(8px);
@@ -177,24 +243,27 @@ body {
   height: 100%;
   border: 0;
 }
-/* === วางโค้ดนี้แทนที่ส่วน @media ของเดิมทั้งหมด === */
+
+/* --- @media query ที่เขียนขึ้นใหม่ทั้งหมด --- */
 
 @media (max-width: 1024px) {
   .character-sheet-container {
-    /* เปลี่ยนเป็น 1 คอลัมน์ */
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ */
   }
 
-  .left-sidebar {
-    /* ยกเลิกการ sticky และสั่งให้ไปอยู่ลำดับที่ 2 */
-    position: static; 
-    order: 2; 
+  /* คืนค่าให้ทุกชิ้นส่วนกลับมาอยู่คอลัมน์เดียวกัน */
+  .character-sheet-container > * {
+    grid-column: auto;
   }
 
-  .main-content {
-    /* สั่งให้มาเป็นลำดับที่ 1 */
-    order: 1; 
-  }
+  /* จัดลำดับการแสดงผลใหม่ */
+  .character-header { order: 1; }
+  .main-character-art { order: 2; }
+  .panel-main-stats { order: 3; }
+  .panel-special-stats { order: 4; }
+  .skills-grid { order: 5; }
+  .panel-enhancements { order: 6; }
+  .video-section { order: 7; }
 }
 
 @media (max-width: 768px) { 
@@ -203,11 +272,14 @@ body {
   } 
 }
 
-@media (max-width: 480px) { 
+@media (max-width: 550px) { /* ปรับ breakpoint ให้เหมาะสมกับมือถือมากขึ้น */
   .skills-grid { 
     grid-template-columns: 1fr; 
   } 
   .App { 
     padding: 1rem; 
   } 
+  .stats-grid, .stats-grid-special {
+    grid-template-columns: 1fr; /* ค่าพลังเรียงเป็น 1 คอลัมน์ในจอมือถือ */
+  }
 }

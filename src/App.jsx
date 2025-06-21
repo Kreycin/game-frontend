@@ -28,6 +28,8 @@ const getYouTubeEmbedUrl = (url) => {
   return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 };
 
+
+// --- เริ่มต้นก๊อปปี้จากตรงนี้ ---
 function App() {
   const [characters, setCharacters] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,78 +61,77 @@ function App() {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
         const mainArtUrl = char.Main_Art?.url;
         
+        // >>>>>>>>>> นี่คือส่วน return ที่เราแก้ไขกัน <<<<<<<<<<
         return (
           <div key={char.id} className="character-sheet-container">
-            <aside className="left-sidebar">
-              {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
-              
-              <CollapsiblePanel title="Main Stats" defaultExpanded={true}>
-                <div className="stats-grid">
-                  <StatItem label="ATK" value={char.ATK} />
-                  <StatItem label="DEF" value={char.DEF} />
-                  <StatItem label="HP" value={char.HP} />
-                  <StatItem label="SPD" value={char.SPD} />
-                </div>
-              </CollapsiblePanel>
+            <header className="character-header">
+              <h1>{char.Name}</h1>
+              <div className="tags">
+                <span className={`tag-rarity ${char.Rarity}`}>{char.Rarity}</span>
+                <span className="tag-role">{char.Role}</span>
+              </div>
+            </header>
+            
+            {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
+            
+            <CollapsiblePanel title="Main Stats" defaultExpanded={true} className="panel-main-stats">
+              <div className="stats-grid">
+                <StatItem label="ATK" value={char.ATK} />
+                <StatItem label="DEF" value={char.DEF} />
+                <StatItem label="HP" value={char.HP} />
+                <StatItem label="SPD" value={char.SPD} />
+              </div>
+            </CollapsiblePanel>
 
-              <CollapsiblePanel title="Special" defaultExpanded={true}>
-                <div className="stats-grid-special">
-                  <StatItem label="Lifesteal" value={char.Lifesteal} />
-                  <StatItem label="Penetration" value={char.Penetration} />
-                  <StatItem label="CRIT Rate" value={char.CRIT_rate} />
-                  <StatItem label="CRIT Res" value={char.CRIT_Res} />
-                  <StatItem label="Debuff Acc" value={char.Debuff_Acc} />
-                  <StatItem label="Debuff Res" value={char.Debuff_Res} />
-                  <StatItem label="Accuracy" value={char.Accuracy} />
-                  <StatItem label="Doge" value={char.Doge} />
-                  <StatItem label="Healing Amt" value={char.Healing_Amt} />
-                  <StatItem label="Healing Amt(P)" value={char.Healing_Amt_P} />
-                  <StatItem label="Extra DMG" value={char.Extra_DMG} />
-                  <StatItem label="DMG Res" value={char.DMG_Res} />
-                  <StatItem label="CRIT DMG Res" value={char.CRIT_DMG_Res} />
-                  <StatItem label="CRIT DMG" value={char.CRIT_DMG} />
-                </div>
-              </CollapsiblePanel>
+            <CollapsiblePanel title="Special" defaultExpanded={true} className="panel-special-stats">
+              <div className="stats-grid-special">
+                <StatItem label="Lifesteal" value={char.Lifesteal} />
+                <StatItem label="Penetration" value={char.Penetration} />
+                <StatItem label="CRIT Rate" value={char.CRIT_rate} />
+                <StatItem label="CRIT Res" value={char.CRIT_Res} />
+                <StatItem label="Debuff Acc" value={char.Debuff_Acc} />
+                <StatItem label="Debuff Res" value={char.Debuff_Res} />
+                <StatItem label="Accuracy" value={char.Accuracy} />
+                <StatItem label="Doge" value={char.Doge} />
+                <StatItem label="Healing Amt" value={char.Healing_Amt} />
+                <StatItem label="Healing Amt(P)" value={char.Healing_Amt_P} />
+                <StatItem label="Extra DMG" value={char.Extra_DMG} />
+                <StatItem label="DMG Res" value={char.DMG_Res} />
+                <StatItem label="CRIT DMG Res" value={char.CRIT_DMG_Res} />
+                <StatItem label="CRIT DMG" value={char.CRIT_DMG} />
+              </div>
+            </CollapsiblePanel>
 
-              <CollapsiblePanel title="Enhancements">
-                  {char.enhancements && char.enhancements.map((enh) => {
-                    const enhancementIconUrl = enh.Enhancement_Icon?.url;
-                    return (
-                      <div key={enh.id} className="enhancement-item">
-                        {enhancementIconUrl && (
-                          <img src={enhancementIconUrl} alt="Enhancement Icon" className="enhancement-icon" />
-                        )}
-                        <div>{renderRichText(enh.Description)}</div>
-                      </div>
-                    )
-                  })}
-              </CollapsiblePanel>
-            </aside>
+            <section className="skills-grid">
+              {char.skills && char.skills.length > 0 ? (
+                char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
+              ) : (
+                <p>No skills available.</p>
+              )}
+            </section>
 
-            <main className="main-content">
-              <header className="character-header">
-                <h1>{char.Name}</h1>
-                <div className="tags">
-                  <span className={`tag-rarity ${char.Rarity}`}>{char.Rarity}</span>
-                  <span className="tag-role">{char.Role}</span>
-                </div>
-              </header>
-              
-              <section className="skills-grid">
-                {char.skills && char.skills.length > 0 ? (
-                  char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
-                ) : (
-                  <p>No skills available.</p>
-                )}
-              </section>
+            <CollapsiblePanel title="Enhancements" className="panel-enhancements">
+                {char.enhancements && char.enhancements.map((enh) => {
+                  const enhancementIconUrl = enh.Enhancement_Icon?.url;
+                  return (
+                    <div key={enh.id} className="enhancement-item">
+                      {enhancementIconUrl && (
+                        <img src={enhancementIconUrl} alt="Enhancement Icon" className="enhancement-icon" />
+                      )}
+                      <div>{renderRichText(enh.Description)}</div>
+                    </div>
+                  )
+                })}
+            </CollapsiblePanel>
+            
+            <VideoSection embedUrl={embedUrl} />
 
-              <VideoSection embedUrl={embedUrl} />
-            </main>
           </div>
         )
       })}
     </div>
   );
 }
+// --- สิ้นสุดการก๊อปปี้ตรงนี้ ---
 
 export default App;
