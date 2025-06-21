@@ -1,3 +1,5 @@
+// path: src/App.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -59,7 +61,7 @@ function App() {
     <div className="App">
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
-        const mainArtUrl = char.Main_Art?.url; // ★★★ แก้ไขตรงนี้ ★★★
+        const mainArtUrl = char.Main_Art?.url;
         
         return (
           <div key={char.id} className="character-sheet-container">
@@ -96,7 +98,9 @@ function App() {
 
               <CollapsiblePanel title="Enhancements">
                   {char.enhancements && char.enhancements.map((enh) => {
-                    const enhancementIconUrl = enh.Enhancement_Icon?.[0]?.url; // ★★★ แก้ไขตรงนี้ ★★★
+                    // ★★★ นี่คือจุดที่แก้ไข ★★★
+                    // ลบ [0] ออก เพราะ Enhancement_Icon เป็นรูปเดี่ยว
+                    const enhancementIconUrl = enh.Enhancement_Icon?.url; 
                     return (
                       <div key={enh.id} className="enhancement-item">
                         {enhancementIconUrl && (
