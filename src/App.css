@@ -195,9 +195,8 @@ body {
       "art              skills"
       "main-stats       skills"
       "special-stats    skills"
-      "enhancements     skills"
-      ".                skills"  /* <<< ทำให้ skills กินพื้นที่ยาวลงมา */
-      "showcase         showcase"
+      "enhancements     skills" /* <<< ทำให้ skills กินพื้นที่ยาวลงมา */
+      "showcase         skills"
       "showcase         showcase";/* <<< showcase จะอยู่ใต้ skills */
   }
 
