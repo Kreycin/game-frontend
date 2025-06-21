@@ -184,18 +184,13 @@ body {
 }
 /* ในไฟล์ src/App.css */
 
-/* --- 2. Desktop & Tablet Landscape Layout --- */
+/* --- ค้นหาส่วนนี้ --- */
 @media (min-width: 1025px) {
-  .character-sheet-container {
-    gap: 2rem;
-    grid-template-columns: 320px 1fr;
-    grid-template-areas:
-      "art           header"
-      "art           skills"
-      "main-stats    skills"
-      "special-stats skills"
-      "enhancements  skills"   /* <--- แก้ไขที่ 1: บอกให้ skills ยังคงอยู่ตรงนี้ */
-      ".             showcase"; /* <--- แก้ไขที่ 2: ย้าย showcase กลับไปอยู่แถวของตัวเอง */
+  .skills-grid {
+    /* ของเดิม: grid-template-columns: repeat(4, 1fr); */
+
+    /* แก้เป็นแบบนี้: */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
 }
 
