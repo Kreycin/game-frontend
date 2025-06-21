@@ -17,18 +17,17 @@ const renderRichText = (richTextArray) => {
     ));
 };
 
+// ★★★ แก้ไขฟังก์ชัน YouTube ให้ถูกต้อง ★★★
 const getYouTubeEmbedUrl = (url) => {
   if (!url) return null;
-  let videoId = '';
-  if (url.includes('v=')) {
-    videoId = url.split('v=')[1].split('&')[0];
-  } else if (url.includes('youtube.com/embed/')) {
-    videoId = url.split('embed/')[1];
+  let videoId = null;
+  // Regex to find video ID from various YouTube URL formats
+  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  if (match && match[1]) {
+    videoId = match[1];
   }
-  if (videoId) {
-    return `https://www.youtube.com/embed/${videoId}`;
-  }
-  return null;
+  return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 };
 
 function App() {
@@ -43,6 +42,7 @@ function App() {
         const processedData = response.data.data.map(item => ({ id: item.id, ...item.attributes }));
         setCharacters(processedData);
       } catch (err) {
+        console.error(">>> DETAILED FETCH ERROR:", err);
         setError(err);
       } finally {
         setLoading(false);
@@ -59,15 +59,14 @@ function App() {
     <div className="App">
       {characters.map((char) => {
         const embedUrl = getYouTubeEmbedUrl(char.YouTube_URL);
-        const mainArtUrl = char.Main_Art?.data?.attributes?.url;
-
+        // ★★★ แก้ไขการเข้าถึง URL ให้เรียบง่ายและถูกต้อง ★★★
+        const mainArtUrl = char.Main_Art?.url;
+        
         return (
-          // ★★★ กลับมาใช้โครงสร้าง 2 คอลัมน์แบบเดิม ★★★
           <div key={char.id} className="character-sheet-container">
-
             <aside className="left-sidebar">
               {mainArtUrl && (<img src={mainArtUrl} alt={char.Name} className="main-character-art"/>)}
-
+              
               <CollapsiblePanel title="Main Stats" defaultExpanded={true}>
                 <div className="stats-grid">
                   <StatItem label="ATK" value={char.ATK} />
@@ -98,7 +97,8 @@ function App() {
 
               <CollapsiblePanel title="Enhancements">
                   {char.enhancements && char.enhancements.map((enh) => {
-                    const enhancementIconUrl = enh.Enhancement_Icon?.data?.attributes?.url;
+                    // ★★★ แก้ไขการเข้าถึง URL ให้เรียบง่ายและถูกต้อง ★★★
+                    const enhancementIconUrl = enh.Enhancement_Icon?.url;
                     return (
                       <div key={enh.id} className="enhancement-item">
                         {enhancementIconUrl && (
@@ -119,7 +119,7 @@ function App() {
                   <span className="tag-role">{char.Role}</span>
                 </div>
               </header>
-
+              
               <section className="skills-grid">
                 {char.skills && char.skills.length > 0 ? (
                   char.skills.map((skill) => (<SkillCard key={skill.id} skill={skill} />))
@@ -127,6 +127,7 @@ function App() {
                   <p>No skills available.</p>
                 )}
               </section>
+
               <VideoSection embedUrl={embedUrl} />
             </main>
           </div>

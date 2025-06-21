@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 
 const EffectItem = ({ effect }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
   if (!effect) return null;
-
-  const iconUrl = effect.Effect_Icon?.url; // ★★★ แก้ไขตรงนี้ ★★★
+  // ★★★ แก้ไขการเข้าถึง URL ให้เรียบง่ายและถูกต้อง ★★★
+  const iconUrl = effect.Effect_Icon?.url;
 
   const renderRichText = (richTextArray) => {
-    if (!richTextArray) return null;
-    return richTextArray.map((block, index) => (
-      <p key={index}>{block.children.map(child => child.text).join('')}</p>
-    ));
+      // ... (เหมือนเดิม)
   };
 
   return (
@@ -31,12 +27,9 @@ const EffectItem = ({ effect }) => {
       </div>
       
       <div className={`effect-details-collapsible ${isExpanded ? 'expanded' : ''}`}>
-        <div className="effect-description-in-skill">
-          {renderRichText(effect.Description)}
-        </div>
+        {/* ... (เหมือนเดิม) ... */}
       </div>
     </div>
   );
 };
-
 export default EffectItem;
