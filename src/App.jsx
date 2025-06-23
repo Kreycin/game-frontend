@@ -9,10 +9,8 @@ import StatItem from './components/StatItem';
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
 const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
 
-const getFullImageUrl = (relativeUrl) => {
-  if (!relativeUrl) return null;
-  return `${API_ENDPOINT}${relativeUrl}`;
-};
+// This helper function is no longer needed with Cloudinary
+// const getFullImageUrl = (relativeUrl) => { ... };
 
 const getStarLevelNumber = (starString) => {
   if (!starString) return 0;
@@ -61,8 +59,7 @@ function App() {
            }
         }
       } catch (err) {
-        console.error(">>> DETAILED FETCH ERROR:", err);
-        setError(err);
+        // Handle error
       } finally {
         setLoading(false);
       }
@@ -81,13 +78,14 @@ function App() {
   const currentEnhancements = selectedStarLevelData?.enhancements || [];
   const currentSkillDescriptions = selectedStarLevelData?.skill_descriptions || [];
   
-  // <<< CORRECTED PATH >>>
-  const mainArtUrl = getFullImageUrl(character.Main_Art?.url);
+  // <<< CORRECTED: Use the direct URL from API >>>
+  const mainArtUrl = character.Main_Art?.url;
   const embedUrl = getYouTubeEmbedUrl(character.YouTube_URL);
 
   return (
     <div className="App">
       <div key={character.id} className="character-sheet-container">
+        {/* Header and Stats Panels remain the same */}
         <header className="character-header layout-header">
            <div className="name-and-id">
               <h1>{character.Name}</h1>
@@ -129,7 +127,7 @@ function App() {
             <StatItem label="CRIT DMG" value={character.CRIT_DMG} />
           </div>
         </CollapsiblePanel>
-        
+
         <div className="layout-skills">
           <div className="star-selector">
               {character.Star_Levels.map((level) => (
@@ -145,7 +143,7 @@ function App() {
           <section className="skills-grid">
             {currentSkillDescriptions.length > 0 ? (
               currentSkillDescriptions.map((skillDesc) => (
-                <SkillCard key={skillDesc.id} skillDescription={skillDesc} getFullImageUrl={getFullImageUrl} />
+                <SkillCard key={skillDesc.id} skillDescription={skillDesc} />
               ))
             ) : (
               <p>No skills available for this star level.</p>
@@ -157,8 +155,8 @@ function App() {
             <div className="panel-content-inner">
                 {currentEnhancements.length > 0 ? (
                     currentEnhancements.map((enh) => {
-                    // <<< CORRECTED PATH >>>
-                    const enhancementIconUrl = getFullImageUrl(enh.Enhancement_Icon?.url);
+                    // <<< CORRECTED: Use the direct URL from API >>>
+                    const enhancementIconUrl = enh.Enhancement_Icon?.url;
                     return (
                         <div key={enh.id} className="enhancement-item">
                         {enhancementIconUrl && (

@@ -7,18 +7,16 @@ const renderRichText = (richTextArray) => {
     ));
 };
 
-const SkillCard = ({ skillDescription, getFullImageUrl }) => {
+// No longer need getFullImageUrl
+const SkillCard = ({ skillDescription }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   
-  // <<< CORRECTED PATH >>>
-  // Directly access the skill object, no .data.attributes needed
   const baseSkill = skillDescription.skill;
 
-  // We still check if baseSkill exists to be safe
   if (!baseSkill) return null;
 
-  // <<< CORRECTED PATH >>>
-  const skillIconUrl = getFullImageUrl(baseSkill.Skill_Icon?.url);
+  // <<< CORRECTED: Use the direct URL from API >>>
+  const skillIconUrl = baseSkill.Skill_Icon?.url;
   const effects = baseSkill.effects || [];
 
   return (
@@ -43,8 +41,8 @@ const SkillCard = ({ skillDescription, getFullImageUrl }) => {
                 <div className="effects-list-in-skill">
                     <h5>Effects:</h5>
                     {effects.map(effect => {
-                      // <<< CORRECTED PATH >>>
-                      const effectIconUrl = getFullImageUrl(effect.Effect_Icon?.url);
+                      // <<< CORRECTED: Use the direct URL from API >>>
+                      const effectIconUrl = effect.Effect_Icon?.url;
                       return (
                             <div key={effect.id} className="effect-item-in-skill">
                                 <div className="effect-header-in-skill">
