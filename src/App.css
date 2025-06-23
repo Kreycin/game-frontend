@@ -230,8 +230,17 @@ body {
 .skills-grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  align-items: start; /* <--- เพิ่มบรรทัดนี้เข้าไปครับ */
+  /* For mobile, it will be 1 column due to the media query below */
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+/* We will define multi-column layout for wider screens */
+@media (min-width: 551px) {
+  .skills-grid {
+    /* On screens wider than 550px, create 2 columns */
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* --- Individual Skill Card --- */
