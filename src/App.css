@@ -327,3 +327,14 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
+/* Tell the container to have its own background for exporting */
+#character-sheet-container {
+  /* Use the same background image settings as the body */
+  background-image: url('https://cdn.discordapp.com/attachments/1374249946295042081/1385198123147722762/Gyokko-UR_Workspace.png?ex=685a77c8&is=68592648&hm=a3f82bad70b2367e43d319b1923d83164fb35394fbc53b243812ac2946db2c34&');
+  background-size: cover;
+  background-position: center center;
+
+  /* Add some padding to make it look good */
+  padding: 2rem;
+  border-radius: 8px; /* Optional: adds rounded corners to the exported image */
+}

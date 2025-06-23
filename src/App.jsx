@@ -48,6 +48,7 @@ function App() {
     const elementToCapture = document.getElementById('character-sheet-container');
     if (elementToCapture) {
       html2canvas(elementToCapture, {
+        backgroundColor: '#1a1a1a',
         useCORS: true,
         scale: 2,
       }).then(canvas => {
