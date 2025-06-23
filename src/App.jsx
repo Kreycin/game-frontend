@@ -89,7 +89,7 @@ function App() {
         <header className="character-header layout-header">
            <div className="name-and-id">
               <h1>{character.Name}</h1>
-              {character.Character_ID && <span className="character-id-tag">{character.Character_ID}</span>}
+              {/*character.Character_ID && <span className="character-id-tag">{character.Character_ID}</span>*/}
             </div>
           <div className="tags">
             <span className={`tag-rarity ${character.Rarity}`}>{character.Rarity}</span>
