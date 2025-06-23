@@ -347,3 +347,38 @@ body {
   padding: 2rem;
   border-radius: 8px; /* Optional: adds rounded corners to the exported image */
 }
+/* === Collapsible Effect Styles === */
+
+.effect-header-clickable {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-icon-small {
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+  color: var(--text-color-secondary);
+}
+
+.toggle-icon-small.expanded {
+  transform: rotate(180deg);
+}
+
+.effect-details-collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  margin-top: 0;
+}
+
+.effect-item-in-skill.expanded .effect-details-collapsible {
+  max-height: 200px; /* Or a suitable max height */
+  margin-top: 0.5rem;
+  transition: max-height 0.3s ease-in, margin-top 0.3s ease-in;
+}
+
+.effect-description-in-skill p {
+    margin: 0;
+}
