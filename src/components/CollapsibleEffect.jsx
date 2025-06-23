@@ -17,7 +17,7 @@ const renderRichText = (richTextArray) => {
 
 
 const CollapsibleEffect = ({ effect }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const effectIconUrl = getFullImageUrl(effect.Effect_Icon?.url);
 
   return (
