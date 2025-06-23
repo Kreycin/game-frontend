@@ -303,3 +303,27 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* === Export Button Styles === */
+.export-container {
+  max-width: 1400px;
+  margin: 0 auto 1.5rem auto; /* Center the container and add space below */
+  text-align: right; /* Align button to the right */
+}
+
+.export-button {
+  background-color: var(--accent-color-ur);
+  color: #000;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.export-button:hover {
+  background-color: #ffda6a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}

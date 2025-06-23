@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+// <<< 1. เพิ่มการ import ไลบรารี html2canvas >>>
+import html2canvas from 'html2canvas';
+
 import './App.css';
 import SkillCard from './components/SkillCard';
 import VideoSection from './components/VideoSection';
@@ -9,9 +12,7 @@ import StatItem from './components/StatItem';
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
 const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
 
-// This helper function is no longer needed with Cloudinary
-// const getFullImageUrl = (relativeUrl) => { ... };
-
+// ... ฟังก์ชัน getStarLevelNumber, renderRichText, getYouTubeEmbedUrl เหมือนเดิม ...
 const getStarLevelNumber = (starString) => {
   if (!starString) return 0;
   return parseInt(starString.replace('star', ''), 10);
@@ -35,11 +36,29 @@ const getYouTubeEmbedUrl = (url) => {
   return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 };
 
+
 function App() {
   const [character, setCharacter] = useState(null);
   const [selectedStar, setSelectedStar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // <<< 2. เพิ่มฟังก์ชันสำหรับจัดการการ Export >>>
+  const handleExportAsImage = () => {
+    const elementToCapture = document.getElementById('character-sheet-container');
+    if (elementToCapture) {
+      html2canvas(elementToCapture, {
+        useCORS: true,
+        scale: 2,
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `${character.Name || 'character-sheet'}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  };
+
 
   useEffect(() => {
     const fetchCharacter = async () => {
@@ -78,14 +97,19 @@ function App() {
   const currentEnhancements = selectedStarLevelData?.enhancements || [];
   const currentSkillDescriptions = selectedStarLevelData?.skill_descriptions || [];
   
-  // <<< CORRECTED: Use the direct URL from API >>>
   const mainArtUrl = character.Main_Art?.url;
   const embedUrl = getYouTubeEmbedUrl(character.YouTube_URL);
 
   return (
     <div className="App">
-      <div key={character.id} className="character-sheet-container">
-        {/* Header and Stats Panels remain the same */}
+      {/* <<< 3. เพิ่มปุ่ม Export และใส่ id ให้กับ container หลัก >>> */}
+      <div className="export-container">
+        <button onClick={handleExportAsImage} className="export-button">
+          Export as PNG
+        </button>
+      </div>
+
+      <div id="character-sheet-container" key={character.id} className="character-sheet-container">
         <header className="character-header layout-header">
            <div className="name-and-id">
               <h1>{character.Name}</h1>
@@ -155,7 +179,6 @@ function App() {
             <div className="panel-content-inner">
                 {currentEnhancements.length > 0 ? (
                     currentEnhancements.map((enh) => {
-                    // <<< CORRECTED: Use the direct URL from API >>>
                     const enhancementIconUrl = enh.Enhancement_Icon?.url;
                     return (
                         <div key={enh.id} className="enhancement-item">
