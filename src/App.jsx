@@ -1,7 +1,11 @@
+// src/App.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// <<< 1. เพิ่มการ import ไลบรารี html2canvas >>>
 import html2canvas from 'html2canvas';
+
+// ไม่ต้อง import Helmet อีกต่อไป
+// import { Helmet } from 'react-helmet-async'; 
 
 import './App.css';
 import SkillCard from './components/SkillCard';
@@ -9,22 +13,19 @@ import VideoSection from './components/VideoSection';
 import CollapsiblePanel from './components/CollapsiblePanel';
 import StatItem from './components/StatItem';
 
+// ... โค้ดส่วนอื่นๆ ที่ไม่เปลี่ยนแปลง ...
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
 const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
-
-// ... ฟังก์ชัน getStarLevelNumber, renderRichText, getYouTubeEmbedUrl เหมือนเดิม ...
 const getStarLevelNumber = (starString) => {
   if (!starString) return 0;
   return parseInt(starString.replace('star', ''), 10);
 };
-
 const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
     return richTextArray.map((block, index) => (
       <p key={index}>{block.children.map(child => child.text).join('')}</p>
     ));
 };
-
 const getYouTubeEmbedUrl = (url) => {
   if (!url) return null;
   let videoId = null;
@@ -39,12 +40,13 @@ const getYouTubeEmbedUrl = (url) => {
 
 function App() {
   const [character, setCharacter] = useState(null);
+  // ... state และ functions อื่นๆ เหมือนเดิม ...
   const [selectedStar, setSelectedStar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // <<< 2. เพิ่มฟังก์ชันสำหรับจัดการการ Export >>>
   const handleExportAsImage = () => {
+    if (!character) return;
     const elementToCapture = document.getElementById('character-sheet-container');
     if (elementToCapture) {
       html2canvas(elementToCapture, {
@@ -59,7 +61,6 @@ function App() {
       });
     }
   };
-
 
   useEffect(() => {
     const fetchCharacter = async () => {
@@ -79,7 +80,7 @@ function App() {
            }
         }
       } catch (err) {
-        // Handle error
+        setError(err);
       } finally {
         setLoading(false);
       }
@@ -101,9 +102,23 @@ function App() {
   const mainArtUrl = character.Main_Art?.url;
   const embedUrl = getYouTubeEmbedUrl(character.YouTube_URL);
 
+
   return (
     <div className="App">
-      {/* <<< 3. เพิ่มปุ่ม Export และใส่ id ให้กับ container หลัก >>> */}
+      {/* ==================== โค้ดที่อัปเดตสำหรับ React 19 ==================== */}
+      {/* เราสามารถเขียน <title> และ <meta> ได้โดยตรงเลย! */}
+      <title>{`${character.Name} - Character Sheet | Demon Slayer Game Hub`}</title>
+      <meta name="description" content={`ข้อมูลค่าพลัง, สกิล, และรายละเอียดทั้งหมดของตัวละคร ${character.Name} ระดับ ${character.Rarity}`} />
+      
+      {/* --- Open Graph Tags สำหรับการแชร์ --- */}
+      <meta property="og:title" content={`${character.Name} - Character Sheet`} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://demonslayergamehub.com" />
+      {mainArtUrl && <meta property="og:image" content={mainArtUrl} />}
+      <meta property="og:description" content={`ข้อมูลค่าพลัง, สกิล, และรายละเอียดทั้งหมดของตัวละคร ${character.Name} ระดับ ${character.Rarity}`} />
+      <meta property="og:site_name" content="Demon Slayer Game Hub" />
+      {/* ====================================================================== */}
+
       <div className="export-container">
         <button onClick={handleExportAsImage} className="export-button">
           Export as PNG
@@ -111,10 +126,10 @@ function App() {
       </div>
 
       <div id="character-sheet-container" key={character.id} className="character-sheet-container">
+        {/* ... โค้ดส่วนที่เหลือของ JSX เหมือนเดิมทุกประการ ... */}
         <header className="character-header layout-header">
            <div className="name-and-id">
               <h1>{character.Name}</h1>
-              {/*character.Character_ID && <span className="character-id-tag">{character.Character_ID}</span>*/}
             </div>
           <div className="tags">
             <span className={`tag-rarity ${character.Rarity}`}>{character.Rarity}</span>
@@ -122,9 +137,7 @@ function App() {
             {character.Element && <span className="tag-element">{character.Element}</span>}
           </div>
         </header>
-
         {mainArtUrl && (<img src={mainArtUrl} alt={character.Name} className="main-character-art layout-art"/>)}
-
         <CollapsiblePanel title="Main Stats (19★)" defaultExpanded={true} className="layout-main-stats">
           <div className="stats-grid">
             <StatItem label="ATK" value={character.ATK} />
@@ -133,7 +146,6 @@ function App() {
             <StatItem label="SPD" value={character.SPD} />
           </div>
         </CollapsiblePanel>
-
         <CollapsiblePanel title="Special" defaultExpanded={false} className="layout-special-stats">
           <div className="stats-grid-special">
             <StatItem label="Lifesteal" value={character.Lifesteal} />
@@ -152,7 +164,6 @@ function App() {
             <StatItem label="CRIT DMG" value={character.CRIT_DMG} />
           </div>
         </CollapsiblePanel>
-
         <div className="layout-skills">
           <div className="star-selector">
               {character.Star_Levels.map((level) => (
@@ -175,7 +186,6 @@ function App() {
             )}
           </section>
         </div>
-
         <CollapsiblePanel title="Enhancements" className="layout-enhancements" defaultExpanded={true}>
             <div className="panel-content-inner">
                 {currentEnhancements.length > 0 ? (
@@ -195,7 +205,6 @@ function App() {
                 )}
             </div>
         </CollapsiblePanel>
-
         <VideoSection embedUrl={embedUrl} className="layout-showcase" />
       </div>
     </div>
