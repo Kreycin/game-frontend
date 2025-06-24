@@ -115,7 +115,7 @@ function App() {
       {/* นี่คือตำแหน่งที่ตัวนับถอยหลังจะปรากฏบนหน้าจอ */}
       <CountdownTimer 
         targetDate={targetCountdownDate} 
-        prefixText="A new character is coming in:" 
+        prefixText="A new character is coming in:/n(China servers maintenance announcement)" 
       /> 
       {/* <<<<<<< สิ้นสุดการเพิ่มโค้ดในจุดที่ 3 */}
       {/* ==================== โค้ดที่อัปเดตสำหรับ React 19 ==================== */}
