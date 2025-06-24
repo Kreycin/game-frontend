@@ -14,7 +14,7 @@ const OverlayPage = ({ targetDate }) => {
       <div className="overlay-header">
         <CountdownTimer 
           targetDate={targetDate} 
-          prefixText="Countdown Time" // 3. กำหนดข้อความนำหน้าตามที่คุณต้องการ
+          prefixText="A new character is coming (estimate) in:" // 3. กำหนดข้อความนำหน้าตามที่คุณต้องการ
         />
       </div>
 
