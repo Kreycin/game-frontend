@@ -6,6 +6,7 @@ import './OverlayPage.css';
 
 // 2. รับ props ที่ชื่อ targetDate ที่ส่งมาจาก App.jsx
 const OverlayPage = ({ targetDate }) => { 
+    console.log('Date received in OverlayPage:', targetDate);
   return (
     <div className="overlay-container">
 
