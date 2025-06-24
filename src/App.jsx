@@ -44,7 +44,7 @@ function App() {
   const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
   if (isOverlayActive) {
     // ถ้าสวิตช์เปิดอยู่ ให้แสดงหน้านี้แล้วหยุดทันที
-    return <OverlayPage />; 
+    return <OverlayPage targetDate={targetCountdownDate} />; 
   }
   const [character, setCharacter] = useState(null);
   // ... state และ functions อื่นๆ เหมือนเดิม ...
