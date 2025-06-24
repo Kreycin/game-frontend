@@ -12,6 +12,7 @@ import SkillCard from './components/SkillCard';
 import VideoSection from './components/VideoSection';
 import CollapsiblePanel from './components/CollapsiblePanel';
 import StatItem from './components/StatItem';
+import CountdownTimer from './components/CountdownTimer';
 
 // ... โค้ดส่วนอื่นๆ ที่ไม่เปลี่ยนแปลง ...
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
@@ -44,6 +45,11 @@ function App() {
   const [selectedStar, setSelectedStar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // กำหนดวันที่เป้าหมายสำหรับ Countdown
+  // ตัวอย่าง: วันที่ 25 กรกฎาคม 2025 เวลา 10:00:00 น. +0700 (เวลาประเทศไทย)
+  // **คุณสามารถเปลี่ยนวันที่และเวลานี้ได้ตามต้องการ**
+  const targetCountdownDate = '2025-07-24T16:00:00+07:00'; // <<<<<<< เพิ่มบรรทัดนี้
+
 
   const handleExportAsImage = () => {
     if (!character) return;
@@ -105,6 +111,13 @@ function App() {
 
   return (
     <div className="App">
+      {/* <<<<<<< เริ่มการเพิ่มโค้ดในจุดที่ 3 */}
+      {/* นี่คือตำแหน่งที่ตัวนับถอยหลังจะปรากฏบนหน้าจอ */}
+      <CountdownTimer 
+        targetDate={targetCountdownDate} 
+        prefixText="A new character is coming in:" 
+      /> 
+      {/* <<<<<<< สิ้นสุดการเพิ่มโค้ดในจุดที่ 3 */}
       {/* ==================== โค้ดที่อัปเดตสำหรับ React 19 ==================== */}
       {/* เราสามารถเขียน <title> และ <meta> ได้โดยตรงเลย! */}
       <title>{`${character.Name} - Character Sheet | Demon Slayer Game Hub`}</title>
