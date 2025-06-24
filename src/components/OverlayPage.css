@@ -1,0 +1,30 @@
+/* src/components/OverlayPage.css */
+
+.overlay-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* ทำให้เต็มความสูงของหน้าจอ */
+  width: 100%;
+  background-color: #1a1a1a; /* สีพื้นหลังเหมือนเดิม */
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.overlay-content {
+  max-width: 600px;
+}
+
+.overlay-content h1 {
+  font-size: 3rem;
+  color: #ffc107; /* สีเดียวกับ UR */
+  margin-bottom: 1rem;
+}
+
+.overlay-content p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #d0d0d0;
+}

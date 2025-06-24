@@ -13,6 +13,7 @@ import VideoSection from './components/VideoSection';
 import CollapsiblePanel from './components/CollapsiblePanel';
 import StatItem from './components/StatItem';
 import CountdownTimer from './components/CountdownTimer';
+import OverlayPage from './components/OverlayPage';
 
 // ... โค้ดส่วนอื่นๆ ที่ไม่เปลี่ยนแปลง ...
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
@@ -40,6 +41,11 @@ const getYouTubeEmbedUrl = (url) => {
 
 
 function App() {
+  const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
+  if (isOverlayActive) {
+    // ถ้าสวิตช์เปิดอยู่ ให้แสดงหน้านี้แล้วหยุดทันที
+    return <OverlayPage />; 
+  }
   const [character, setCharacter] = useState(null);
   // ... state และ functions อื่นๆ เหมือนเดิม ...
   const [selectedStar, setSelectedStar] = useState(null);
