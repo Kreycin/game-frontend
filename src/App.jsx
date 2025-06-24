@@ -158,7 +158,7 @@ function App() {
           </div>
         </header>
         {mainArtUrl && (<img src={mainArtUrl} alt={character.Name} className="main-character-art layout-art"/>)}
-        <CollapsiblePanel title="Main Stats (19★)" defaultExpanded={true} className="layout-main-stats">
+        <CollapsiblePanel title="Main Stats" defaultExpanded={false} className="layout-main-stats">
           <div className="stats-grid">
             <StatItem label="ATK" value={character.ATK} />
             <StatItem label="DEF" value={character.DEF} />
