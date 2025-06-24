@@ -4,9 +4,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
 
-// ไม่ต้อง import Helmet อีกต่อไป
-// import { Helmet } from 'react-helmet-async'; 
-
 import './App.css';
 import SkillCard from './components/SkillCard';
 import VideoSection from './components/VideoSection';
@@ -15,19 +12,21 @@ import StatItem from './components/StatItem';
 import CountdownTimer from './components/CountdownTimer';
 import OverlayPage from './components/OverlayPage';
 
-// ... โค้ดส่วนอื่นๆ ที่ไม่เปลี่ยนแปลง ...
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
 const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
+
 const getStarLevelNumber = (starString) => {
   if (!starString) return 0;
   return parseInt(starString.replace('star', ''), 10);
 };
+
 const renderRichText = (richTextArray) => {
     if (!richTextArray) return null;
     return richTextArray.map((block, index) => (
       <p key={index}>{block.children.map(child => child.text).join('')}</p>
     ));
 };
+
 const getYouTubeEmbedUrl = (url) => {
   if (!url) return null;
   let videoId = null;
@@ -39,53 +38,37 @@ const getYouTubeEmbedUrl = (url) => {
   return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 };
 
-
 function App() {
+  // <<< ย้ายการสร้างตัวแปรมาไว้ด้านบนสุดของฟังก์ชัน >>>
+  const targetCountdownDate = '2025-07-01T18:00:00+07:00';
+  
   const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
+
+  // ตรวจสอบเงื่อนไข if หลังจากที่สร้างตัวแปรที่จำเป็นครบแล้ว
   if (isOverlayActive) {
-    // ถ้าสวิตช์เปิดอยู่ ให้แสดงหน้านี้แล้วหยุดทันที
-    return <OverlayPage targetDate={targetCountdownDate} />; 
+    return <OverlayPage targetDate={targetCountdownDate} />;
   }
+  
+  // โค้ดส่วนที่เหลือจะทำงานก็ต่อเมื่อ isOverlayActive เป็น false
   const [character, setCharacter] = useState(null);
-  // ... state และ functions อื่นๆ เหมือนเดิม ...
   const [selectedStar, setSelectedStar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // กำหนดวันที่เป้าหมายสำหรับ Countdown
-  // ตัวอย่าง: วันที่ 25 กรกฎาคม 2025 เวลา 10:00:00 น. +0700 (เวลาประเทศไทย)
-  // **คุณสามารถเปลี่ยนวันที่และเวลานี้ได้ตามต้องการ**
-  const targetCountdownDate = '2025-07-01T18:00:00+07:00'; // <<<<<<< เพิ่มบรรทัดนี้
 
-
- const handleExportAsImage = () => {
+  const handleExportAsImage = () => {
     if (!character) return;
-    
     const elementToCapture = document.getElementById('character-sheet-container');
-    
     if (elementToCapture) {
-      
-      // ==================== ส่วนที่เพิ่มเข้ามาสำหรับลายน้ำ ====================
-
-      // 1. สร้าง element <div> ขึ้นมาสำหรับเป็นลายน้ำ
       const watermark = document.createElement('div');
-
-      // 2. กำหนดข้อความและสไตล์ของลายน้ำ
-      // <<< คุณสามารถเปลี่ยนข้อความลายน้ำได้ที่นี่ >>>
-      watermark.innerText = 'Made by Kreycin'; 
-      
-      // กำหนดสไตล์ให้ไปอยู่มุมขวาล่าง
+      watermark.innerText = 'Made by Kreycin';
       watermark.style.position = 'absolute';
-      watermark.style.right = '45px'; // ระยะห่างจากขอบขวา
-      watermark.style.bottom = '10px'; // ระยะห่างจากขอบล่าง
-      watermark.style.fontSize = '12px'; // ขนาดตัวอักษร
-      watermark.style.color = 'rgba(255, 255, 255, 0.4)'; // สีขาวโปร่งแสง 40%
-      watermark.style.zIndex = '9999'; // ทำให้ลายน้ำอยู่บนสุดเสมอ
-      watermark.style.pointerEvents = 'none'; // ทำให้ไม่สามารถคลิกได้
-
-      // 3. นำลายน้ำไปแปะไว้ใน container ที่เราจะถ่ายรูป
+      watermark.style.right = '45px';
+      watermark.style.bottom = '10px';
+      watermark.style.fontSize = '12px';
+      watermark.style.color = 'rgba(255, 255, 255, 0.4)';
+      watermark.style.zIndex = '9999';
+      watermark.style.pointerEvents = 'none';
       elementToCapture.appendChild(watermark);
-
-      // =====================================================================
 
       html2canvas(elementToCapture, {
         backgroundColor: '#1a1a1a',
@@ -96,15 +79,14 @@ function App() {
         link.download = `${character.Name || 'character-sheet'}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
-
-        // ==================== ส่วนที่สำคัญที่สุด ====================
-        // 4. หลังจากถ่ายรูปและสร้างลิงก์เสร็จแล้ว ให้ลบลายน้ำทิ้งทันที
-        elementToCapture.removeChild(watermark);
-        // ==========================================================
+        if (elementToCapture.contains(watermark)) {
+          elementToCapture.removeChild(watermark);
+        }
       }).catch(err => {
-        // เพิ่มการจัดการ Error และลบลายน้ำทิ้งเผื่อกรณีเกิดข้อผิดพลาด
         console.error("Error during canvas generation:", err);
-        elementToCapture.removeChild(watermark);
+        if (elementToCapture.contains(watermark)) {
+          elementToCapture.removeChild(watermark);
+        }
       });
     }
   };
@@ -149,40 +131,28 @@ function App() {
   const mainArtUrl = character.Main_Art?.url;
   const embedUrl = getYouTubeEmbedUrl(character.YouTube_URL);
 
-
   return (
     <div className="App">
-      {/* <<<<<<< เริ่มการเพิ่มโค้ดในจุดที่ 3 */}
-      {/* นี่คือตำแหน่งที่ตัวนับถอยหลังจะปรากฏบนหน้าจอ */}
        <CountdownTimer 
         targetDate={targetCountdownDate} 
-        // เปลี่ยน prefixText เป็น JSX ที่มี <br /> สำหรับขึ้นบรรทัดใหม่
         prefixText={
           <>
             A new character is coming (estimate) in:
             <br />
-        
           </>
         }
-      /> 
-      {/* <<<<<<< สิ้นสุดการเพิ่มโค้ดในจุดที่ 3 */}
-      {/* ==================== โค้ดที่อัปเดตสำหรับ React 19 ==================== */}
-      {/* เราสามารถเขียน <title> และ <meta> ได้โดยตรงเลย! */}
+      />
+      
       <title>{`${character.Name} - Character Sheet | Demon Slayer Game Hub`}</title>
       <meta name="description" content={`ข้อมูลค่าพลัง, สกิล, และรายละเอียดทั้งหมดของตัวละคร ${character.Name} ระดับ ${character.Rarity}`} />
-      
-      {/* --- Open Graph Tags สำหรับการแชร์ --- */}
       <meta property="og:title" content={`${character.Name} - Character Sheet`} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://demonslayergamehub.com" />
       {mainArtUrl && <meta property="og:image" content={mainArtUrl} />}
       <meta property="og:description" content={`ข้อมูลค่าพลัง, สกิล, และรายละเอียดทั้งหมดของตัวละคร ${character.Name} ระดับ ${character.Rarity}`} />
       <meta property="og:site_name" content="Demon Slayer Game Hub" />
-      {/* ====================================================================== */}
-
 
       <div id="character-sheet-container" key={character.id} className="character-sheet-container">
-        {/* ... โค้ดส่วนที่เหลือของ JSX เหมือนเดิมทุกประการ ... */}
         <header className="character-header layout-header">
            <div className="name-and-id">
               <h1>{character.Name}</h1>
@@ -263,11 +233,12 @@ function App() {
         </CollapsiblePanel>
         <VideoSection embedUrl={embedUrl} className="layout-showcase" />
       </div>
+
       <div className="export-container">
-  <button onClick={handleExportAsImage} className="export-button">
-    Export as PNG
-  </button>
-</div>
+        <button onClick={handleExportAsImage} className="export-button">
+          Export as PNG
+        </button>
+      </div>
     </div>
   );
 }
