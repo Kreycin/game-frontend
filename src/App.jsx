@@ -174,11 +174,6 @@ function App() {
       <meta property="og:site_name" content="Demon Slayer Game Hub" />
       {/* ====================================================================== */}
 
-      <div className="export-container">
-        <button onClick={handleExportAsImage} className="export-button">
-          Export as PNG
-        </button>
-      </div>
 
       <div id="character-sheet-container" key={character.id} className="character-sheet-container">
         {/* ... โค้ดส่วนที่เหลือของ JSX เหมือนเดิมทุกประการ ... */}
@@ -191,6 +186,11 @@ function App() {
             <span className="tag-role">{character.Role}</span>
             {character.Element && <span className="tag-element">{character.Element}</span>}
           </div>
+          <div className="export-container">
+        <button onClick={handleExportAsImage} className="export-button">
+          Export as PNG
+        </button>
+      </div>
         </header>
         {mainArtUrl && (<img src={mainArtUrl} alt={character.Name} className="main-character-art layout-art"/>)}
         <CollapsiblePanel title="Main Stats" defaultExpanded={false} className="layout-main-stats">
