@@ -120,7 +120,7 @@ function App() {
           <>
             A new character is coming in
             <br />
-            (China servers maintenance announcement)
+            (CN Servers Maintenance Announcement)
           </>
         }
       /> 
