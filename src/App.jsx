@@ -153,7 +153,7 @@ function App() {
         // เปลี่ยน prefixText เป็น JSX ที่มี <br /> สำหรับขึ้นบรรทัดใหม่
         prefixText={
           <>
-            A new character is coming in (estimate)
+            A new character is coming (estimate) in:
             <br />
             (CN Servers Maintenance Announcement)
           </>
