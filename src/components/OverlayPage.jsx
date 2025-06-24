@@ -20,10 +20,12 @@ const OverlayPage = ({ targetDate }) => {
 
       {/* ส่วนที่ 2: พื้นที่สำหรับรูปภาพ */}
       <div className="overlay-image-container">
-        {/* <<< ในอนาคต คุณสามารถใส่ <img> tag ของคุณตรงนี้ได้เลย >>>
-          เช่น: <img src="URL_ของรูปภาพ" alt="Special Event" />
-        */}
-        <span className="image-placeholder-text">Image</span>
+        <img 
+    src="https://res.cloudinary.com/di8bf7ufw/image/upload/v1750771678/pos_hbabo1.png" 
+    alt="Special Event" 
+    className="overlay-image" 
+  />
+        
       </div>
 
     </div>
