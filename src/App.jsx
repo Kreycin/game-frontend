@@ -48,7 +48,7 @@ function App() {
   // กำหนดวันที่เป้าหมายสำหรับ Countdown
   // ตัวอย่าง: วันที่ 25 กรกฎาคม 2025 เวลา 10:00:00 น. +0700 (เวลาประเทศไทย)
   // **คุณสามารถเปลี่ยนวันที่และเวลานี้ได้ตามต้องการ**
-  const targetCountdownDate = '2025-06-24T18:00:00+07:00'; // <<<<<<< เพิ่มบรรทัดนี้
+  const targetCountdownDate = '2025-06-24T19:00:00+07:00'; // <<<<<<< เพิ่มบรรทัดนี้
 
 
  const handleExportAsImage = () => {
@@ -186,11 +186,6 @@ function App() {
             <span className="tag-role">{character.Role}</span>
             {character.Element && <span className="tag-element">{character.Element}</span>}
           </div>
-          <div className="export-container">
-        <button onClick={handleExportAsImage} className="export-button">
-          Export as PNG
-        </button>
-      </div>
         </header>
         {mainArtUrl && (<img src={mainArtUrl} alt={character.Name} className="main-character-art layout-art"/>)}
         <CollapsiblePanel title="Main Stats" defaultExpanded={false} className="layout-main-stats">
@@ -262,6 +257,11 @@ function App() {
         </CollapsiblePanel>
         <VideoSection embedUrl={embedUrl} className="layout-showcase" />
       </div>
+      <div className="export-container">
+  <button onClick={handleExportAsImage} className="export-button">
+    Export as PNG
+  </button>
+</div>
     </div>
   );
 }
