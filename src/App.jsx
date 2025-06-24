@@ -155,7 +155,7 @@ function App() {
           <>
             A new character is coming (estimate) in:
             <br />
-            (CN Servers Maintenance Announcement)
+        
           </>
         }
       /> 
