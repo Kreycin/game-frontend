@@ -69,8 +69,8 @@ function App() {
       
       // กำหนดสไตล์ให้ไปอยู่มุมขวาล่าง
       watermark.style.position = 'absolute';
-      watermark.style.right = '25px'; // ระยะห่างจากขอบขวา
-      watermark.style.bottom = '20px'; // ระยะห่างจากขอบล่าง
+      watermark.style.right = '15px'; // ระยะห่างจากขอบขวา
+      watermark.style.bottom = '10px'; // ระยะห่างจากขอบล่าง
       watermark.style.fontSize = '12px'; // ขนาดตัวอักษร
       watermark.style.color = 'rgba(255, 255, 255, 0.4)'; // สีขาวโปร่งแสง 40%
       watermark.style.zIndex = '9999'; // ทำให้ลายน้ำอยู่บนสุดเสมอ
