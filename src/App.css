@@ -20,7 +20,7 @@ body {
   background-color: var(--background-color); /* สีพื้นหลังสำรองเผื่อรูปไม่โหลด */
 
   /* <<< วาง URL ของรูปคุณที่นี่ >>> */
-  background-image: url('https://cdn.discordapp.com/attachments/1374249946295042081/1385198123147722762/Gyokko-UR_Workspace.png?ex=685a77c8&is=68592648&hm=a3f82bad70b2367e43d319b1923d83164fb35394fbc53b243812ac2946db2c34&'); 
+  background-image: url('https://res.cloudinary.com/di8bf7ufw/image/upload/v1750761818/Gyokko-UR_Workspace_emhp2w.jpg'); 
 
   background-size: cover; /* ทำให้รูปขยายเต็มพื้นที่ */
   background-position: center center; /* จัดให้รูปอยู่ตรงกลาง */
@@ -340,7 +340,7 @@ body {
 /* Tell the container to have its own background for exporting */
 #character-sheet-container {
   /* Use the same background image settings as the body */
-  background-image: url('https://cdn.discordapp.com/attachments/1374249946295042081/1385198123147722762/Gyokko-UR_Workspace.png?ex=685a77c8&is=68592648&hm=a3f82bad70b2367e43d319b1923d83164fb35394fbc53b243812ac2946db2c34&');
+  background-image: url('https://res.cloudinary.com/di8bf7ufw/image/upload/v1750761818/Gyokko-UR_Workspace_emhp2w.jpg');
   background-size: cover;
   background-position: center center;
 
