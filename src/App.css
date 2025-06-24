@@ -314,9 +314,10 @@ body {
 }
 /* === Export Button Styles === */
 .export-container {
-  max-width: 1400px;
-  margin: 0 auto 1.5rem auto; /* Center the container and add space below */
-  text-align: right; /* Align button to the right */
+  position: fixed;       /* 1. ทำให้ปุ่มลอยและยึดติดกับหน้าจอ */
+  bottom: 20px;          /* 2. กำหนดระยะห่างจากขอบล่างของหน้าจอ */
+  right: 20px;           /* 3. กำหนดระยะห่างจากขอบขวาของหน้าจอ */
+  z-index: 1000;         /* 4. ทำให้ปุ่มอยู่เหนือองค์ประกอบอื่นๆ เสมอ */
 }
 
 .export-button {
