@@ -1,5 +1,5 @@
 // src/App.jsx
-
+// Force clean redeploy on Vercel - 29 June 2025
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
