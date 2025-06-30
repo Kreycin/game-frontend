@@ -4,45 +4,47 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-// 1. Import Layout และหน้าต่างๆ เข้ามา
 import Layout from './components/Layout.jsx';
 import App from './App.jsx';
-import NewPage from './pages/NewPage.jsx';
-import GameGuide from './pages/GameGuide.jsx';
-import Community from './pages/Community.jsx';
-import DownloadGame from './pages/DownloadGame.jsx';
-import AboutUs from './pages/AboutUs.jsx';
+// 1. Import หน้า ComingSoonPage เข้ามา
+import ComingSoonPage from './pages/ComingSoonPage.jsx';
+
+// (ตอนนี้เราไม่จำเป็นต้อง import หน้าเปล่าๆ อื่นๆ แล้ว)
+// import NewPage from './pages/NewPage.jsx';
+// import GameGuide from './pages/GameGuide.jsx';
+// ...
+
 import './App.css';
 
-// 2. สร้าง Router ในโครงสร้างแบบมี Layout กลาง
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, // ให้ Layout เป็น "กรอบ" หลักของทุกหน้า
-    children: [ // หน้าต่างๆ จะกลายเป็น "ลูก" ของ Layout
+    element: <Layout />,
+    children: [
       {
-        index: true, // path: "/" (หน้าหลัก)
-        element: <App />, 
+        index: true,
+        element: <App />, // หน้าหลัก (New character leaks)
       },
+      // 2. ให้ทุกหน้าที่ยังไม่มีเนื้อหา แสดงผลเป็น ComingSoonPage ทั้งหมด
       {
-        path: "zenith-duel", // path: "/zenith-duel"
-        element: <NewPage />, 
+        path: "zenith-duel",
+        element: <ComingSoonPage />,
       },
       {
         path: "game-guide",
-        element: <GameGuide />,
+        element: <ComingSoonPage />,
       },
       {
         path: "community",
-        element: <Community />,
+        element: <ComingSoonPage />,
       },
       {
         path: "download-game",
-        element: <DownloadGame />,
+        element: <ComingSoonPage />,
       },
       {
         path: "about-us",
-        element: <AboutUs />,
+        element: <ComingSoonPage />,
       },
     ]
   }
