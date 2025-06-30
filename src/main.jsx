@@ -2,26 +2,52 @@
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'; // 1. Import เครื่องมือ Router
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+// 1. Import Layout และหน้าต่างๆ เข้ามา
+import Layout from './components/Layout.jsx';
 import App from './App.jsx';
-import NewPage from './pages/NewPage.jsx'; // 2. Import หน้าใหม่ที่เราจะสร้าง
+import NewPage from './pages/NewPage.jsx';
+import GameGuide from './pages/GameGuide.jsx';
+import Community from './pages/Community.jsx';
+import DownloadGame from './pages/DownloadGame.jsx';
+import AboutUs from './pages/AboutUs.jsx';
 import './App.css';
 
-// 3. สร้าง "สารบัญ" ของเว็บไซต์
+// 2. สร้าง Router ในโครงสร้างแบบมี Layout กลาง
 const router = createBrowserRouter([
   {
-    path: "/", // ถ้าผู้ใช้มาที่ URL หลัก (เช่น demonslayerhub.vercel.app/)
-    element: <App />, // ให้แสดง Component App (หน้าตัวละคร)
-  },
-  {
-    path: "/new-page", // ถ้าผู้ใช้มาที่ URL /new-page
-    element: <NewPage />, // ให้แสดง Component NewPage
-  },
-  // ... คุณสามารถเพิ่มหน้าอื่นๆ ได้ที่นี่ในอนาคต ...
+    path: "/",
+    element: <Layout />, // ให้ Layout เป็น "กรอบ" หลักของทุกหน้า
+    children: [ // หน้าต่างๆ จะกลายเป็น "ลูก" ของ Layout
+      {
+        index: true, // path: "/" (หน้าหลัก)
+        element: <App />, 
+      },
+      {
+        path: "zenith-duel", // path: "/zenith-duel"
+        element: <NewPage />, 
+      },
+      {
+        path: "game-guide",
+        element: <GameGuide />,
+      },
+      {
+        path: "community",
+        element: <Community />,
+      },
+      {
+        path: "download-game",
+        element: <DownloadGame />,
+      },
+      {
+        path: "about-us",
+        element: <AboutUs />,
+      },
+    ]
+  }
 ]);
 
-// 4. สั่งให้ React แสดงผลตาม "สารบัญ" ที่เราสร้าง
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={router} />

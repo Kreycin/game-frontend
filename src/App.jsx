@@ -40,17 +40,14 @@ const getYouTubeEmbedUrl = (url) => {
 };
 
 function App() {
-  // <<< ย้ายการสร้างตัวแปรมาไว้ด้านบนสุดของฟังก์ชัน >>>
   const targetCountdownDate = '2025-07-01T18:00:00+07:00';
   
   const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
 
-  // ตรวจสอบเงื่อนไข if หลังจากที่สร้างตัวแปรที่จำเป็นครบแล้ว
   if (isOverlayActive) {
     return <OverlayPage targetDate={targetCountdownDate} />;
   }
   
-  // โค้ดส่วนที่เหลือจะทำงานก็ต่อเมื่อ isOverlayActive เป็น false
   const [character, setCharacter] = useState(null);
   const [selectedStar, setSelectedStar] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -135,12 +132,6 @@ function App() {
   return (
     
     <div className="App">
-       {/* เพิ่มลิงก์ไปหน้าใหม่ตรงนี้ */}
-       <nav style={{ padding: '1rem', textAlign: 'center' }}>
-          <Link to="/new-page" style={{ color: 'white', fontSize: '1.2rem' }}>
-            Go to New Page
-          </Link>
-        </nav>
 
        <CountdownTimer 
         targetDate={targetCountdownDate} 
