@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 // src/App.jsx
 // Force clean redeploy on Vercel - 29 June 2025
 import React, { useState, useEffect } from 'react';
@@ -132,7 +133,15 @@ function App() {
   const embedUrl = getYouTubeEmbedUrl(character.YouTube_URL);
 
   return (
+    
     <div className="App">
+       {/* เพิ่มลิงก์ไปหน้าใหม่ตรงนี้ */}
+       <nav style={{ padding: '1rem', textAlign: 'center' }}>
+          <Link to="/new-page" style={{ color: 'white', fontSize: '1.2rem' }}>
+            Go to New Page
+          </Link>
+        </nav>
+
        <CountdownTimer 
         targetDate={targetCountdownDate} 
         prefixText={
