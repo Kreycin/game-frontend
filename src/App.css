@@ -375,7 +375,7 @@ body {
 }
 
 .effect-item-in-skill.expanded .effect-details-collapsible {
-  max-height: 200px; /* Or a suitable max height */
+  max-height: 1000px; /* Or a suitable max height */
   margin-top: 0.5rem;
   transition: max-height 0.3s ease-in, margin-top 0.3s ease-in;
 }
