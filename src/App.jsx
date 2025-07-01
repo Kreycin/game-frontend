@@ -139,7 +139,7 @@ function App() {
           <>
             The Inosuke UR Event will begin in:
             <br />
-             We’ll update with the full translation a few hours after it starts
+             We’ll update with the full translation&video a few hours after it starts
           </>
         }
       />
