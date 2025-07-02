@@ -40,7 +40,7 @@ const getYouTubeEmbedUrl = (url) => {
 };
 
 function App() {
-  const targetCountdownDate = '2025-07-02T23:00:00+07:00';
+  const targetCountdownDate = '2025-07-11T11:00:00+07:00';
   
   const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
 
@@ -161,9 +161,8 @@ function App() {
         targetDate={targetCountdownDate} 
         prefixText={
           <>
-            The Inosuke UR Event will begin in:
+            Inosuke UR will be available on Global servers in:
             <br />
-             We’ll update with the full translation&video a few hours after it starts
           </>
         }
       />
