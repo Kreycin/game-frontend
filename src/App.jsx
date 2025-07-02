@@ -52,6 +52,7 @@ function App() {
   const [selectedStar, setSelectedStar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [viewCount, setViewCount] = useState('...');
 
   const handleExportAsImage = () => {
     if (!character) return;
@@ -113,6 +114,29 @@ function App() {
       }
     };
     fetchCharacter();
+  }, []);
+  useEffect(() => {
+    const SITE_COUNTER_URL = `${API_ENDPOINT}/api/site-counter`;
+
+    const updateAndFetchViews = async () => {
+      try {
+        // ยิงเพื่อนับ +1 ก่อน แต่เราไม่สนใจค่าที่มันตอบกลับมา
+        await fetch(`${SITE_COUNTER_URL}/increment`, { method: 'PUT' });
+
+        // จากนั้นยิงเพื่อขอยอดวิวล่าสุดมาแสดงผล
+        const response = await fetch(SITE_COUNTER_URL);
+        const data = await response.json();
+
+        if (data.data.attributes.views) {
+          setViewCount(data.data.attributes.views.toLocaleString());
+        }
+      } catch (err) {
+        console.error("Failed to fetch view count:", err);
+        setViewCount('N/A'); // ถ้า error ให้แสดง N/A
+      }
+    };
+
+    updateAndFetchViews();
   }, []);
 
   if (loading) return <div className="loading-state">Loading character...</div>;
@@ -239,6 +263,9 @@ function App() {
         <button onClick={handleExportAsImage} className="export-button">
           Export as PNG
         </button>
+        <div className="view-counter" style={{ color: 'white', marginTop: '10px' }}>
+          Views: {viewCount}
+        </div>
       </div>
     </div>
   );
