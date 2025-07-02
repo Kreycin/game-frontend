@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Component ใหม่สำหรับจัดการส่วนวิดีโอโดยเฉพาะ
 const VideoSection = ({ embedUrl, className = '' }) => {
   // สร้าง state 'isExpanded' ของตัวเอง เพื่อจัดการการเปิด/ปิด
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   // ถ้าไม่มี URL ก็ไม่ต้องแสดงอะไรเลย
   if (!embedUrl) {
