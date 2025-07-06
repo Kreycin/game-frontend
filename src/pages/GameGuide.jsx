@@ -82,7 +82,7 @@ function GameGuide() {
   }, []);
 
   return (
-    <div className="container mx-auto p-6 md:p-12">
+    <div className="body-text container mx-auto p-6 md:p-12">
         {/* ... เนื้อหา Infographic ทั้งหมด ... */}
         <header className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-extrabold title-text">The Grand Grimoire of Calculations</h1>
