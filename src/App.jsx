@@ -115,41 +115,36 @@ function App() {
     };
     fetchCharacter();
   }, []);
-// useEffect สำหรับ Site Counter
+// useEffect สำหรับ Site Counter (เวอร์ชันแก้ไขสมบูรณ์)
   useEffect(() => {
+    // เราใช้ API_ENDPOINT ที่มีอยู่แล้วเพื่อให้สลับระหว่าง local กับ production ได้
     const SITE_COUNTER_URL = `${API_ENDPOINT}/api/site-counter`;
 
     const updateAndFetchViews = async () => {
       try {
-        // ยิงเพื่อนับ +1 ก่อน
+        // 1. ยิง API เพื่อเพิ่มยอดวิว (เราไม่สนใจ response ของอันนี้)
         await fetch(`${SITE_COUNTER_URL}/increment`, { method: 'PUT' });
 
-        // จากนั้นยิงเพื่อขอยอดวิวล่าสุด
+        // 2. ยิง API เพื่อขอยอดวิวล่าสุด
         const response = await fetch(SITE_COUNTER_URL);
         if (!response.ok) {
-           throw new Error(`HTTP error! status: ${response.status}`);
+           // ถ้า response ไม่ใช่ 200 OK ให้โยน error ทันที
+           throw new Error(`Failed to fetch site counter: ${response.status}`);
         }
         const data = await response.json();
 
-        // --- ส่วนที่แก้ไข ---
-        // ลองหาค่า views จากโครงสร้างปกติของ collection type ก่อน
-        let views = data?.data?.attributes?.views;
+        // 3. (ส่วนที่แก้ไข) ดึงค่า views จากโครงสร้างที่ถูกต้อง
+        // จาก Log ที่คุณส่งมา เราพบว่า path ที่ถูกต้องคือ data.data.views
+        const views = data?.data?.views;
 
-        // ถ้าหาไม่เจอ (อาจจะเป็นโครงสร้างของ single type) ให้ลองหาจากอีกแบบ
-        if (typeof views === 'undefined') {
-          views = data?.attributes?.views;
-        }
-
-        // ถ้าเจอค่า views (ไม่ว่าจากทางไหน) ให้นำไปแสดงผล
+        // 4. ตรวจสอบว่าได้ค่า views มาจริง ๆ แล้วจึงนำไปแสดงผล
         if (typeof views !== 'undefined' && views !== null) {
           setViewCount(views.toLocaleString());
         } else {
-          // ถ้ายังหาไม่เจออีก แสดงว่าโครงสร้างข้อมูลผิดปกติ
+          // ถ้าโครงสร้างผิดปกติหรือไม่เจอ views ให้แจ้งเตือนใน console
           console.error("Could not find 'views' in the response data:", data);
           setViewCount('N/A');
         }
-        // --- สิ้นสุดส่วนที่แก้ไข ---
-
       } catch (err) {
         console.error("Failed to fetch view count:", err);
         setViewCount('N/A');
@@ -157,7 +152,7 @@ function App() {
     };
 
     updateAndFetchViews();
-  }, []);
+  }, []); // [] เพื่อให้ useEffect นี้ทำงานแค่ครั้งเดียวตอนเปิดหน้าเว็บ
 
   if (loading) return <div className="loading-state">Loading character...</div>;
   if (error) return <div className="error-state">Error fetching data: {error.message}</div>;
