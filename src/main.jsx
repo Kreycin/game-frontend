@@ -8,6 +8,7 @@ import Layout from './components/Layout.jsx';
 import App from './App.jsx';
 // 1. Import หน้า ComingSoonPage เข้ามา
 import ComingSoonPage from './pages/ComingSoonPage.jsx';
+import GameGuide from './pages/GameGuide';
 
 // (ตอนนี้เราไม่จำเป็นต้อง import หน้าเปล่าๆ อื่นๆ แล้ว)
 // import NewPage from './pages/NewPage.jsx';
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "game-guide",
-        element: <ComingSoonPage />,
+        element: <GameGuide />,
       },
       {
         path: "community",

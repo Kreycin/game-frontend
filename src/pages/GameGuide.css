@@ -1,0 +1,21 @@
+/* src/pages/GameGuide.css */
+.game-guide-body { /* เราจะใช้ class นี้แทน body tag */
+    font-family: 'Sarabun', sans-serif;
+    background-color: #FFFFEA;
+}
+.title-text { color: #FF5E5B; }
+.header-text { color: #002B36; }
+.body-text { color: #586e75; }
+.card {
+    background-color: #FFFFFF;
+    border: 2px solid #00CECB;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.highlight-card {
+     background-color: #FFED66;
+     border: 2px solid #FF5E5B;
+}
+/* ... คัดลอก CSS ที่เหลือมาวาง ... */
+.arrow { width: 2px; background-color: #00CECB; position: relative; }
+.arrow::after { content: ''; position: absolute; left: 50%; bottom: -1px; transform: translateX(-50%); width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 10px solid #00CECB; }
+.chart-container { position: relative; width: 100%; max-width: 500px; margin-left: auto; margin-right: auto; height: 300px; max-height: 350px; }
