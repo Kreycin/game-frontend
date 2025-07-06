@@ -115,37 +115,44 @@ function App() {
     };
     fetchCharacter();
   }, []);
+// useEffect สำหรับ Site Counter
   useEffect(() => {
     const SITE_COUNTER_URL = `${API_ENDPOINT}/api/site-counter`;
 
     const updateAndFetchViews = async () => {
       try {
-        // ยิงเพื่อนับ +1 ก่อน แต่เราไม่สนใจค่าที่มันตอบกลับมา
+        // ยิงเพื่อนับ +1 ก่อน
         await fetch(`${SITE_COUNTER_URL}/increment`, { method: 'PUT' });
 
-        // จากนั้นยิงเพื่อขอยอดวิวล่าสุดมาแสดงผล
+        // จากนั้นยิงเพื่อขอยอดวิวล่าสุด
         const response = await fetch(SITE_COUNTER_URL);
+        if (!response.ok) {
+           throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
 
-              // ลองหาค่า views จากโครงสร้างปกติก่อน
-      let views = data?.data?.attributes?.views;
+        // --- ส่วนที่แก้ไข ---
+        // ลองหาค่า views จากโครงสร้างปกติของ collection type ก่อน
+        let views = data?.data?.attributes?.views;
 
-      // ถ้าหาไม่เจอ (เป็น Single Type) ให้ลองหาจากโครงสร้างอีกแบบ
-      if (typeof views === 'undefined') {
-        views = data?.attributes?.views;
-      }
+        // ถ้าหาไม่เจอ (อาจจะเป็นโครงสร้างของ single type) ให้ลองหาจากอีกแบบ
+        if (typeof views === 'undefined') {
+          views = data?.attributes?.views;
+        }
 
-      // ถ้าเจอค่า views (ไม่ว่าจากทางไหน) ให้นำไปแสดงผล
-      if (typeof views !== 'undefined' && views !== null) {
-        setViewCount(views.toLocaleString());
-      } else {
-        // ถ้ายังหาไม่เจออีก ให้แสดงเป็น N/A
-        console.error("Could not find 'views' in the response data:", data);
-        setViewCount('N/A');
-      }
+        // ถ้าเจอค่า views (ไม่ว่าจากทางไหน) ให้นำไปแสดงผล
+        if (typeof views !== 'undefined' && views !== null) {
+          setViewCount(views.toLocaleString());
+        } else {
+          // ถ้ายังหาไม่เจออีก แสดงว่าโครงสร้างข้อมูลผิดปกติ
+          console.error("Could not find 'views' in the response data:", data);
+          setViewCount('N/A');
+        }
+        // --- สิ้นสุดส่วนที่แก้ไข ---
+
       } catch (err) {
         console.error("Failed to fetch view count:", err);
-        setViewCount('N/A'); // ถ้า error ให้แสดง N/A
+        setViewCount('N/A');
       }
     };
 
