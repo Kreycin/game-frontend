@@ -52,7 +52,6 @@ function App() {
   const [selectedStar, setSelectedStar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [viewCount, setViewCount] = useState('...');
 
   const handleExportAsImage = () => {
     if (!character) return;
@@ -115,38 +114,18 @@ function App() {
     };
     fetchCharacter();
   }, []);
-// useEffect สำหรับ Site Counter (เวอร์ชัน Cache Busting)
+  // useEffect ที่เหลือไว้สำหรับยิง API เพื่อนับวิว (เท่านั้น)
   useEffect(() => {
-    const SITE_COUNTER_URL = `${API_ENDPOINT}/api/site-counter`;
+    const INCREMENT_URL = `${API_ENDPOINT}/api/site-counter/increment`;
 
-    const updateAndFetchViews = async () => {
-      try {
-        await fetch(`${SITE_COUNTER_URL}/increment`, { method: 'PUT' });
+    // ยิง API ไปแล้วไม่ต้องรอผลลัพธ์ หรือจัดการ Error ใดๆ ในฝั่ง Client
+    // เราแค่ต้องการให้มันทำงานที่ฝั่ง Backend
+    fetch(INCREMENT_URL, { 
+      method: 'PUT',
+      keepalive: true // keepalive ช่วยให้ request ถูกส่งไปแม้ผู้ใช้จะปิดแท็บเร็ว
+    });
 
-        // --- ส่วนที่แก้ไข ---
-        const response = await fetch(`${SITE_COUNTER_URL}?timestamp=${new Date().getTime()}`);
-        
-        if (!response.ok) {
-           throw new Error(`Failed to fetch site counter: ${response.status}`);
-        }
-        const data = await response.json();
-
-        const views = data?.data?.views;
-
-        if (typeof views !== 'undefined' && views !== null) {
-          setViewCount(views.toLocaleString());
-        } else {
-          console.error("Could not find 'views' in the response data:", data);
-          setViewCount('N/A');
-        }
-      } catch (err) {
-        console.error("Failed to fetch view count:", err);
-        setViewCount('N/A');
-      }
-    };
-
-    updateAndFetchViews();
-  }, []);
+  }, []); // [] เพื่อให้ทำงานแค่ครั้งเดียวตอนเปิดหน้า
 
   if (loading) return <div className="loading-state">Loading character...</div>;
   if (error) return <div className="error-state">Error fetching data: {error.message}</div>;
@@ -271,9 +250,6 @@ function App() {
         <button onClick={handleExportAsImage} className="export-button">
           Export as PNG
         </button>
-        <div className="view-counter" style={{ color: 'white', marginTop: '10px' }}>
-          Views: {viewCount}
-        </div>
       </div>
     </div>
   );
