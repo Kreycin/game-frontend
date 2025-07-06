@@ -115,33 +115,27 @@ function App() {
     };
     fetchCharacter();
   }, []);
-// useEffect สำหรับ Site Counter (เวอร์ชันแก้ไขสมบูรณ์)
+// useEffect สำหรับ Site Counter (เวอร์ชัน Cache Busting)
   useEffect(() => {
-    // เราใช้ API_ENDPOINT ที่มีอยู่แล้วเพื่อให้สลับระหว่าง local กับ production ได้
     const SITE_COUNTER_URL = `${API_ENDPOINT}/api/site-counter`;
 
     const updateAndFetchViews = async () => {
       try {
-        // 1. ยิง API เพื่อเพิ่มยอดวิว (เราไม่สนใจ response ของอันนี้)
         await fetch(`${SITE_COUNTER_URL}/increment`, { method: 'PUT' });
 
-        // 2. ยิง API เพื่อขอยอดวิวล่าสุด
-        const response = await fetch(SITE_COUNTER_URL);
+        // --- ส่วนที่แก้ไข ---
+        const response = await fetch(`${SITE_COUNTER_URL}?timestamp=${new Date().getTime()}`);
+        
         if (!response.ok) {
-           // ถ้า response ไม่ใช่ 200 OK ให้โยน error ทันที
            throw new Error(`Failed to fetch site counter: ${response.status}`);
         }
         const data = await response.json();
 
-        // 3. (ส่วนที่แก้ไข) ดึงค่า views จากโครงสร้างที่ถูกต้อง
-        // จาก Log ที่คุณส่งมา เราพบว่า path ที่ถูกต้องคือ data.data.views
         const views = data?.data?.views;
 
-        // 4. ตรวจสอบว่าได้ค่า views มาจริง ๆ แล้วจึงนำไปแสดงผล
         if (typeof views !== 'undefined' && views !== null) {
           setViewCount(views.toLocaleString());
         } else {
-          // ถ้าโครงสร้างผิดปกติหรือไม่เจอ views ให้แจ้งเตือนใน console
           console.error("Could not find 'views' in the response data:", data);
           setViewCount('N/A');
         }
@@ -152,7 +146,7 @@ function App() {
     };
 
     updateAndFetchViews();
-  }, []); // [] เพื่อให้ useEffect นี้ทำงานแค่ครั้งเดียวตอนเปิดหน้าเว็บ
+  }, []);
 
   if (loading) return <div className="loading-state">Loading character...</div>;
   if (error) return <div className="error-state">Error fetching data: {error.message}</div>;
