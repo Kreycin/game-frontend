@@ -127,9 +127,22 @@ function App() {
         const response = await fetch(SITE_COUNTER_URL);
         const data = await response.json();
 
-        if (data.data.attributes.views) {
-          setViewCount(data.data.attributes.views.toLocaleString());
-        }
+              // ลองหาค่า views จากโครงสร้างปกติก่อน
+      let views = data?.data?.attributes?.views;
+
+      // ถ้าหาไม่เจอ (เป็น Single Type) ให้ลองหาจากโครงสร้างอีกแบบ
+      if (typeof views === 'undefined') {
+        views = data?.attributes?.views;
+      }
+
+      // ถ้าเจอค่า views (ไม่ว่าจากทางไหน) ให้นำไปแสดงผล
+      if (typeof views !== 'undefined' && views !== null) {
+        setViewCount(views.toLocaleString());
+      } else {
+        // ถ้ายังหาไม่เจออีก ให้แสดงเป็น N/A
+        console.error("Could not find 'views' in the response data:", data);
+        setViewCount('N/A');
+      }
       } catch (err) {
         console.error("Failed to fetch view count:", err);
         setViewCount('N/A'); // ถ้า error ให้แสดง N/A
