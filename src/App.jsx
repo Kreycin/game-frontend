@@ -40,7 +40,7 @@ const getYouTubeEmbedUrl = (url) => {
 };
 
 function App() {
-  const targetCountdownDate = '2025-07-11T11:00:00+07:00';
+  const targetCountdownDate = '2025-07-18T11:00:00+07:00';
   
   const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
 
