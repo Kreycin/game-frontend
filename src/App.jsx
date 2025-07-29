@@ -160,7 +160,7 @@ function App() {
         targetDate={targetCountdownDate} 
         prefixText={
           <>
-            The World Serpent event will begin (Chaina) in :
+            The World Serpent event will begin (China) in :
             <br />
           </>
         }
