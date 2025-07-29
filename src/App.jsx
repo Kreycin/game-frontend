@@ -92,20 +92,31 @@ function App() {
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        const response = await axios.get(`${STRAPI_API_URL}?timestamp=${new Date().getTime()}`);
-        const responseData = response.data.data;
-        const charData = responseData && responseData.length > 0
-            ? { id: responseData[0].id, ...responseData[0].attributes }
-            : null;
-        
-        if (charData) {
-           const sortedStarLevels = [...charData.Star_Levels].sort((a, b) => getStarLevelNumber(b.Star_Level) - getStarLevelNumber(a.Star_Level));
-           charData.Star_Levels = sortedStarLevels;
-           setCharacter(charData);
-           if (sortedStarLevels.length > 0) {
-             setSelectedStar(sortedStarLevels[0].Star_Level);
-           }
+      // 1. ดึงข้อมูลตัวละครทั้งหมด (เหมือนเดิม)
+      const response = await axios.get(`${STRAPI_API_URL}?timestamp=${new Date().getTime()}`);
+      const allCharacters = response.data.data; // นี่คือรายการตัวละครทั้งหมด
+
+      // 2. --- นี่คือส่วนที่แก้ไขใหม่ทั้งหมด ---
+      // ตรวจสอบว่ามีข้อมูลส่งกลับมาหรือไม่
+      if (allCharacters && allCharacters.length > 0) {
+
+        // 3. จัดเรียงข้อมูลในฝั่ง Frontend เพื่อหาตัวที่อัปเดตล่าสุด
+        // โดยแปลงเวลา (updatedAt) เป็น Date object เพื่อเปรียบเทียบ
+        const latestCharData = allCharacters.sort((a, b) => {
+          return new Date(b.attributes.updatedAt) - new Date(a.attributes.updatedAt);
+        })[0]; // เลือกตัวแรกสุดหลังจากการจัดเรียง
+
+        // 4. นำข้อมูลของตัวละครล่าสุดไปใช้งาน
+        const charToDisplay = { id: latestCharData.id, ...latestCharData.attributes };
+
+        // 5. ตั้งค่า State เพื่อแสดงผล (เหมือนเดิม)
+        const sortedStarLevels = [...charToDisplay.Star_Levels].sort((a, b) => getStarLevelNumber(b.Star_Level) - getStarLevelNumber(a.Star_Level));
+        charToDisplay.Star_Levels = sortedStarLevels;
+        setCharacter(charToDisplay);
+        if (sortedStarLevels.length > 0) {
+          setSelectedStar(sortedStarLevels[0].Star_Level);
         }
+      }
       } catch (err) {
         setError(err);
       } finally {
