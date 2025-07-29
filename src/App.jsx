@@ -92,7 +92,7 @@ function App() {
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-        const response = await axios.get(STRAPI_API_URL);
+        const response = await axios.get(`${STRAPI_API_URL}?timestamp=${new Date().getTime()}`);
         const responseData = response.data.data;
         const charData = responseData && responseData.length > 0
             ? { id: responseData[0].id, ...responseData[0].attributes }
