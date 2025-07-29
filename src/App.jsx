@@ -40,7 +40,7 @@ const getYouTubeEmbedUrl = (url) => {
 };
 
 function App() {
-  const targetCountdownDate = '2025-07-18T11:00:00+07:00';
+  const targetCountdownDate = '2025-07-31T11:00:00+07:00';
   
   const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
 
@@ -160,7 +160,7 @@ function App() {
         targetDate={targetCountdownDate} 
         prefixText={
           <>
-            Inosuke UR will be available on Global servers in:
+            The World Serpent event will begin in:
             <br />
           </>
         }
