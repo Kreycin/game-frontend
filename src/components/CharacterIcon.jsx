@@ -2,21 +2,19 @@
 
 import React from 'react';
 
+const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
+
 const CharacterIcon = ({ characterData }) => {
-  // ตรวจสอบข้อมูลเพื่อป้องกัน error
   if (!characterData || !characterData.tier_list_character) {
     return null;
   }
 
-  // --- นี่คือส่วนที่แก้ไขให้ตรงกับข้อมูลจริง ---
   const character = characterData.tier_list_character;
   const expertBonus = characterData.expert_bonus;
 
-  // เราจะดึง URL มาจาก character.icon.url โดยตรง
   const imageUrl = character.icon?.url 
     ? character.icon.url 
-    : 'https://via.placeholder.com/80'; // รูปสำรอง
-  // ------------------------------------------
+    : 'https://via.placeholder.com/80';
 
   return (
     <div className="character-icon-container">
@@ -26,6 +24,13 @@ const CharacterIcon = ({ characterData }) => {
           alt={character.name} 
           className="character-icon-image"
         />
+        {/* --- เพิ่ม: แสดง Description (AOE) บนรูป --- */}
+        {character.description && (
+          <div className="character-desc-overlay">
+            {character.description}
+          </div>
+        )}
+
         {expertBonus > 0 && (
           <div className="expert-tag">
             +{expertBonus}
@@ -33,7 +38,7 @@ const CharacterIcon = ({ characterData }) => {
         )}
       </div>
       <div className="character-icon-name">{character.name}</div>
-      <div className="character-icon-desc">{character.description}</div>
+      {/* เราซ่อน description เดิมด้วย CSS ไปแล้ว */}
     </div>
   );
 };

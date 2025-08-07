@@ -2,22 +2,20 @@
 
 .tier-list-container {
     width: 100%;
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 2rem; /* --- แก้ไข: เพิ่ม Padding ให้โปร่งขึ้น --- */
-    background-color: rgba(26, 26, 26, 0.7);
+    max-width: 1200px; /* --- แก้ไข: ลดความกว้างสูงสุดเพื่อให้กระชับขึ้น --- */
+    margin: 1rem auto; /* --- แก้ไข: ลดระยะห่างบน-ล่าง --- */
+    padding: 1.5rem;   /* --- แก้ไข: ลด Padding --- */
+    background-color: rgba(26, 26, 26, 0.85); /* --- แก้ไข: เพิ่มความทึบ --- */
     border-radius: 8px;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(8px);
 }
 
 .tier-row {
-    margin-bottom: 2.5rem;
-    /* --- เพิ่ม: เพิ่มเส้นแบ่งระหว่างแต่ละ Tier --- */
-    padding-bottom: 2.5rem;
+    margin-bottom: 1.5rem;  /* --- แก้ไข: ลดระยะห่างระหว่าง Tier --- */
+    padding-bottom: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
     border-bottom: 1px solid #3a3a3a;
 }
 
-/* --- เพิ่ม: ทำให้ Tier สุดท้ายไม่มีเส้นขีดล่าง --- */
 .tier-row:last-child {
     border-bottom: none;
     margin-bottom: 0;
@@ -27,21 +25,21 @@
 .tier-row-header {
     display: flex;
     align-items: baseline;
-    gap: 1.5rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
+    gap: 1rem; /* --- แก้ไข: ลดระยะห่าง --- */
     border-bottom: 2px solid #444;
-    padding-bottom: 1rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
-    margin-bottom: 2rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
+    padding-bottom: 0.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
+    margin-bottom: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
 }
 
 .tier-level {
-    font-size: 3rem; /* --- แก้ไข: เพิ่มขนาด --- */
+    font-size: 2rem; /* --- แก้ไข: ลดขนาด T0 --- */
     font-weight: 900;
     color: #ffc107;
     line-height: 1;
 }
 
 .tier-name {
-    font-size: 1.75rem; /* --- แก้ไข: เพิ่มขนาด --- */
+    font-size: 1.25rem; /* --- แก้ไข: ลดขนาด --- */
     font-weight: 500;
     color: #e0e0e0;
 }
@@ -49,30 +47,54 @@
 .tier-roles-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
 }
 
 @media (min-width: 768px) {
     .tier-roles-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 3rem; /* --- แก้ไข: เพิ่มระยะห่างระหว่างคอลัมน์ --- */
+        gap: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
     }
 }
 
+.role-section {
+  /* --- เพิ่ม: เพิ่มเส้นขีดแบ่งด้านขวา --- */
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+.role-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 1px;
+  background-color: rgba(68, 68, 68, 0.5); /* สีของเส้นแบ่ง */
+}
+
+/* --- เพิ่ม: เอาเส้นขีดของอันสุดท้ายออก --- */
+.role-section:last-child {
+    padding-right: 0;
+}
+.role-section:last-child::after {
+    display: none;
+}
+
 .role-section h3 {
-    font-size: 1.25rem; /* --- แก้ไข: เพิ่มขนาด --- */
+    font-size: 1.1rem; /* --- แก้ไข: ลดขนาด --- */
     font-weight: 700;
     color: #f0f0f0;
-    margin-bottom: 1.5rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
-    padding-bottom: 0.75rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
+    margin-bottom: 1rem; /* --- แก้ไข: ลดระยะห่าง --- */
+    padding-bottom: 0.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
     border-bottom: 1px solid #3a3a3a;
     text-transform: uppercase;
 }
 
 .characters-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); /* --- แก้ไข: เพิ่มขนาดไอคอนขั้นต่ำ --- */
-    gap: 1.5rem 2rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* --- แก้ไข: ลดขนาดไอคอนขั้นต่ำ --- */
+    gap: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
     align-items: start;
 }
 
@@ -89,8 +111,8 @@
 }
 
 .character-icon-image {
-    width: 90px;   /* --- แก้ไข: เพิ่มขนาดรูป --- */
-    height: 90px;  /* --- แก้ไข: เพิ่มขนาดรูป --- */
+    width: 80px;   /* --- แก้ไข: ลดขนาดรูปกลับ --- */
+    height: 80px;  /* --- แก้ไข: ลดขนาดรูปกลับ --- */
     object-fit: cover;
     border-radius: 8px;
     border: 2px solid #555;
@@ -109,22 +131,33 @@
     right: -8px;
     background-color: #ff4757;
     color: white;
-    font-size: 0.8rem; /* --- แก้ไข: เพิ่มขนาด --- */
+    font-size: 0.75rem;
     font-weight: bold;
     padding: 0.2rem 0.5rem;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-.character-icon-name {
-    font-size: 0.9rem; /* --- แก้ไข: เพิ่มขนาด --- */
-    font-weight: 500;
-    margin-top: 0.75rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
-    color: #ddd;
+/* --- เพิ่ม: สไตล์ของ Description (AOE) บนรูป --- */
+.character-desc-overlay {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 3px;
 }
 
+.character-icon-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 0.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
+    color: #ddd;
+}
+/* --- ซ่อน Description เดิมที่อยู่ข้างล่าง --- */
 .character-icon-desc {
-    font-size: 0.8rem; /* --- แก้ไข: เพิ่มขนาด --- */
-    color: #999;
-    margin-top: 0.2rem;
+    display: none;
 }
