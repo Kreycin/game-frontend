@@ -4,14 +4,22 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.css';
 
-// รายการของลิงก์ทั้งหมด
+// --- เราจะแก้ไขรายการลิงก์ทั้งหมดที่นี่ ---
 const navLinks = [
+  // ลำดับที่ 1: หน้าหลัก (เหมือนเดิม)
   { to: "/", text: "New character leaks" },
-  { to: "/zenith-duel", text: "Zenith duel (CN)" },
+
+  // ลำดับที่ 2: Tier List (ย้ายขึ้นมา)
+  { to: "/tier-list", text: "Tier List" },
+
+  // ลำดับที่ 3: Game Guide (เหมือนเดิม)
   { to: "/game-guide", text: "Game guide" },
-  { to: "/community", text: "Community" },
-  { to: "/download-game", text: "Download game" },
-  { to: "/about-us", text: "About us" },
+
+  // --- ลิงก์ที่เหลือเราจะลบออกไปก่อน ---
+  // { to: "/zenith-duel", text: "Zenith duel (CN)" },
+  // { to: "/community", text: "Community" },
+  // { to: "/download-game", text: "Download game" },
+  // { to: "/about-us", text: "About us" },
 ];
 
 const Navbar = () => {
@@ -22,7 +30,6 @@ const Navbar = () => {
           <NavLink 
             key={link.to} 
             to={link.to}
-            // ใช้ function เพื่อเช็คว่าลิงก์นี้ active อยู่หรือไม่
             className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
           >
             {link.text}

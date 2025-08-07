@@ -4,6 +4,10 @@ import './GameGuide.css'; // เราจะสร้าง/แก้ไขไ�
 
 function GameGuide() {
   useEffect(() => {
+    // สร้างตัวแปรว่างๆ ไว้รอเก็บ instance ของกราฟ
+    let defChartInstance = null;
+    let critChartInstance = null;
+
     // โค้ด JavaScript สำหรับสร้าง Chart
     const tooltipCallback = {
         plugins: {
@@ -33,7 +37,9 @@ function GameGuide() {
         defData.push(reductionPercent);
         defLabels.push(def);
     }
-    new Chart(defCtx, {
+
+    // สร้างกราฟ DEF และเก็บ instance ไว้ในตัวแปร
+    defChartInstance = new Chart(defCtx, {
         type: 'line',
         data: {
             labels: defLabels,
@@ -57,8 +63,11 @@ function GameGuide() {
             }
         }
     });
+
     const critCtx = document.getElementById('critChart').getContext('2d');
-    new Chart(critCtx, {
+    
+    // สร้างกราฟ Crit และเก็บ instance ไว้ในตัวแปร
+    critChartInstance = new Chart(critCtx, {
         type: 'bar',
         data: {
             labels: ['Attacker Crit Rate', 'Target Crit Res', 'Effective Crit Rate'],
@@ -79,11 +88,21 @@ function GameGuide() {
             plugins: { ...tooltipCallback.plugins, legend: { display: false } }
         }
     });
-  }, []);
+
+    // นี่คือ Cleanup Function ที่จะทำงานก่อน Effect ครั้งถัดไป
+    return () => {
+      if (defChartInstance) {
+        defChartInstance.destroy();
+      }
+      if (critChartInstance) {
+        critChartInstance.destroy();
+      }
+    };
+  }, []); // Dependency array เป็น [] เพื่อให้ทำงานแค่ครั้งเดียวตอน mount
 
   return (
+    // ส่วน JSX ทั้งหมดนี้เหมือนเดิมเป๊ะๆ ครับ
     <div className="body-text container mx-auto p-6 md:p-12">
-        {/* ... เนื้อหา Infographic ทั้งหมด ... */}
         <header className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-extrabold title-text">The Grand Grimoire of Calculations</h1>
             <p className="mt-4 text-lg md:text-xl header-text">A Summary of All Decoded Formulas and Mechanics in the Game</p>

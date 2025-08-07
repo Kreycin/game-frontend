@@ -6,14 +6,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Layout from './components/Layout.jsx';
 import App from './App.jsx';
-// 1. Import หน้า ComingSoonPage เข้ามา
 import ComingSoonPage from './pages/ComingSoonPage.jsx';
 import GameGuide from './pages/GameGuide';
 
-// (ตอนนี้เราไม่จำเป็นต้อง import หน้าเปล่าๆ อื่นๆ แล้ว)
-// import NewPage from './pages/NewPage.jsx';
-// import GameGuide from './pages/GameGuide.jsx';
-// ...
+// --- 1. Import หน้า TierListPage ที่เราเพิ่งสร้างเข้ามา ---
+import TierListPage from './pages/TierListPage.jsx';
 
 import './App.css';
 
@@ -24,9 +21,14 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <App />, // หน้าหลัก (New character leaks)
+        element: <App />,
       },
-      // 2. ให้ทุกหน้าที่ยังไม่มีเนื้อหา แสดงผลเป็น ComingSoonPage ทั้งหมด
+      // --- 2. เพิ่ม Object ใหม่สำหรับ Route ของ Tier List ---
+      {
+        path: "tier-list", // นี่คือ URL ที่จะใช้ เช่น your-website.com/tier-list
+        element: <TierListPage />,
+      },
+      // ---------------------------------------------------
       {
         path: "zenith-duel",
         element: <ComingSoonPage />,
