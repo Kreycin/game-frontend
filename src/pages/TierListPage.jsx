@@ -110,7 +110,7 @@ const TierListPage = () => {
                         className={`star-button ${selectedMode === mode ? 'active' : ''}`}
                         onClick={() => setSelectedMode(mode)}
                     >
-                        {mode.replace('mode ', '').toUpperCase()}
+                        {mode.replace(/mode /i, '').toUpperCase()}
                     </button>
                 ))}
             </div>
