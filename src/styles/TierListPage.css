@@ -1,183 +1,97 @@
 /* src/styles/TierListPage.css */
 
-.tier-list-container {
-    width: 100%;
-    max-width: 1200px; /* --- แก้ไข: ลดความกว้างสูงสุดเพื่อให้กระชับขึ้น --- */
-    margin: 1rem auto; /* --- แก้ไข: ลดระยะห่างบน-ล่าง --- */
-    padding: 1.5rem;   /* --- แก้ไข: ลด Padding --- */
-    background-color: rgba(26, 26, 26, 0.85); /* --- แก้ไข: เพิ่มความทึบ --- */
+.tier-table-wrapper {
+    background-color: #242424;
     border-radius: 8px;
-    backdrop-filter: blur(8px);
+    overflow: hidden;
+    margin-top: 2rem;
+    border: 1px solid #333;
 }
 
-.tier-row {
-    margin-bottom: 1.5rem;  /* --- แก้ไข: ลดระยะห่างระหว่าง Tier --- */
-    padding-bottom: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
-    border-bottom: 1px solid #3a3a3a;
+.tier-table-header {
+    display: grid;
+    grid-template-columns: 150px 1fr 1fr 1fr;
+    background-color: #1a1a1a;
 }
 
-.tier-row:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
+.role-header {
+    text-align: center;
+    padding: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
 }
 
-.tier-row-header {
+.role-header.dps { color: #e82934; }
+.role-header.support { color: #f2cc8b; }
+.role-header.def { color: #a2cc56; }
+
+/* --- สไตล์ใหม่สำหรับหัวข้อกลุ่ม (APEX, META) --- */
+.tier-group-header {
     display: flex;
-    align-items: baseline;
-    gap: 1rem; /* --- แก้ไข: ลดระยะห่าง --- */
-    border-bottom: 2px solid #444;
-    padding-bottom: 0.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
-    margin-bottom: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    border-top-width: 2px;
+    border-top-style: solid;
+    font-weight: bold;
+    color: #ccc;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
 }
 
-.tier-level {
-    font-size: 2rem; /* --- แก้ไข: ลดขนาด T0 --- */
-    font-weight: 900;
-    color: #ffc107;
-    line-height: 1;
+.tier-row-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr 1fr 1fr;
+    border-top: 1px solid #333;
 }
 
-.tier-name {
-    font-size: 1.25rem; /* --- แก้ไข: ลดขนาด --- */
-    font-weight: 500;
+.tier-group .tier-row-grid:first-child {
+    border-top: none;
+}
+
+.tier-header-cell {
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-weight: bold;
+    padding-left: 1.5rem; /* เพิ่ม padding เพื่อให้มีที่สำหรับแถบสี */
+}
+
+.tier-color-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10px;
+    height: 100%;
+}
+
+.tier-level-text {
+    font-size: 1.2rem;
     color: #e0e0e0;
 }
 
-.tier-roles-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
-}
-
-@media (min-width: 768px) {
-    .tier-roles-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
-    }
-}
-
-.role-section {
-  /* --- เพิ่ม: เพิ่มเส้นขีดแบ่งด้านขวา --- */
-  position: relative;
-  padding-right: 1.5rem;
-}
-
-.role-section::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 1px;
-  background-color: rgba(68, 68, 68, 0.5); /* สีของเส้นแบ่ง */
-}
-
-/* --- เพิ่ม: เอาเส้นขีดของอันสุดท้ายออก --- */
-.role-section:last-child {
-    padding-right: 0;
-}
-.role-section:last-child::after {
-    display: none;
-}
-
-.role-section h3 {
-    font-size: 1.1rem; /* --- แก้ไข: ลดขนาด --- */
-    font-weight: 700;
-    color: #f0f0f0;
-    margin-bottom: 1rem; /* --- แก้ไข: ลดระยะห่าง --- */
-    padding-bottom: 0.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
-    border-bottom: 1px solid #3a3a3a;
-    text-transform: uppercase;
+.character-cell {
+    padding: 1rem;
+    min-height: 120px;
+    border-left: 1px solid #333;
 }
 
 .characters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* --- แก้ไข: ลดขนาดไอคอนขั้นต่ำ --- */
-    gap: 1.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
-    align-items: start;
-}
-
-/* === Character Icon Component === */
-.character-icon-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-start;
 }
 
-.character-image-wrapper {
-    position: relative;
-}
-
-.character-icon-image {
-    width: 80px;   /* --- แก้ไข: ลดขนาดรูปกลับ --- */
-    height: 80px;  /* --- แก้ไข: ลดขนาดรูปกลับ --- */
-    object-fit: cover;
-    border-radius: 8px;
-    border: 2px solid #555;
-    background-color: #2a2a2a;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.character-icon-container:hover .character-icon-image {
-    transform: scale(1.1);
-    border-color: #ffc107;
-}
-
-.expert-tag {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background-color: #ff4757;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: bold;
-    padding: 0.2rem 0.5rem;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-/* --- เพิ่ม: สไตล์ของ Description (AOE) บนรูป --- */
-.character-desc-overlay {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius: 3px;
-}
-
-.character-icon-name {
-    font-size: 0.85rem;
-    font-weight: 500;
-    margin-top: 0.5rem; /* --- แก้ไข: ลดระยะห่าง --- */
-    color: #ddd;
-}
-/* --- ซ่อน Description เดิมที่อยู่ข้างล่าง --- */
-.character-icon-desc {
-    display: none;
-}
-/* --- เพิ่ม: สไตล์ของ Condition (H+) บนรูป --- */
-.character-condition-overlay {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    background-color: rgba(255, 193, 7, 0.8); /* สีเหลืองทอง */
-    color: #000;
-    font-size: 0.7rem;
-    font-weight: bold;
-    padding: 2px 5px;
-    border-radius: 3px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-}
-/* --- เพิ่ม: ทำให้ Tooltip แสดงขึ้นมาเมื่อโฮเวอร์ --- */
-.character-image-wrapper.hovering .tooltip-container {
-    opacity: 1;
-    visibility: visible;
-    bottom: 115%; /* ทำให้มันลอยขึ้นไปอีกเล็กน้อยตอนแสดงผล */
-    pointer-events: auto; /* ทำให้คลิกหรือเลือกข้อความใน tooltip ได้ */
-}
+/* === Character Icon Component Styles (เหมือนเดิม) === */
+.character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.character-image-wrapper { position: relative; }
+.character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
+.character-icon-image { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #555; background-color: #2a2a2a; transition: transform 0.2s ease, border-color 0.2s ease; }
+.character-icon-container:hover .character-icon-image { transform: scale(1.1); border-color: #ffc107; }
+.expert-tag { position: absolute; top: -8px; right: -8px; background-color: #ff4757; color: white; font-size: 0.75rem; font-weight: bold; padding: 0.2rem 0.5rem; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
+.character-icon-name { font-size: 0.85rem; font-weight: 500; margin-top: 0.5rem; color: #ddd; }
+.character-condition-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(255, 193, 7, 0.8); color: #000; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
