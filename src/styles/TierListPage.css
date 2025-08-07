@@ -59,8 +59,9 @@
 }
 
 .tier-level-text {
-    font-size: 1.2rem;
-    /* --- เพิ่ม: ขอบตัวอักษรสีดำ --- */
+    font-size: 1.56rem; /* --- เพิ่มขนาด 1.3 เท่า (1.2 * 1.3) --- */
+    color: #ffffff;      /* --- เปลี่ยนสีตัวอักษรเป็นสีขาว --- */
+    /* --- ขอบตัวอักษรสีดำ (เหมือนเดิม) --- */
     text-shadow: 
         -1px -1px 0 #000,  
          1px -1px 0 #000,
@@ -69,7 +70,7 @@
 }
 
 .character-cell {
-    padding: 1.5rem;
+    padding: 0;
     min-height: 140px;
     border-left: 1px solid #333;
 }
