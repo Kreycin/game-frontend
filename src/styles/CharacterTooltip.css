@@ -1,73 +1,52 @@
-/* src/styles/TierListPage.css */
+/* src/styles/CharacterTooltip.css */
 
-.tier-table-wrapper {
-    background-color: #242424;
+.tooltip-container {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    padding: 1rem;
     border-radius: 8px;
-    overflow: hidden;
-    margin-top: 1.5rem;
-    border: 1px solid #333;
+    border: 1px solid #444;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease, bottom 0.2s ease;
+    pointer-events: none;
 }
 
-.tier-table-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* 3 คอลัมน์เท่ากัน */
-    background-color: #1a1a1a;
+.tooltip-section {
+    margin-bottom: 0.75rem;
+}
+.tooltip-section:last-child {
+    margin-bottom: 0;
 }
 
-.role-header {
-    text-align: center;
-    padding: 0.75rem; /* ลด padding */
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.9rem; /* ลดขนาด font */
-}
-
-.role-header.dps { color: #e82934; }
-.role-header.support { color: #f2cc8b; }
-.role-header.def { color: #a2cc56; }
-
-.tier-group-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-    border-top-width: 2px;
-    border-top-style: solid;
-    font-weight: bold;
-    text-transform: uppercase;
+.tooltip-section h4 {
     font-size: 0.9rem;
-    letter-spacing: 1px;
-}
-
-/* ส่วนแสดงตัวละครของทั้งกลุ่ม */
-.tier-group-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* 3 คอลัมน์เท่ากัน */
-}
-
-.character-cell {
-    padding: 0.5rem; /* ลด padding ให้ชิดกัน */
-    min-height: auto; /* เอาความสูงขั้นต่ำออก */
-    border-left: 1px solid #333;
-}
-.character-cell:first-child {
-    border-left: none;
-}
-
-.characters-grid {
+    font-weight: bold;
+    color: #ffc107;
+    margin: 0 0 0.25rem 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem; /* ลดระยะห่างระหว่างตัวละคร */
-    align-items: flex-start;
+    align-items: center;
 }
 
-/* === Character Icon Component Styles === */
-.character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.character-image-wrapper { position: relative; }
-.character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 105%; pointer-events: auto; }
-.character-icon-image { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #555; background-color: #2a2a2a; transition: transform 0.2s ease, border-color 0.2s ease; }
-.character-icon-container:hover .character-icon-image { transform: scale(1.05); border-color: #ffc107; }
-.expert-tag { position: absolute; top: -5px; right: -5px; background-color: #ff4757; color: white; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
-.character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.7); color: #fff; font-size: 0.65rem; font-weight: bold; padding: 2px 4px; border-radius: 3px; }
-.character-icon-name { display: none; } /* ซ่อนชื่อตัวละคร */
-.character-condition-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(255, 193, 7, 0.85); color: #000; font-size: 0.65rem; font-weight: bold; padding: 2px 4px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.tooltip-section h4 .condition-tag {
+    font-size: 0.8rem;
+    color: #1e1e1e;
+    background-color: #ffc107;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+.tooltip-section p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-wrap;
+}

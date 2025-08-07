@@ -72,27 +72,33 @@
 }
 
 .character-cell {
-    padding: 1.5rem; /* --- เพิ่ม padding รองรับรูปใหญ่ --- */
-    min-height: 140px; /* --- เพิ่มความสูงขั้นต่ำ --- */
+    padding: 1.5rem;
+    min-height: 140px;
     border-left: 1px solid #333;
 }
 
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem; /* --- เพิ่มระยะห่างระหว่างตัวละคร --- */
+    gap: 2rem;
     align-items: flex-start;
 }
 
 /* === Character Icon Component Styles === */
 .character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .character-image-wrapper { position: relative; }
-.character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
 
-/* --- นี่คือจุดที่เราเพิ่มขนาดรูปภาพ --- */
+/* --- ทำให้ Tooltip แสดงขึ้นมาเมื่อโฮเวอร์ --- */
+.character-image-wrapper.hovering .tooltip-container {
+    opacity: 1;
+    visibility: visible;
+    bottom: 115%;
+    pointer-events: auto;
+}
+
 .character-icon-image { 
-    width: 100px;  /* ขนาดรูปใหม่ */
-    height: 100px; /* ขนาดรูปใหม่ */
+    width: 100px;
+    height: 100px;
     object-fit: cover; 
     border-radius: 8px; 
     border: 2px solid #555; 

@@ -1,7 +1,8 @@
 // src/components/CharacterTooltip.jsx
 
 import React from 'react';
-import '../styles/CharacterTooltip.css'; // <-- ตรวจสอบว่ามีการ import บรรทัดนี้
+// --- บรรทัดที่สำคัญที่สุดคือบรรทัดนี้ ---
+import '../styles/CharacterTooltip.css';
 
 const CharacterTooltip = ({ character }) => {
   if (!character) {
