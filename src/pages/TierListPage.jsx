@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import html2canvas from 'html2canvas'; // --- 1. Import html2canvas เข้ามา ---
+import html2canvas from 'html2canvas';
 import CharacterIcon from '../components/CharacterIcon';
 import '../styles/TierListPage.css';
 
@@ -38,7 +38,6 @@ const TierListDisplay = ({ list }) => {
     }, {});
 
     return (
-        // --- 2. เพิ่ม id="tier-list-table" ให้กับ container หลัก ---
         <div id="tier-list-table" className="tier-table-wrapper">
             <header className="tier-table-header">
                 <div />
@@ -95,14 +94,19 @@ const TierListPage = () => {
     const [error, setError] = useState(null);
     const [selectedMode, setSelectedMode] = useState(null);
 
-    // --- 3. เพิ่มฟังก์ชันสำหรับ Export รูปภาพ ---
+    // --- นี่คือฟังก์ชัน Export รูปภาพที่อัปเกรดแล้ว ---
     const handleExportAsPng = () => {
         const elementToCapture = document.getElementById('tier-list-table');
         if (elementToCapture) {
             html2canvas(elementToCapture, {
-                backgroundColor: '#1a1a1a', // สีพื้นหลังของรูปที่ Export
-                useCORS: true, // จำเป็นเพื่อให้โหลดรูปจาก Cloudinary ได้
-                scale: 2,      // เพิ่มความละเอียดของรูปเป็น 2 เท่า
+                allowTaint: true, // อนุญาตให้โหลดรูปจากเว็บอื่น
+                useCORS: true,    // ใช้ CORS เพื่อโหลดรูป
+                scale: 2,         // เพิ่มความละเอียด
+                // --- เพิ่มการตั้งค่าเหล่านี้เพื่อแก้ปัญหาการตัดขอบ ---
+                width: elementToCapture.scrollWidth,
+                height: elementToCapture.scrollHeight,
+                windowWidth: elementToCapture.scrollWidth,
+                windowHeight: elementToCapture.scrollHeight,
             }).then(canvas => {
                 const link = document.createElement('a');
                 const activeList = tierLists.find(list => list.attributes.game_mode === selectedMode);
@@ -160,7 +164,6 @@ const TierListPage = () => {
                 <div style={{ textAlign: 'center', marginTop: '2rem' }}>No Tier Lists have been created yet.</div>
             )}
 
-            {/* --- 4. เพิ่มปุ่ม Export เข้ามาที่นี่ --- */}
             <div className="export-container">
                 <button onClick={handleExportAsPng} className="export-button">
                     Export as PNG
