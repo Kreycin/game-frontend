@@ -4,22 +4,22 @@
     background-color: #242424;
     border-radius: 8px;
     overflow: hidden;
-    margin-top: 1.5rem;
+    margin-top: 2rem;
     border: 1px solid #333;
 }
 
 .tier-table-header {
     display: grid;
-    grid-template-columns: 100px 1fr 1fr 1fr;
+    grid-template-columns: 150px 1fr 1fr 1fr;
     background-color: #1a1a1a;
 }
 
 .role-header {
     text-align: center;
-    padding: 0.75rem;
+    padding: 1rem;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .role-header.dps { color: #e82934; }
@@ -41,7 +41,7 @@
 
 .tier-row-grid {
     display: grid;
-    grid-template-columns: 100px 1fr 1fr 1fr;
+    grid-template-columns: 150px 1fr 1fr 1fr;
     border-top: 1px solid #333;
 }
 
@@ -51,54 +51,43 @@
 
 .tier-header-cell {
     display: flex;
+    justify-content: center;
     align-items: center;
     position: relative;
     font-weight: bold;
-    padding-left: 1.5rem;
-}
-
-.tier-color-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 10px;
-    height: 100%;
+    color: #1a1a1a;
 }
 
 .tier-level-text {
     font-size: 1.2rem;
-    color: #e0e0e0;
+    /* --- เพิ่ม: ขอบตัวอักษรสีดำ --- */
+    text-shadow: 
+        -1px -1px 0 #000,  
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
 }
 
 .character-cell {
-    padding: 0.1rem 0.5rem 0 0;
-    min-height: 120px;
+    padding: 1.5rem;
+    min-height: 140px;
     border-left: 1px solid #333;
 }
 
-/* --- ส่วนแก้ไข: ทำให้รูปชิดกัน --- */
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 0; /* เอาระยะห่างออก */
+    gap: 2rem;
     align-items: flex-start;
 }
 
 /* === Character Icon Component Styles === */
 .character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .character-image-wrapper { position: relative; }
-.character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 105%; pointer-events: auto; }
-.character-icon-image { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #555; background-color: #2a2a2a; transition: transform 0.2s ease; display: block; }
-.character-icon-container:hover .character-icon-image { transform: scale(1.05); }
-
-.expert-icon { 
-    position: absolute; 
-    bottom: 2px; 
-    left: 2px;
-    width: 20px;
-    height: 20px;
-}
-
-.character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.7); color: #fff; font-size: 0.65rem; font-weight: bold; padding: 2px 4px; border-radius: 3px; }
+.character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
+.character-icon-image { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #555; background-color: #2a2a2a; transition: transform 0.2s ease, border-color 0.2s ease; }
+.character-icon-container:hover .character-icon-image { transform: scale(1.1); border-color: #ffc107; }
+.expert-icon { position: absolute; bottom: 2px; left: 2px; width: 20px; height: 20px; }
+.character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
 .character-icon-name { display: none; }
-.character-condition-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(255, 193, 7, 0.85); color: #000; font-size: 0.65rem; font-weight: bold; padding: 2px 4px; border-radius: 3px; }
+.character-condition-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(255, 193, 7, 0.8); color: #000; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }

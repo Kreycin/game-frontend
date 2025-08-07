@@ -19,10 +19,15 @@ const TierListDisplay = ({ list }) => {
     };
     const tierColorMapping = {
         'T0': '#e82934', 'T0.5': '#fa4550', 'T1': '#d69b56', 'T1.5': '#d69b56',
-        'T2': '#f2cc8b', 'T3': '#fffcae', 'T4': '#fff574', 'T5': '#a2d2ff'
+        'T2': '#f2cc8b', 'T3': '#fffcae', 'T4': '#fff574', 'T5': '#a2d2ff' // ใช้สีฟ้าสำหรับ T5
     };
-    const groupDividerColorMapping = {
-        'Apex': '#e82934', 'Meta': '#d69b56', 'Viable': '#f2cc8b', 'Niche': '#fffcae', 'Forgotten': '#a2d2ff'
+    // --- ส่วนแก้ไข: เพิ่ม Mapping สีสำหรับหัวข้อกลุ่มโดยเฉพาะ ---
+    const groupHeaderColorMapping = {
+        'Apex': '#e82934',      // สีเดียวกับ T0
+        'Meta': '#fa4550',      // สีเดียวกับ T0.5
+        'Viable': '#d69b56',    // สีเดียวกับ T1.5
+        'Niche': '#fffcae',     // สีเดียวกับ T3
+        'Forgotten': '#a2d2ff' // สีเดียวกับ T5
     };
 
     const sortedTiers = list.attributes.tiers.sort((a, b) => parseFloat(a.tier_level.replace('T', '')) - parseFloat(b.tier_level.replace('T', '')));
@@ -50,14 +55,16 @@ const TierListDisplay = ({ list }) => {
                     <div className="tier-group" key={groupName}>
                         <div 
                             className="tier-group-header" 
-                            style={{ borderTopColor: groupDividerColorMapping[groupName] }}
+                            style={{ 
+                                borderTopColor: groupHeaderColorMapping[groupName],
+                                color: groupHeaderColorMapping[groupName] // เปลี่ยนสีตัวอักษรตาม Mapping ใหม่
+                            }}
                         >
                             <span>✧ {groupName} CHARACTERS ✧</span>
                         </div>
 
                         {tiersInGroup.map((tier) => (
                             <div className="tier-row-grid" key={tier.id}>
-                                {/* --- ส่วนแก้ไข: เปลี่ยนมาใช้สีพื้นหลังแทน --- */}
                                 <div 
                                     className="tier-header-cell" 
                                     style={{ backgroundColor: tierColorMapping[tier.tier_level] }}
