@@ -42,14 +42,18 @@ const CharacterIcon = ({ characterData }) => {
           </div>
         )}
 
+        {/* --- แก้ไข: เปลี่ยนจาก Div เป็น Img --- */}
         {expertBonus > 0 && (
-          <div className="expert-tag">
-            +{expertBonus}
-          </div>
+          <img 
+            src="/expert-icon.png" 
+            alt="Expert Tag" 
+            className="expert-icon" 
+          />
         )}
 
         <CharacterTooltip character={character} />
       </div>
+      {/* ชื่อตัวละครถูกซ่อนด้วย CSS */}
       <div className="character-icon-name">{character.name}</div>
     </div>
   );
