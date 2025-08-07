@@ -10,7 +10,7 @@
 
 .tier-table-header {
     display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
+    grid-template-columns: 120px 1fr 1fr 1fr; /* --- แก้ไข: ลดขนาดคอลัมน์ซ้าย --- */
     background-color: #1a1a1a;
 }
 
@@ -26,7 +26,6 @@
 .role-header.support { color: #f2cc8b; }
 .role-header.def { color: #a2cc56; }
 
-/* --- สไตล์ใหม่สำหรับหัวข้อกลุ่ม (APEX, META) --- */
 .tier-group-header {
     display: flex;
     justify-content: center;
@@ -43,7 +42,7 @@
 
 .tier-row-grid {
     display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
+    grid-template-columns: 120px 1fr 1fr 1fr; /* --- แก้ไข: ลดขนาดคอลัมน์ซ้าย --- */
     border-top: 1px solid #333;
 }
 
@@ -53,10 +52,11 @@
 
 .tier-header-cell {
     display: flex;
+    justify-content: center; /* --- เพิ่ม: จัดให้อยู่กลาง --- */
     align-items: center;
     position: relative;
     font-weight: bold;
-    padding-left: 1.5rem; /* เพิ่ม padding เพื่อให้มีที่สำหรับแถบสี */
+    padding-left: 0; /* --- ลบ: เอา padding ซ้ายออก --- */
 }
 
 .tier-color-bar {
@@ -73,23 +73,33 @@
 }
 
 .character-cell {
-    padding: 1rem;
-    min-height: 120px;
+    padding: 1.5rem; /* --- แก้ไข: เพิ่ม padding เพื่อให้มีพื้นที่สำหรับรูปที่ใหญ่ขึ้น --- */
+    min-height: 140px; /* --- แก้ไข: เพิ่มความสูงขั้นต่ำ --- */
     border-left: 1px solid #333;
 }
 
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 2rem; /* --- แก้ไข: เพิ่มระยะห่างระหว่างตัวละคร --- */
     align-items: flex-start;
 }
 
-/* === Character Icon Component Styles (เหมือนเดิม) === */
+/* === Character Icon Component Styles === */
 .character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .character-image-wrapper { position: relative; }
 .character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
-.character-icon-image { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #555; background-color: #2a2a2a; transition: transform 0.2s ease, border-color 0.2s ease; }
+
+.character-icon-image { 
+    width: 100px;  /* --- แก้ไข: เพิ่มขนาดรูป --- */
+    height: 100px; /* --- แก้ไข: เพิ่มขนาดรูป --- */
+    object-fit: cover; 
+    border-radius: 8px; 
+    border: 2px solid #555; 
+    background-color: #2a2a2a; 
+    transition: transform 0.2s ease, border-color 0.2s ease; 
+}
+
 .character-icon-container:hover .character-icon-image { transform: scale(1.1); border-color: #ffc107; }
 .expert-tag { position: absolute; top: -8px; right: -8px; background-color: #ff4757; color: white; font-size: 0.75rem; font-weight: bold; padding: 0.2rem 0.5rem; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 .character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
