@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import html2canvas from 'html2canvas'; // --- 1. Import html2canvas เข้ามา ---
 import CharacterIcon from '../components/CharacterIcon';
 import '../styles/TierListPage.css';
 
@@ -19,15 +20,10 @@ const TierListDisplay = ({ list }) => {
     };
     const tierColorMapping = {
         'T0': '#e82934', 'T0.5': '#fa4550', 'T1': '#d69b56', 'T1.5': '#d69b56',
-        'T2': '#f2cc8b', 'T3': '#fffcae', 'T4': '#fff574', 'T5': '#a2d2ff' // ใช้สีฟ้าสำหรับ T5
+        'T2': '#f2cc8b', 'T3': '#fffcae', 'T4': '#fff574', 'T5': '#a2d2ff'
     };
-    // --- ส่วนแก้ไข: เพิ่ม Mapping สีสำหรับหัวข้อกลุ่มโดยเฉพาะ ---
-    const groupHeaderColorMapping = {
-        'Apex': '#e82934',      // สีเดียวกับ T0
-        'Meta': '#fa4550',      // สีเดียวกับ T0.5
-        'Viable': '#d69b56',    // สีเดียวกับ T1.5
-        'Niche': '#fffcae',     // สีเดียวกับ T3
-        'Forgotten': '#a2d2ff' // สีเดียวกับ T5
+    const groupDividerColorMapping = {
+        'Apex': '#e82934', 'Meta': '#d69b56', 'Viable': '#f2cc8b', 'Niche': '#fffcae', 'Forgotten': '#a2d2ff'
     };
 
     const sortedTiers = list.attributes.tiers.sort((a, b) => parseFloat(a.tier_level.replace('T', '')) - parseFloat(b.tier_level.replace('T', '')));
@@ -42,7 +38,8 @@ const TierListDisplay = ({ list }) => {
     }, {});
 
     return (
-        <div className="tier-table-wrapper">
+        // --- 2. เพิ่ม id="tier-list-table" ให้กับ container หลัก ---
+        <div id="tier-list-table" className="tier-table-wrapper">
             <header className="tier-table-header">
                 <div />
                 <div className="role-header dps">⚔️ DPS</div>
@@ -55,10 +52,7 @@ const TierListDisplay = ({ list }) => {
                     <div className="tier-group" key={groupName}>
                         <div 
                             className="tier-group-header" 
-                            style={{ 
-                                borderTopColor: groupHeaderColorMapping[groupName],
-                                color: groupHeaderColorMapping[groupName] // เปลี่ยนสีตัวอักษรตาม Mapping ใหม่
-                            }}
+                            style={{ borderTopColor: groupDividerColorMapping[groupName], color: groupDividerColorMapping[groupName] }}
                         >
                             <span>✧ {groupName} CHARACTERS ✧</span>
                         </div>
@@ -100,6 +94,26 @@ const TierListPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedMode, setSelectedMode] = useState(null);
+
+    // --- 3. เพิ่มฟังก์ชันสำหรับ Export รูปภาพ ---
+    const handleExportAsPng = () => {
+        const elementToCapture = document.getElementById('tier-list-table');
+        if (elementToCapture) {
+            html2canvas(elementToCapture, {
+                backgroundColor: '#1a1a1a', // สีพื้นหลังของรูปที่ Export
+                useCORS: true, // จำเป็นเพื่อให้โหลดรูปจาก Cloudinary ได้
+                scale: 2,      // เพิ่มความละเอียดของรูปเป็น 2 เท่า
+            }).then(canvas => {
+                const link = document.createElement('a');
+                const activeList = tierLists.find(list => list.attributes.game_mode === selectedMode);
+                const fileName = activeList ? `${activeList.attributes.title}-tier-list.png` : 'tier-list.png';
+
+                link.download = fileName;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    };
 
     useEffect(() => {
         const fetchTierLists = async () => {
@@ -145,6 +159,13 @@ const TierListPage = () => {
             ) : (
                 <div style={{ textAlign: 'center', marginTop: '2rem' }}>No Tier Lists have been created yet.</div>
             )}
+
+            {/* --- 4. เพิ่มปุ่ม Export เข้ามาที่นี่ --- */}
+            <div className="export-container">
+                <button onClick={handleExportAsPng} className="export-button">
+                    Export as PNG
+                </button>
+            </div>
         </div>
     );
 };
