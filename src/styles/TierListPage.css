@@ -10,7 +10,7 @@
 
 .tier-table-header {
     display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
+    grid-template-columns: 100px 1fr 1fr 1fr;
     background-color: #1a1a1a;
 }
 
@@ -41,7 +41,7 @@
 
 .tier-row-grid {
     display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
+    grid-template-columns: 100px 1fr 1fr 1fr;
     border-top: 1px solid #333;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .character-cell {
-    padding: 1rem;
+    padding: 0.1rem;
     min-height: 120px;
     border-left: 1px solid #333;
 }
