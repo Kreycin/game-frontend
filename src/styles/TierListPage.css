@@ -71,7 +71,7 @@
 }
 
 .character-cell {
-    padding: 0.1rem;
+    padding: 0.1rem 0.5rem 0 0;
     min-height: 120px;
     border-left: 1px solid #333;
 }
