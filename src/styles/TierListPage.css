@@ -59,9 +59,8 @@
 }
 
 .tier-level-text {
-    font-size: 1.56rem; /* --- เพิ่มขนาด 1.3 เท่า (1.2 * 1.3) --- */
-    color: #ffffff;      /* --- เปลี่ยนสีตัวอักษรเป็นสีขาว --- */
-    /* --- ขอบตัวอักษรสีดำ (เหมือนเดิม) --- */
+    font-size: 1.56rem;
+    color: #ffffff;
     text-shadow: 
         -1px -1px 0 #000,  
          1px -1px 0 #000,
@@ -69,16 +68,18 @@
          1px  1px 0 #000;
 }
 
+/* --- ส่วนแก้ไข: ทำให้ช่องชิดกัน --- */
 .character-cell {
-    padding: 0;
-    min-height: 140px;
+    padding: 0; /* เอา padding ออก */
+    min-height: auto;
     border-left: 1px solid #333;
 }
 
+/* --- ส่วนแก้ไข: ทำให้รูปชิดกัน --- */
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 0; /* เอาระยะห่างออก */
     align-items: flex-start;
 }
 
@@ -86,8 +87,20 @@
 .character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .character-image-wrapper { position: relative; }
 .character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
-.character-icon-image { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #555; background-color: #2a2a2a; transition: transform 0.2s ease, border-color 0.2s ease; }
-.character-icon-container:hover .character-icon-image { transform: scale(1.1); border-color: #ffc107; }
+
+/* --- ส่วนแก้ไข: ปรับขนาดและสไตล์รูปภาพ --- */
+.character-icon-image { 
+    width: 80px;  /* กำหนดขนาดมาตรฐาน */
+    height: 80px;
+    object-fit: cover; 
+    border-radius: 0; /* เอามุมมนออก */
+    border: none;     /* เอาเส้นขอบออก */
+    background-color: #2a2a2a; 
+    transition: transform 0.2s ease; 
+    display: block; /* แก้ปัญหาช่องว่างเล็กๆ ใต้รูป */
+}
+
+.character-icon-container:hover .character-icon-image { transform: scale(1.1); }
 .expert-icon { position: absolute; bottom: 2px; left: 2px; width: 20px; height: 20px; }
 .character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
 .character-icon-name { display: none; }
