@@ -13,10 +13,12 @@
     border: 1px solid #444;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     z-index: 10;
+
+    /* --- ส่วนสำคัญที่ควบคุมการแสดงผล --- */
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-    pointer-events: none; /* ทำให้เมาส์ทะลุผ่านได้ */
+    transition: opacity 0.2s ease, visibility 0.2s ease, bottom 0.2s ease;
+    pointer-events: none;
 }
 
 .tooltip-section {
@@ -48,5 +50,5 @@
     font-size: 0.85rem;
     line-height: 1.5;
     margin: 0;
-    white-space: pre-wrap; /* ทำให้ \n ทำงาน */
+    white-space: pre-wrap;
 }

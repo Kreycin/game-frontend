@@ -1,10 +1,10 @@
 // src/components/CharacterIcon.jsx
 
 import React, { useState } from 'react';
-import CharacterTooltip from './CharacterTooltip'; // 1. Import Tooltip เข้ามา
+import CharacterTooltip from './CharacterTooltip';
 
 const CharacterIcon = ({ characterData }) => {
-  const [isHovering, setIsHovering] = useState(false); // 2. สร้าง State สำหรับจัดการการโฮเวอร์
+  const [isHovering, setIsHovering] = useState(false);
 
   if (!characterData || !characterData.tier_list_character) {
     return null;
@@ -20,25 +20,23 @@ const CharacterIcon = ({ characterData }) => {
   return (
     <div 
       className="character-icon-container"
-      // 3. เพิ่ม Event Listeners สำหรับการโฮเวอร์
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className="character-image-wrapper">
+      {/* --- นี่คือส่วนที่แก้ไข: เพิ่ม className hovering --- */}
+      <div className={`character-image-wrapper ${isHovering ? 'hovering' : ''}`}>
         <img 
           src={imageUrl} 
           alt={character.name} 
           className="character-icon-image"
         />
 
-        {/* ป้าย Description (AOE) */}
         {character.description && (
           <div className="character-desc-overlay">
             {character.description}
           </div>
         )}
 
-        {/* 4. เพิ่มป้าย Condition (H+) */}
         {character.condition && (
           <div className="character-condition-overlay">
             {character.condition}
@@ -51,8 +49,8 @@ const CharacterIcon = ({ characterData }) => {
           </div>
         )}
 
-        {/* 5. แสดง Tooltip เมื่อ isHovering เป็น true */}
-        {isHovering && <CharacterTooltip character={character} />}
+        {/* Tooltip จะถูกสร้างขึ้นมาเสมอ แต่จะแสดงผลผ่าน CSS */}
+        <CharacterTooltip character={character} />
       </div>
       <div className="character-icon-name">{character.name}</div>
     </div>

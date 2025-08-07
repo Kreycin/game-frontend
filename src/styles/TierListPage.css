@@ -174,3 +174,10 @@
     border-radius: 3px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
+/* --- เพิ่ม: ทำให้ Tooltip แสดงขึ้นมาเมื่อโฮเวอร์ --- */
+.character-image-wrapper.hovering .tooltip-container {
+    opacity: 1;
+    visibility: visible;
+    bottom: 115%; /* ทำให้มันลอยขึ้นไปอีกเล็กน้อยตอนแสดงผล */
+    pointer-events: auto; /* ทำให้คลิกหรือเลือกข้อความใน tooltip ได้ */
+}

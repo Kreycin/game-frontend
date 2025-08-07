@@ -1,17 +1,15 @@
 // src/components/CharacterTooltip.jsx
 
 import React from 'react';
-import '../styles/CharacterTooltip.css';
+import '../styles/CharacterTooltip.css'; // <-- ตรวจสอบว่ามีการ import บรรทัดนี้
 
 const CharacterTooltip = ({ character }) => {
-  // ถ้าไม่มีข้อมูลตัวละคร ก็ไม่ต้องแสดงอะไรเลย
   if (!character) {
     return null;
   }
 
   return (
     <div className="tooltip-container">
-      {/* Section: Description */}
       {character.description && (
         <div className="tooltip-section">
           <h4>Description</h4>
@@ -19,7 +17,6 @@ const CharacterTooltip = ({ character }) => {
         </div>
       )}
 
-      {/* Section: Condition */}
       {character.condition_detail && (
         <div className="tooltip-section">
           <h4>
@@ -32,7 +29,6 @@ const CharacterTooltip = ({ character }) => {
         </div>
       )}
 
-      {/* Section: Highlight */}
       {character.highlight && (
         <div className="tooltip-section">
           <h4>Highlight</h4>
