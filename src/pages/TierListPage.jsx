@@ -3,18 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// -- Import Component และ CSS ที่เราสร้างขึ้นมา --
 import CharacterIcon from '../components/CharacterIcon';
 import '../styles/TierListPage.css';
 
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
 const API_URL = `${API_ENDPOINT}/api/public-tier-lists`;
 
-// -- Component ย่อยสำหรับแสดงผล 1 แถว Tier --
 const TierRow = ({ tierData }) => {
-  const { tier_level, tier_name, dps_characters, support_characters, def_characters } = tierData;
+  const { tier_level, dps_characters, support_characters, def_characters } = tierData;
 
-  // -- กำหนดชื่อเรียก Tier ตามที่คุณต้องการ --
   const tierNameMapping = {
     'T0': 'Apex', 'T0.5': 'Meta', 'T1': 'Meta', 'T1.5': 'Viable',
     'T2': 'Viable', 'T3': 'Niche', 'T4': 'Niche', 'T5': 'Forgotten'
@@ -24,7 +21,7 @@ const TierRow = ({ tierData }) => {
     <div className="tier-row">
       <div className="tier-row-header">
         <span className="tier-level">{tier_level}</span>
-        <span className="tier-name">{tierNameMapping[tier_level] || tier_name}</span>
+        <span className="tier-name">{tierNameMapping[tier_level] || tier_level}</span>
       </div>
       <div className="tier-roles-grid">
         <div className="role-section">
@@ -50,7 +47,6 @@ const TierRow = ({ tierData }) => {
   );
 };
 
-// -- Component สำหรับแสดงผล Tier List ทั้งหมดของโหมดที่เลือก --
 const TierListDisplay = ({ list }) => {
     if (!list || !list.attributes || !list.attributes.tiers) {
         return <div style={{ textAlign: 'center', marginTop: '2rem' }}>No Tier List data found for this mode.</div>;
@@ -66,7 +62,6 @@ const TierListDisplay = ({ list }) => {
     );
 };
 
-// -- Component หลักของหน้า --
 const TierListPage = () => {
     const [tierLists, setTierLists] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -77,14 +72,24 @@ const TierListPage = () => {
         const fetchTierLists = async () => {
             try {
                 const response = await axios.get(API_URL);
-                const validLists = response.data.data.filter(item => item && item.attributes && item.attributes.game_mode);
+
+                // ตรวจสอบ Error ที่มาจาก API ของเราก่อน
+                if (response.data.error) {
+                  throw new Error(`API Error: ${response.data.error.message}`);
+                }
+
+                // เพิ่มการป้องกันโดยใช้ Default value
+                const lists = response?.data?.data || [];
+                
+                const validLists = lists.filter(item => item && item.attributes && item.attributes.game_mode);
                 setTierLists(validLists);
+
                 if (validLists.length > 0) {
                     const defaultList = validLists.find(l => l.attributes.game_mode === 'mode 5v5') || validLists[0];
                     setSelectedMode(defaultList.attributes.game_mode);
                 }
             } catch (err) {
-                setError(err);
+                setError(err); // เก็บ Error ที่เกิดขึ้นไว้
             } finally {
                 setLoading(false);
             }
@@ -93,14 +98,13 @@ const TierListPage = () => {
     }, []);
 
     if (loading) { return <div className="loading-state">Loading Tier Lists...</div>; }
-    if (error) { return <div className="error-state">Error: {error.message}</div>; }
+    if (error) { return <div className="error-state">Something went wrong: {error.message}</div>; }
 
     const activeTierList = tierLists.find(list => list.attributes.game_mode === selectedMode);
     const availableModes = tierLists.map(list => list.attributes.game_mode);
 
     return (
         <div style={{ padding: '0 2rem 2rem 2rem' }}>
-
             <div className="star-selector" style={{ maxWidth: '400px', margin: '1rem auto' }}>
                 {availableModes.map(mode => (
                     <button
