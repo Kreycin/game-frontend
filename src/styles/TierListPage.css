@@ -161,3 +161,16 @@
 .character-icon-desc {
     display: none;
 }
+/* --- เพิ่ม: สไตล์ของ Condition (H+) บนรูป --- */
+.character-condition-overlay {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background-color: rgba(255, 193, 7, 0.8); /* สีเหลืองทอง */
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
