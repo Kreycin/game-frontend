@@ -58,7 +58,6 @@ const TierListDisplay = ({ list }) => {
 
     return (
         <div className="tier-list-container">
-            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>{list.attributes.title}</h2>
             {list.attributes.tiers
               .sort((a, b) => parseFloat(a.tier_level.replace('T', '')) - parseFloat(b.tier_level.replace('T', '')))
               .map(tier => <TierRow key={tier.id} tierData={tier} />)
@@ -101,7 +100,6 @@ const TierListPage = () => {
 
     return (
         <div style={{ padding: '0 2rem 2rem 2rem' }}>
-            <h1 style={{ textAlign: 'center', fontSize: '2.5rem', fontWeight: 'bold' }}>Zenith Tier List</h1>
 
             <div className="star-selector" style={{ maxWidth: '400px', margin: '1rem auto' }}>
                 {availableModes.map(mode => (

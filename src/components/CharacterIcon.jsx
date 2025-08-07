@@ -5,8 +5,7 @@ import React from 'react';
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
 
 const CharacterIcon = ({ characterData }) => {
-  // ตรวจสอบข้อมูลเพื่อป้องกัน error
-  // ถ้าไม่มีข้อมูลตัวละคร หรือไม่มีข้อมูลที่ซ้อนอยู่ข้างใน ก็ไม่ต้องแสดงอะไรเลย
+  // ตรวจสอบข้อมูลเพื่อป้องกัน error (เหมือนเดิม)
   if (!characterData || !characterData.tier_list_character || !characterData.tier_list_character.attributes) {
     return null;
   }
@@ -14,10 +13,19 @@ const CharacterIcon = ({ characterData }) => {
   const character = characterData.tier_list_character.attributes;
   const expertBonus = characterData.expert_bonus;
 
-  // ตรวจสอบว่ามี icon และ url ของ icon หรือไม่ ถ้าไม่มีให้ใช้รูปสำรอง
-  const imageUrl = character.icon && character.icon.data && character.icon.data.attributes.url
-    ? `${API_ENDPOINT}${character.icon.data.attributes.url}`
-    : 'https://via.placeholder.com/80'; // รูปสำรองขนาด 80x80
+  // --- นี่คือ Logic ใหม่ที่แก้ไขแล้ว ---
+  let imageUrl = 'https://via.placeholder.com/80'; // รูปสำรองเริ่มต้น
+  const rawUrl = character.icon?.data?.attributes?.url;
+
+  if (rawUrl) {
+    // ตรวจสอบว่า URL ที่ได้มาขึ้นต้นด้วย 'http' (เป็น URL เต็ม) หรือไม่
+    if (rawUrl.startsWith('http')) {
+      imageUrl = rawUrl; // ถ้าใช่ (มาจาก Cloudinary) ให้ใช้ URL นั้นเลย
+    } else {
+      imageUrl = `${API_ENDPOINT}${rawUrl}`; // ถ้าไม่ใช่ (มาจาก Local) ให้เติม API_ENDPOINT ข้างหน้า
+    }
+  }
+  // ------------------------------------
 
   return (
     <div className="character-icon-container">
@@ -27,7 +35,6 @@ const CharacterIcon = ({ characterData }) => {
           alt={character.name} 
           className="character-icon-image"
         />
-        {/* เงื่อนไข: แสดง Expert Tag ก็ต่อเมื่อมีค่ามากกว่า 0 */}
         {expertBonus > 0 && (
           <div className="expert-tag">
             +{expertBonus}
