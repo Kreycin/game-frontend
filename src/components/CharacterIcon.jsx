@@ -23,35 +23,34 @@ const CharacterIcon = ({ characterData }) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* --- นี่คือส่วนที่แก้ไข: เพิ่ม className hovering --- */}
       <div className={`character-image-wrapper ${isHovering ? 'hovering' : ''}`}>
         <img 
           src={imageUrl} 
           alt={character.name} 
           className="character-icon-image"
         />
-
+        
         {character.description && (
           <div className="character-desc-overlay">
             {character.description}
           </div>
         )}
-
+        
         {character.condition && (
           <div className="character-condition-overlay">
             {character.condition}
           </div>
         )}
-
+        
         {expertBonus > 0 && (
           <div className="expert-tag">
             +{expertBonus}
           </div>
         )}
 
-        {/* Tooltip จะถูกสร้างขึ้นมาเสมอ แต่จะแสดงผลผ่าน CSS */}
         <CharacterTooltip character={character} />
       </div>
+      {/* ชื่อตัวละครจะถูกซ่อนด้วย CSS */}
       <div className="character-icon-name">{character.name}</div>
     </div>
   );

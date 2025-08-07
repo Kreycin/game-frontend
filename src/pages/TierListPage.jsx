@@ -17,10 +17,6 @@ const TierListDisplay = ({ list }) => {
         'T0': 'Apex', 'T0.5': 'Meta', 'T1': 'Meta', 'T1.5': 'Viable',
         'T2': 'Viable', 'T3': 'Niche', 'T4': 'Niche', 'T5': 'Forgotten'
     };
-    const tierColorMapping = {
-        'T0': '#e82934', 'T0.5': '#fa4550', 'T1': '#d69b56', 'T1.5': '#d69b56',
-        'T2': '#f2cc8b', 'T3': '#fffcae', 'T4': '#fff574', 'T5': '#a2d2ff'
-    };
     const groupDividerColorMapping = {
         'Apex': '#e82934', 'Meta': '#d69b56', 'Viable': '#f2cc8b', 'Niche': '#fffcae', 'Forgotten': '#a2d2ff'
     };
@@ -30,54 +26,52 @@ const TierListDisplay = ({ list }) => {
     const groupedTiers = sortedTiers.reduce((acc, tier) => {
         const groupName = tierNameMapping[tier.tier_level] || 'Unknown';
         if (!acc[groupName]) {
-            acc[groupName] = [];
+            acc[groupName] = { dps: [], support: [], def: [] };
         }
-        acc[groupName].push(tier);
+        acc[groupName].dps.push(...tier.dps_characters);
+        acc[groupName].support.push(...tier.support_characters);
+        acc[groupName].def.push(...tier.def_characters);
         return acc;
     }, {});
 
     return (
         <div className="tier-table-wrapper">
             <header className="tier-table-header">
-                <div /> {/* Empty cell for top-left */}
                 <div className="role-header dps">⚔️ DPS</div>
                 <div className="role-header support">⭐ SUPPORT</div>
                 <div className="role-header def">🛡️ DEF</div>
             </header>
 
             <main>
-                {Object.entries(groupedTiers).map(([groupName, tiersInGroup]) => (
+                {Object.entries(groupedTiers).map(([groupName, charactersInGroup]) => (
                     <div className="tier-group" key={groupName}>
                         <div 
                             className="tier-group-header" 
-                            style={{ borderTopColor: groupDividerColorMapping[groupName] }}
+                            style={{ 
+                                borderTopColor: groupDividerColorMapping[groupName],
+                                color: groupDividerColorMapping[groupName] // เปลี่ยนสีตัวอักษร
+                            }}
                         >
                             <span>✧ {groupName} CHARACTERS ✧</span>
                         </div>
                         
-                        {tiersInGroup.map((tier) => (
-                            <div className="tier-row-grid" key={tier.id}>
-                                <div className="tier-header-cell">
-                                    <div className="tier-color-bar" style={{ backgroundColor: tierColorMapping[tier.tier_level] }} />
-                                    <div className="tier-level-text">{tier.tier_level}</div>
-                                </div>
-                                <div className="character-cell">
-                                    <div className="characters-grid">
-                                        {tier.dps_characters.map(charData => <CharacterIcon key={charData.id} characterData={charData} />)}
-                                    </div>
-                                </div>
-                                <div className="character-cell">
-                                    <div className="characters-grid">
-                                        {tier.support_characters.map(charData => <CharacterIcon key={charData.id} characterData={charData} />)}
-                                    </div>
-                                </div>
-                                <div className="character-cell">
-                                    <div className="characters-grid">
-                                        {tier.def_characters.map(charData => <CharacterIcon key={charData.id} characterData={charData} />)}
-                                    </div>
+                        <div className="tier-group-content">
+                            <div className="character-cell">
+                                <div className="characters-grid">
+                                    {charactersInGroup.dps.map(charData => <CharacterIcon key={charData.id} characterData={charData} />)}
                                 </div>
                             </div>
-                        ))}
+                            <div className="character-cell">
+                                <div className="characters-grid">
+                                    {charactersInGroup.support.map(charData => <CharacterIcon key={charData.id} characterData={charData} />)}
+                                </div>
+                            </div>
+                            <div className="character-cell">
+                                <div className="characters-grid">
+                                    {charactersInGroup.def.map(charData => <CharacterIcon key={charData.id} characterData={charData} />)}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </main>
