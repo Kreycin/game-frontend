@@ -39,7 +39,7 @@ const TierListDisplay = ({ list }) => {
     return (
         <div className="tier-table-wrapper">
             <header className="tier-table-header">
-                <div /> {/* Empty cell for top-left */}
+                <div />
                 <div className="role-header dps">⚔️ DPS</div>
                 <div className="role-header support">⭐ SUPPORT</div>
                 <div className="role-header def">🛡️ DEF</div>
@@ -57,8 +57,11 @@ const TierListDisplay = ({ list }) => {
 
                         {tiersInGroup.map((tier) => (
                             <div className="tier-row-grid" key={tier.id}>
-                                <div className="tier-header-cell">
-                                    <div className="tier-color-bar" style={{ backgroundColor: tierColorMapping[tier.tier_level] }} />
+                                {/* --- ส่วนแก้ไข: เปลี่ยนมาใช้สีพื้นหลังแทน --- */}
+                                <div 
+                                    className="tier-header-cell" 
+                                    style={{ backgroundColor: tierColorMapping[tier.tier_level] }}
+                                >
                                     <div className="tier-level-text">{tier.tier_level}</div>
                                 </div>
                                 <div className="character-cell">

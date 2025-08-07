@@ -50,25 +50,21 @@
     border-top: none;
 }
 
+/* --- ส่วนแก้ไข: สไตล์ใหม่ของหัวข้อ Tier --- */
 .tier-header-cell {
     display: flex;
+    justify-content: center;
     align-items: center;
     position: relative;
     font-weight: bold;
-    padding-left: 1.5rem;
+    color: #1a1a1a; /* เปลี่ยนสีตัวอักษรเป็นสีเข้มให้อ่านง่ายบนพื้นหลังสีอ่อน */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
-.tier-color-bar {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 10px;
-    height: 100%;
-}
+/* --- ลบ: .tier-color-bar ถูกเอาออกไปแล้ว --- */
 
 .tier-level-text {
     font-size: 1.2rem;
-    color: #e0e0e0;
 }
 
 .character-cell {
@@ -87,27 +83,15 @@
 /* === Character Icon Component Styles === */
 .character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .character-image-wrapper { position: relative; }
-
-/* --- ทำให้ Tooltip แสดงขึ้นมาเมื่อโฮเวอร์ --- */
-.character-image-wrapper.hovering .tooltip-container {
-    opacity: 1;
-    visibility: visible;
-    bottom: 115%;
-    pointer-events: auto;
-}
-
-.character-icon-image { 
-    width: 100px;
-    height: 100px;
-    object-fit: cover; 
-    border-radius: 8px; 
-    border: 2px solid #555; 
-    background-color: #2a2a2a; 
-    transition: transform 0.2s ease, border-color 0.2s ease; 
-}
-
+.character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
+.character-icon-image { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #555; background-color: #2a2a2a; transition: transform 0.2s ease, border-color 0.2s ease; }
 .character-icon-container:hover .character-icon-image { transform: scale(1.1); border-color: #ffc107; }
 .expert-tag { position: absolute; top: -8px; right: -8px; background-color: #ff4757; color: white; font-size: 0.75rem; font-weight: bold; padding: 0.2rem 0.5rem; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 .character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
-.character-icon-name { font-size: 0.85rem; font-weight: 500; margin-top: 0.5rem; color: #ddd; }
+
+/* --- ส่วนแก้ไข: ซ่อนชื่อตัวละคร --- */
+.character-icon-name { 
+    display: none; 
+}
+
 .character-condition-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(255, 193, 7, 0.8); color: #000; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
