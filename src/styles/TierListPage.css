@@ -10,7 +10,7 @@
 
 .tier-table-header {
     display: grid;
-    grid-template-columns: 120px 1fr 1fr 1fr; /* --- แก้ไข: ลดขนาดคอลัมน์ซ้าย --- */
+    grid-template-columns: 150px 1fr 1fr 1fr;
     background-color: #1a1a1a;
 }
 
@@ -42,7 +42,7 @@
 
 .tier-row-grid {
     display: grid;
-    grid-template-columns: 120px 1fr 1fr 1fr; /* --- แก้ไข: ลดขนาดคอลัมน์ซ้าย --- */
+    grid-template-columns: 150px 1fr 1fr 1fr;
     border-top: 1px solid #333;
 }
 
@@ -52,11 +52,10 @@
 
 .tier-header-cell {
     display: flex;
-    justify-content: center; /* --- เพิ่ม: จัดให้อยู่กลาง --- */
     align-items: center;
     position: relative;
     font-weight: bold;
-    padding-left: 0; /* --- ลบ: เอา padding ซ้ายออก --- */
+    padding-left: 1.5rem;
 }
 
 .tier-color-bar {
@@ -73,15 +72,15 @@
 }
 
 .character-cell {
-    padding: 1.5rem; /* --- แก้ไข: เพิ่ม padding เพื่อให้มีพื้นที่สำหรับรูปที่ใหญ่ขึ้น --- */
-    min-height: 140px; /* --- แก้ไข: เพิ่มความสูงขั้นต่ำ --- */
+    padding: 1.5rem; /* --- เพิ่ม padding รองรับรูปใหญ่ --- */
+    min-height: 140px; /* --- เพิ่มความสูงขั้นต่ำ --- */
     border-left: 1px solid #333;
 }
 
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem; /* --- แก้ไข: เพิ่มระยะห่างระหว่างตัวละคร --- */
+    gap: 2rem; /* --- เพิ่มระยะห่างระหว่างตัวละคร --- */
     align-items: flex-start;
 }
 
@@ -90,9 +89,10 @@
 .character-image-wrapper { position: relative; }
 .character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
 
+/* --- นี่คือจุดที่เราเพิ่มขนาดรูปภาพ --- */
 .character-icon-image { 
-    width: 100px;  /* --- แก้ไข: เพิ่มขนาดรูป --- */
-    height: 100px; /* --- แก้ไข: เพิ่มขนาดรูป --- */
+    width: 100px;  /* ขนาดรูปใหม่ */
+    height: 100px; /* ขนาดรูปใหม่ */
     object-fit: cover; 
     border-radius: 8px; 
     border: 2px solid #555; 
