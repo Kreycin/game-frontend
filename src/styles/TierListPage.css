@@ -4,7 +4,7 @@
     width: 100%;
     max-width: 1400px;
     margin: 2rem auto;
-    padding: 1rem;
+    padding: 2rem; /* --- แก้ไข: เพิ่ม Padding ให้โปร่งขึ้น --- */
     background-color: rgba(26, 26, 26, 0.7);
     border-radius: 8px;
     backdrop-filter: blur(5px);
@@ -12,62 +12,71 @@
 
 .tier-row {
     margin-bottom: 2.5rem;
+    /* --- เพิ่ม: เพิ่มเส้นแบ่งระหว่างแต่ละ Tier --- */
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+/* --- เพิ่ม: ทำให้ Tier สุดท้ายไม่มีเส้นขีดล่าง --- */
+.tier-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .tier-row-header {
     display: flex;
     align-items: baseline;
-    gap: 1rem;
+    gap: 1.5rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
     border-bottom: 2px solid #444;
-    padding-bottom: 0.75rem;
-    margin-bottom: 1.5rem;
+    padding-bottom: 1rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
+    margin-bottom: 2rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
 }
 
 .tier-level {
-    font-size: 2.5rem;
+    font-size: 3rem; /* --- แก้ไข: เพิ่มขนาด --- */
     font-weight: 900;
     color: #ffc107;
     line-height: 1;
 }
 
 .tier-name {
-    font-size: 1.5rem;
+    font-size: 1.75rem; /* --- แก้ไข: เพิ่มขนาด --- */
     font-weight: 500;
     color: #e0e0e0;
 }
 
 .tier-roles-grid {
     display: grid;
-    grid-template-columns: 1fr; /* สำหรับมือถือ: แสดง 1 คอลัมน์ */
+    grid-template-columns: 1fr;
     gap: 2rem;
 }
 
-/* สำหรับหน้าจอที่กว้างขึ้น, ให้แสดง 3 คอลัมน์ */
 @media (min-width: 768px) {
     .tier-roles-grid {
         grid-template-columns: repeat(3, 1fr);
+        gap: 3rem; /* --- แก้ไข: เพิ่มระยะห่างระหว่างคอลัมน์ --- */
     }
 }
 
 .role-section h3 {
-    font-size: 1.2rem;
+    font-size: 1.25rem; /* --- แก้ไข: เพิ่มขนาด --- */
     font-weight: 700;
     color: #f0f0f0;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
+    padding-bottom: 0.75rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
     border-bottom: 1px solid #3a3a3a;
     text-transform: uppercase;
 }
 
 .characters-grid {
     display: grid;
-    /* จัดคอลัมน์อัตโนมัติ โดยให้แต่ละไอคอนมีความกว้างอย่างน้อย 80px */
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); /* --- แก้ไข: เพิ่มขนาดไอคอนขั้นต่ำ --- */
+    gap: 1.5rem 2rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
     align-items: start;
 }
 
-/* === สไตล์ของไอคอนตัวละคร === */
+/* === Character Icon Component === */
 .character-icon-container {
     display: flex;
     flex-direction: column;
@@ -80,8 +89,8 @@
 }
 
 .character-icon-image {
-    width: 80px;
-    height: 80px;
+    width: 90px;   /* --- แก้ไข: เพิ่มขนาดรูป --- */
+    height: 90px;  /* --- แก้ไข: เพิ่มขนาดรูป --- */
     object-fit: cover;
     border-radius: 8px;
     border: 2px solid #555;
@@ -100,7 +109,7 @@
     right: -8px;
     background-color: #ff4757;
     color: white;
-    font-size: 0.75rem;
+    font-size: 0.8rem; /* --- แก้ไข: เพิ่มขนาด --- */
     font-weight: bold;
     padding: 0.2rem 0.5rem;
     border-radius: 5px;
@@ -108,14 +117,14 @@
 }
 
 .character-icon-name {
-    font-size: 0.85rem;
+    font-size: 0.9rem; /* --- แก้ไข: เพิ่มขนาด --- */
     font-weight: 500;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem; /* --- แก้ไข: เพิ่มระยะห่าง --- */
     color: #ddd;
 }
 
 .character-icon-desc {
-    font-size: 0.75rem;
+    font-size: 0.8rem; /* --- แก้ไข: เพิ่มขนาด --- */
     color: #999;
     margin-top: 0.2rem;
 }
