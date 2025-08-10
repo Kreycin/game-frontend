@@ -1,30 +1,19 @@
-// src/components/Navbar.jsx
-
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
-// --- เราจะแก้ไขรายการลิงก์ทั้งหมดที่นี่ ---
 const navLinks = [
-  // ลำดับที่ 1: หน้าหลัก (เหมือนเดิม)
   { to: "/", text: "New character leaks" },
-
-  // ลำดับที่ 2: Tier List (ย้ายขึ้นมา)
   { to: "/tier-list", text: "Tier List" },
-
-  // ลำดับที่ 3: Game Guide (เหมือนเดิม)
   { to: "/game-guide", text: "Game guide" },
-
-  // --- ลิงก์ที่เหลือเราจะลบออกไปก่อน ---
-  // { to: "/zenith-duel", text: "Zenith duel (CN)" },
-  // { to: "/community", text: "Community" },
-  // { to: "/download-game", text: "Download game" },
-  // { to: "/about-us", text: "About us" },
 ];
 
 const Navbar = () => {
+  const { isLoggedIn, logout } = useAuth();
+
   return (
-    <header className="navbar-container">
+    <header className="navbar-container flex justify-between items-center">
       <nav>
         {navLinks.map((link) => (
           <NavLink 
@@ -36,6 +25,32 @@ const Navbar = () => {
           </NavLink>
         ))}
       </nav>
+
+      <div>
+        {isLoggedIn ? (
+          <div className="flex items-center space-x-4">
+            <Link to="/profile" className="hover:text-blue-400 transition font-semibold">
+              Profile
+            </Link>
+            <button 
+              onClick={logout}
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="space-x-4">
+            <Link to="/login" className="hover:text-gray-300 py-2 px-4">Login</Link>
+            <Link 
+              to="/register" 
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Register
+            </Link>
+          </div>
+        )}
+      </div>
     </header>
   );
 };

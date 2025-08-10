@@ -1,16 +1,19 @@
-// src/main.jsx
-
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+import { AuthProvider } from './context/AuthContext'; // 1. Import เข้ามา
 
 import Layout from './components/Layout.jsx';
 import App from './App.jsx';
 import ComingSoonPage from './pages/ComingSoonPage.jsx';
 import GameGuide from './pages/GameGuide';
-
-// --- 1. Import หน้า TierListPage ที่เราเพิ่งสร้างเข้ามา ---
 import TierListPage from './pages/TierListPage.jsx';
+import Register from './pages/Register.jsx';
+import Login from './pages/Login.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
+import ResetPassword from './pages/ResetPassword.jsx';
+import ProfilePage from './pages/ProfilePage.tsx';
 
 import './App.css';
 
@@ -19,42 +22,26 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      {
-        index: true,
-        element: <App />,
-      },
-      // --- 2. เพิ่ม Object ใหม่สำหรับ Route ของ Tier List ---
-      {
-        path: "tier-list", // นี่คือ URL ที่จะใช้ เช่น your-website.com/tier-list
-        element: <TierListPage />,
-      },
-      // ---------------------------------------------------
-      {
-        path: "zenith-duel",
-        element: <ComingSoonPage />,
-      },
-      {
-        path: "game-guide",
-        element: <GameGuide />,
-      },
-      {
-        path: "community",
-        element: <ComingSoonPage />,
-      },
-      {
-        path: "download-game",
-        element: <ComingSoonPage />,
-      },
-      {
-        path: "about-us",
-        element: <ComingSoonPage />,
-      },
+      { index: true, element: <App /> },
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
+      { path: "forgot-password", element: <ForgotPassword /> },
+      { path: "reset-password", element: <ResetPassword /> },
+      { path: "profile", element: <ProfilePage /> },
+      { path: "tier-list", element: <TierListPage /> },
+      { path: "zenith-duel", element: <ComingSoonPage /> },
+      { path: "game-guide", element: <GameGuide /> },
+      { path: "community", element: <ComingSoonPage /> },
+      { path: "download-game", element: <ComingSoonPage /> },
+      { path: "about-us", element: <ComingSoonPage /> },
     ]
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider> {/* 2. ครอบแอปทั้งหมด */}
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
