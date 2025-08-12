@@ -263,3 +263,15 @@
 .tier-row-grid .character-cell:nth-child(4) .character-icon-image {
     background-color: #2a2a2a; /* สีเทาเข้มดั้งเดิม */
 }
+/* ================================================= */
+/* === FIX: บังคับให้ Guide เป็น 2 คอลัมน์บนจอ Desktop === */
+/* ================================================= */
+
+@media (min-width: 1024px) {
+    .guide-grid {
+        /* * สั่งให้สร้าง Grid 2 คอลัมน์ที่มีขนาดเท่ากัน
+         * เมื่อความกว้างของหน้าจอมากกว่า 1024px ขึ้นไป
+        */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
