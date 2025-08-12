@@ -10,9 +10,8 @@ const CharacterIcon = ({ characterData }) => {
     return null;
   }
 
-  // --- ส่วนแก้ไข: แยกข้อมูลออกเป็น 2 ส่วน ---
-  const character = characterData.tier_list_character; // ข้อมูลพื้นฐาน (name, icon)
-  const expertInfo = characterData; // ข้อมูลที่กรอกใน Tier List (expert_bonus, condition, etc.)
+  const character = characterData.tier_list_character;
+  const expertInfo = characterData;
 
   const imageUrl = character.icon?.url 
     ? character.icon.url 
@@ -31,11 +30,19 @@ const CharacterIcon = ({ characterData }) => {
           className="character-icon-image"
         />
 
-        {/* ป้าย Condition (จะดึงมาจาก expertInfo) */}
-        {expertInfo.condition && (
-          <div className="character-condition-overlay">
-            {expertInfo.condition}
+        {character.description && (
+          <div className="character-desc-overlay">
+            {character.description}
           </div>
+        )}
+
+        {/* --- แก้ไข: เปลี่ยนจาก Div เป็น Img --- */}
+        {expertInfo.condition && (
+          <img 
+            src="/condition-icon.png" 
+            alt="Condition Tag" 
+            className="character-condition-icon" 
+          />
         )}
 
         {expertInfo.expert_bonus > 0 && (
@@ -46,7 +53,6 @@ const CharacterIcon = ({ characterData }) => {
           />
         )}
 
-        {/* --- ส่วนแก้ไข: ส่ง props 2 ตัวเข้าไปใน Tooltip --- */}
         <CharacterTooltip character={character} expertInfo={expertInfo} />
       </div>
     </div>

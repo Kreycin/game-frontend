@@ -3,7 +3,7 @@
 .tier-table-wrapper {
     background-color: #242424;
     border-radius: 8px;
-    
+    overflow: hidden;
     margin-top: 2rem;
     border: 1px solid #333;
 }
@@ -26,28 +26,25 @@
 .role-header.support { color: #f2cc8b; }
 .role-header.def { color: #a2cc56; }
 
-/* --- ส่วนแก้ไข: ทำให้เส้นและข้อความอยู่บรรทัดเดียวกัน --- */
 .tier-group-header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 1rem; /* เพิ่ม padding ซ้ายขวาเล็กน้อย */
+    padding: 0 1rem;
     border-top-width: 2px;
     border-top-style: solid;
-    margin-top: 1rem; /* เพิ่มระยะห่างด้านบนเล็กน้อย */
+    margin-top: 1rem;
 }
 
 .tier-group-header span {
-    background-color: #242424; /* สีเดียวกับพื้นหลังตาราง */
-    padding: 0 1rem; /* สร้างช่องว่างซ้ายขวาให้ตัวอักษร */
-    transform: translateY(-50%); /* ดึงตัวอักษรขึ้นมาครึ่งหนึ่ง */
+    background-color: #242424;
+    padding: 0 1rem;
+    transform: translateY(-50%);
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
-
 }
-/* --------------------------------------------------------- */
 
 .tier-row-grid {
     display: grid;
@@ -71,26 +68,26 @@
 .tier-level-text {
     font-size: 1.56rem;
     color: #ffffff;
-    text-shadow:
-        -1px -1px 0 #000,
+    text-shadow: 
+        -1px -1px 0 #000,  
          1px -1px 0 #000,
         -1px  1px 0 #000,
          1px  1px 0 #000;
 }
 
 .character-cell {
-    padding: 0; /* เอา padding ออกทั้งหมด */
+    padding: 0%;
     min-height: auto;
     border-left: 1px solid #333;
-    /* เพิ่ม display flex เพื่อช่วยจัดเรียง */
-    display: flex; 
-    align-items: flex-start;
+}
+.character-cell:first-child {
+    border-left: none;
 }
 
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 0; /* เอาระยะห่างออก */
+    gap: 0;
     align-items: flex-start;
 }
 
@@ -103,4 +100,12 @@
 .expert-icon { position: absolute; bottom: 2px; left: 2px; width: 20px; height: 20px; }
 .character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
 .character-icon-name { display: none; }
-.character-condition-overlay { position: absolute; bottom: 4px; right: 4px; background-color: rgba(255, 193, 7, 0.8); color: #000; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+/* --- แก้ไข: เปลี่ยนชื่อและตำแหน่ง --- */
+.character-condition-icon { 
+    position: absolute; 
+    top: 0%; 
+    right: -5px;
+    width: 30px; /* ขนาดไอคอนใหม่ */
+    height: 30px;
+}
