@@ -8,7 +8,7 @@ import './Navbar.css';
 const navLinks = [
   { to: "/", text: "New character leaks" },
   { to: "/tier-list", text: "Tier List" },
-  { to: "/game-guide", text: "Game guide" },
+  //{ to: "/game-guide", text: "Game guide" },
 ];
 
 const Navbar = () => {
