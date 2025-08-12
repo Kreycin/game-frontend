@@ -152,6 +152,27 @@ const TierListPage = () => {
             allowTaint: true,
             useCORS: true,
             scale: 2,
+             backgroundColor: '#1a1a1a',
+    onclone: (clonedDoc) => {
+        // --- จุดที่ 1: ขยับตัวเลข Tier Level (T0, T1) ---
+        const tierLevelElements = clonedDoc.querySelectorAll('.tier-level-text');
+        tierLevelElements.forEach(el => {
+            el.style.transform = 'translateY(-8px)';
+        });
+
+        // --- จุดที่ 2: ขยับชื่อกลุ่ม (Apex, Meta, Viable) ---
+        const groupHeaderElements = clonedDoc.querySelectorAll('.tier-group-header span');
+        groupHeaderElements.forEach(el => {
+            // ชื่อกลุ่มอาจจะต้องขยับคนละระยะกับ T-Level
+            el.style.transform = 'translateY(-8px)';
+        });
+
+        // --- จุดที่ 3: ขยับชื่อประเภท (DPS, SUPPORT, DEF) ---
+        const roleHeaderElements = clonedDoc.querySelectorAll('.role-header');
+        roleHeaderElements.forEach(el => {
+            el.style.transform = 'translateY(-8px)';
+        });
+    }
         }).then(canvas => {
             const link = document.createElement('a');
             const activeList = tierLists.find(list => list.attributes.game_mode === selectedMode);
