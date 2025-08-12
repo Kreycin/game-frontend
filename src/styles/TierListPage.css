@@ -3,14 +3,14 @@
 .tier-table-wrapper {
     background-color: #242424;
     border-radius: 8px;
-    /*overflow: hidden;*/
     margin-top: 2rem;
     border: 1px solid #333;
 }
 
 .tier-table-header {
     display: grid;
-    grid-template-columns: 150px 1fr 1fr 1fr;
+    /* --- FIX: ปรับความกว้างคอลัมน์แรกให้ตรงกับเนื้อหา --- */
+    grid-template-columns: 60px 1fr 1fr 1fr;
     background-color: #1a1a1a;
     align-items: center; 
 }
@@ -21,30 +21,28 @@
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1rem;
-
 }
 
-.role-header.dps { color: #e82934; position: relative; left: -20%;}
-.role-header.support { color: #f2cc8b; position: relative; left: -20%;}
-.role-header.def { color: #a2cc56; position: relative; left: -20%;}
+.role-header.dps { color: #e82934; }
+.role-header.support { color: #f2cc8b; }
+.role-header.def { color: #a2cc56; }
 
 .tier-group-header {
     display: flex;
-    align-items: center; /* จัดให้เส้นและตัวอักษรอยู่กึ่งกลางแนวตั้ง */
-    margin: 0.3rem 0; /* เพิ่มระยะห่างบน-ล่างให้สมดุล */
+    align-items: center;
+    margin: 0.3rem 0;
 }
 
-/* สร้างเส้นด้านซ้ายและขวาของข้อความ */
 .tier-group-header::before,
 .tier-group-header::after {
     content: '';
-    flex-grow: 1; /* ทำให้เส้นขยายเต็มพื้นที่ที่เหลือ */
-    height: 2px;  /* ความหนาของเส้น */
-    background-color: currentColor; /* ใช้สีเดียวกับสีของตัวอักษร */
+    flex-grow: 1;
+    height: 2px;
+    background-color: currentColor;
 }
 
 .tier-group-header span {
-    padding: 0 1.5rem; /* ระยะห่างระหว่างเส้นกับตัวอักษร */
+    padding: 0 1.5rem;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.9rem;
@@ -71,8 +69,10 @@
 }
 
 .tier-level-text {
-    font-size: 1rem; /* <--- ลดขนาดลง */
+    /* --- FIX: ลดขนาดและเปลี่ยนสีตัวอักษร --- */
+    font-size: 1.2rem;
     color: #000000;
+    /* ลบ text-shadow ออก */
 }
 
 .character-cell {
@@ -95,13 +95,24 @@
 .character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .character-image-wrapper { position: relative; }
 .character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
-.character-icon-image { width: 80px; height: 80px; object-fit: cover; border-radius: 0; border: none; background-color: #2a2a2a; transition: transform 0.2s ease; display: block; }
+
+.character-icon-image { 
+    width: 80px; 
+    height: 80px; 
+    object-fit: cover; 
+    border-radius: 0; 
+    border: none; 
+    /* --- FIX: ทำให้พื้นหลังโปร่งใสเป็นค่าเริ่มต้น --- */
+    background-color: transparent; 
+    transition: transform 0.2s ease; 
+    display: block; 
+}
+
 .character-icon-container:hover .character-icon-image { transform: scale(1.1); }
 .expert-icon { position: absolute; bottom: 2px; left: 2px; width: 20px; height: 20px; }
 .character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
 .character-icon-name { display: none; }
 
-/* --- แก้ไข: เปลี่ยนชื่อและตำแหน่ง --- */
 .character-condition-icon { 
     position: absolute; 
     top: 0%; 
@@ -164,26 +175,19 @@
 .guide-credit strong {
     color: #fff;
 }
+
 /* === Responsive Design for Mobile (New Approach) === */
 @media (max-width: 767px) {
-
-    /* ลด padding โดยรวมของหน้า */
-    /* (อันนี้อาจจะต้องไปแก้ที่ TierListPage.jsx inline style, แต่เราลองแก้ที่นี่ก่อน) */
-    /* div[style*="padding: 0 2rem 2rem 2rem"] { padding: 0 0.5rem 1rem 0.5rem !important; } */
-
-    /* ลดขนาดคอลัมน์ซ้ายสุด */
     .tier-table-header,
     .tier-row-grid {
-        grid-template-columns: 60px 1fr 1fr 1fr; /* ลดจาก 150px เหลือ 60px */
+        grid-template-columns: 60px 1fr 1fr 1fr;
     }
 
-    /* ลดขนาด Font ของหัวข้อ Role */
     .role-header {
         font-size: 0.7rem;
         padding: 0.5rem 0.25rem;
     }
 
-    /* ลดขนาด Font ของหัวข้อกลุ่ม */
     .tier-group-header {
         font-size: 0.75rem;
         margin: 1rem 0;
@@ -192,21 +196,18 @@
         padding: 0 0.5rem;
     }
 
-    /* ลดขนาด Font ของ T-Level */
     .tier-level-text {
         font-size: 1rem;
     }
 
-    /* ลด Padding และระยะห่างของช่องตัวละคร */
     .character-cell {
         padding: 0.5rem;
         min-height: auto;
     }
     .characters-grid {
-        gap: 0.5rem; /* ลดระยะห่างระหว่างตัวละคร */
+        gap: 0.5rem;
     }
 
-    /* --- ย่อขนาดไอคอนตัวละครและป้ายทั้งหมด --- */
     .character-icon-image {
         width: 50px;
         height: 50px;
@@ -230,17 +231,14 @@
         font-size: 0.6rem;
         margin-top: 0.25rem;
     }
-    /* --- ทำให้ Tooltip ไม่ล้นจอ --- */
     .tooltip-container {
         width: 200px;
     }
-    /* === Responsive Guide Section for Mobile === */
-@media (max-width: 767px) {
     .guide-container {
-        padding: 1rem; /* ลด padding ในจอมือถือ */
+        padding: 1rem;
     }
     .guide-grid {
-        grid-template-columns: 1fr; /* บังคับให้เป็น 1 คอลัมน์เสมอ */
+        grid-template-columns: 1fr;
     }
     .guide-section h3 {
         font-size: 1.2rem;
@@ -249,20 +247,19 @@
         font-size: 1rem;
     }
 }
-/*
- * กำหนดเป้าหมายไปที่คอลัมน์ "Support" โดยเฉพาะ
- * เพื่อเปลี่ยนสีพื้นหลังให้สว่างขึ้นตามรูปตัวอย่าง
-*/
 
-/* 1. เปลี่ยนสีพื้นหลังของ "ช่องใส่ตัวละคร" ในคอลัมน์ที่ 3 (Support) */
-.tier-row-grid .character-cell:nth-child(3) {
-    background-color: #3a3a3a; /* สีเทาที่สว่างขึ้น (ปรับแก้ค่าสีได้ตามต้องการ) */
+/* ============================================== */
+/* === สไตล์สำหรับคอลัมน์พิเศษใน Tier List === */
+/* ============================================== */
+
+/* 1. กำหนดสีพื้นหลังให้คอลัมน์ Support ทั้งหัวข้อและช่องตัวละคร */
+.tier-row-grid .character-cell:nth-child(3),
+.tier-table-header > div:nth-child(3) {
+    background-color: #3a3a3a; /* สีเทาอ่อนสำหรับคอลัมน์ Support */
 }
 
-/* 2. เปลี่ยนสีพื้นหลังของ "หัวข้อ" Support */
-.tier-table-header .role-header.support {
-    background-color: #3a3a3a; /* ใช้สีเดียวกันเพื่อให้ดูเป็นคอลัมน์เดียวกัน */
-    padding-top: 0.5rem;      /* เพิ่ม padding เล็กน้อยเพื่อความสวยงาม */
-    padding-bottom: 0.5rem;
-}
+/* 2. กำหนดสีพื้นหลังให้ "เฉพาะ" ไอคอนในคอลัมน์ DPS และ DEF */
+.tier-row-grid .character-cell:nth-child(2) .character-icon-image,
+.tier-row-grid .character-cell:nth-child(4) .character-icon-image {
+    background-color: #2a2a2a; /* สีเทาเข้มดั้งเดิม */
 }
