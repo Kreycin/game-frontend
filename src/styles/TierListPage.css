@@ -167,58 +167,74 @@
 .guide-credit strong {
     color: #fff;
 }
-/* === Responsive Design for Mobile === */
+/* === Responsive Design for Mobile (New Approach) === */
 @media (max-width: 767px) {
 
-    /* ปรับ Layout หลักของตาราง */
+    /* ลด padding โดยรวมของหน้า */
+    /* (อันนี้อาจจะต้องไปแก้ที่ TierListPage.jsx inline style, แต่เราลองแก้ที่นี่ก่อน) */
+    /* div[style*="padding: 0 2rem 2rem 2rem"] { padding: 0 0.5rem 1rem 0.5rem !important; } */
+
+    /* ลดขนาดคอลัมน์ซ้ายสุด */
     .tier-table-header,
     .tier-row-grid {
-        grid-template-columns: 80px 1fr; /* เปลี่ยนเป็น 2 คอลัมน์: Tier Header และ Content */
+        grid-template-columns: 60px 1fr 1fr 1fr; /* ลดจาก 150px เหลือ 60px */
     }
 
-    /* ซ่อนหัวข้อ Role ที่ไม่จำเป็น */
-    .tier-table-header .role-header.support,
-    .tier-table-header .role-header.def {
-        display: none;
+    /* ลดขนาด Font ของหัวข้อ Role */
+    .role-header {
+        font-size: 0.7rem;
+        padding: 0.5rem 0.25rem;
     }
 
-    /* จัดให้หัวข้อ DPS อยู่ตรงกลางของพื้นที่ที่เหลือ */
-    .tier-table-header .role-header.dps {
-        grid-column: 2 / -1; /* ทำให้กินพื้นที่คอลัมน์ที่เหลือทั้งหมด */
-        text-align: center;
+    /* ลดขนาด Font ของหัวข้อกลุ่ม */
+    .tier-group-header {
+        font-size: 0.75rem;
+        margin: 1rem 0;
+    }
+    .tier-group-header span {
+        padding: 0 0.5rem;
     }
 
-    /* ทำให้คอลัมน์ DPS, SUPPORT, DEF แสดงผลซ้อนกันในแนวตั้ง */
-    .tier-row-grid {
-        display: block; /* เปลี่ยนการแสดงผลหลัก */
+    /* ลดขนาด Font ของ T-Level */
+    .tier-level-text {
+        font-size: 1rem;
     }
 
-    .tier-header-cell {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 80px; /* กำหนดความสูงให้คงที่ */
-    }
-
-    .tier-roles-grid {
-        display: block; /* ยกเลิกการใช้งาน Grid */
-    }
-
+    /* ลด Padding และระยะห่างของช่องตัวละคร */
     .character-cell {
-        border-left: none; /* เอาเส้นแบ่งแนวตั้งออก */
-        padding: 1rem;
+        padding: 0.5rem;
         min-height: auto;
     }
-
-    /* ทำให้รูปภาพเล็กลงเล็กน้อย */
-    .character-icon-image {
-        width: 60px;
-        height: 60px;
+    .characters-grid {
+        gap: 0.5rem; /* ลดระยะห่างระหว่างตัวละคร */
     }
 
-    /* จัดเรียงตัวละครในแต่ละแถว */
-    .characters-grid {
-        justify-content: flex-start; /* จัดชิดซ้าย */
-        gap: 1rem;
+    /* --- ย่อขนาดไอคอนตัวละครและป้ายทั้งหมด --- */
+    .character-icon-image {
+        width: 50px;
+        height: 50px;
+        border-width: 1px;
+    }
+    .expert-icon {
+        width: 15px;
+        height: 15px;
+    }
+    .character-condition-icon {
+        width: 20px;
+        height: 20px;
+        top: -3px;
+        right: -3px;
+    }
+    .character-desc-overlay {
+        font-size: 0.5rem;
+        padding: 1px 3px;
+    }
+    .character-icon-name {
+        font-size: 0.6rem;
+        margin-top: 0.25rem;
+    }
+    /* --- ทำให้ Tooltip ไม่ล้นจอ --- */
+    .tooltip-container {
+        width: 200px;
     }
 }
