@@ -18,7 +18,6 @@
 .role-header {
     text-align: center;
     padding: 0.4rem ;
-    
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1rem;
@@ -72,13 +71,8 @@
 }
 
 .tier-level-text {
-    font-size: 1.56rem;
-    color: #ffffff;
-    text-shadow: 
-        -1px -1px 0 #000,  
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
+    font-size: 1rem; /* <--- ลดขนาดลง */
+    color: #000000;
 }
 
 .character-cell {
@@ -254,5 +248,21 @@
     .guide-credit {
         font-size: 1rem;
     }
+}
+/*
+ * กำหนดเป้าหมายไปที่คอลัมน์ "Support" โดยเฉพาะ
+ * เพื่อเปลี่ยนสีพื้นหลังให้สว่างขึ้นตามรูปตัวอย่าง
+*/
+
+/* 1. เปลี่ยนสีพื้นหลังของ "ช่องใส่ตัวละคร" ในคอลัมน์ที่ 3 (Support) */
+.tier-row-grid .character-cell:nth-child(3) {
+    background-color: #3a3a3a; /* สีเทาที่สว่างขึ้น (ปรับแก้ค่าสีได้ตามต้องการ) */
+}
+
+/* 2. เปลี่ยนสีพื้นหลังของ "หัวข้อ" Support */
+.tier-table-header .role-header.support {
+    background-color: #3a3a3a; /* ใช้สีเดียวกันเพื่อให้ดูเป็นคอลัมน์เดียวกัน */
+    padding-top: 0.5rem;      /* เพิ่ม padding เล็กน้อยเพื่อความสวยงาม */
+    padding-bottom: 0.5rem;
 }
 }
