@@ -28,18 +28,21 @@
 
 .tier-group-header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 1rem;
-    border-top-width: 2px;
-    border-top-style: solid;
-    margin-top: 1rem;
+    align-items: center; /* จัดให้เส้นและตัวอักษรอยู่กึ่งกลางแนวตั้ง */
+    margin: 1.5rem 0; /* เพิ่มระยะห่างบน-ล่างให้สมดุล */
+}
+
+/* สร้างเส้นด้านซ้ายและขวาของข้อความ */
+.tier-group-header::before,
+.tier-group-header::after {
+    content: '';
+    flex-grow: 1; /* ทำให้เส้นขยายเต็มพื้นที่ที่เหลือ */
+    height: 2px;  /* ความหนาของเส้น */
+    background-color: currentColor; /* ใช้สีเดียวกับสีของตัวอักษร */
 }
 
 .tier-group-header span {
-    background-color: #242424;
-    padding: 0 1rem;
-    transform: translateY(-50%);
+    padding: 0 1.5rem; /* ระยะห่างระหว่างเส้นกับตัวอักษร */
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.9rem;
