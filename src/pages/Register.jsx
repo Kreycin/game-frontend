@@ -121,7 +121,7 @@ const Register = () => {
             // "สไตล์ของปุ่ม": สีน้ำเงิน, ตัวอักษรขาวหนา, มีเอฟเฟกต์ตอนเอาเมาส์ไปชี้, และมีเงื่อนไขให้ปุ่มสีจางลงตอนกดไม่ได้
             className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 disabled:bg-gray-500"
           >
-            {loading ? 'Creating Account...' : 'Create Account & Link Data'}
+            {loading ? 'Creating Account...' : 'Create Account'}
           </button>
 
         </form>
