@@ -146,12 +146,13 @@ const TierListPage = () => {
     const [selectedMode, setSelectedMode] = useState(null);
 
     const handleExportAsPng = () => {
-        const elementToCapture = document.getElementById('tier-list-table');
+        const elementToCapture = document.getElementById('tier-list-export-area'); 
         if (elementToCapture) {
             html2canvas(elementToCapture, {
                 allowTaint: true,
                 useCORS: true,
                 scale: 2,
+                backgroundColor: '#1a1a1a', // สีพื้นหลังของรูป
                 width: elementToCapture.scrollWidth,
                 height: elementToCapture.scrollHeight,
                 windowWidth: elementToCapture.scrollWidth,
