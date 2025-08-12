@@ -79,3 +79,23 @@
 }
 
 /* --- เราได้ลบสไตล์ทั้งหมดของ Google Translate Widget ออกไปแล้ว --- */
+/* === Responsive Navbar for Mobile === */
+@media (max-width: 767px) {
+    .navbar-container {
+        flex-direction: column;
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+    .navbar-main-links {
+        order: 2; /* สลับให้ปุ่ม login/register ขึ้นก่อน */
+    }
+    .navbar-right-section {
+        order: 1;
+        width: 100%;
+        justify-content: flex-end; /* จัดชิดขวา */
+    }
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+    }
+}

@@ -237,4 +237,19 @@
     .tooltip-container {
         width: 200px;
     }
+    /* === Responsive Guide Section for Mobile === */
+@media (max-width: 767px) {
+    .guide-container {
+        padding: 1rem; /* ลด padding ในจอมือถือ */
+    }
+    .guide-grid {
+        grid-template-columns: 1fr; /* บังคับให้เป็น 1 คอลัมน์เสมอ */
+    }
+    .guide-section h3 {
+        font-size: 1.2rem;
+    }
+    .guide-credit {
+        font-size: 1rem;
+    }
+}
 }
