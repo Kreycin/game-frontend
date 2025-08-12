@@ -87,7 +87,7 @@
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 0;
+    gap: 0.3rem;
     align-items: flex-start;
 }
 
