@@ -10,7 +10,7 @@
 .tier-table-header {
     display: grid;
     /* --- FIX: ปรับความกว้างคอลัมน์แรกให้ตรงกับเนื้อหา --- */
-    grid-template-columns: 40px 1fr 1fr 1fr;
+    grid-template-columns: 30px 1fr 1fr 1fr;
     background-color: #1a1a1a;
     align-items: center; 
 }
@@ -51,7 +51,7 @@
 
 .tier-row-grid {
     display: grid;
-    grid-template-columns: 40px 1fr 1fr 1fr;
+    grid-template-columns: 30px 1fr 1fr 1fr;
     border-top: 1px solid #333;
 }
 
@@ -70,7 +70,7 @@
 
 .tier-level-text {
     /* --- FIX: ลดขนาดและเปลี่ยนสีตัวอักษร --- */
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: #000000;
     /* ลบ text-shadow ออก */
 }
@@ -180,7 +180,7 @@
 @media (max-width: 767px) {
     .tier-table-header,
     .tier-row-grid {
-        grid-template-columns: 60px 1fr 1fr 1fr;
+        grid-template-columns: 25px 1fr 1fr 1fr;
     }
 
     .role-header {
