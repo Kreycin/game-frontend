@@ -26,18 +26,28 @@
 .role-header.support { color: #f2cc8b; }
 .role-header.def { color: #a2cc56; }
 
+/* --- ส่วนแก้ไข: ทำให้เส้นและข้อความอยู่บรรทัดเดียวกัน --- */
 .tier-group-header {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5rem;
+    padding: 0 1rem; /* เพิ่ม padding ซ้ายขวาเล็กน้อย */
     border-top-width: 2px;
     border-top-style: solid;
+    margin-top: 1rem; /* เพิ่มระยะห่างด้านบนเล็กน้อย */
+}
+
+.tier-group-header span {
+    background-color: #242424; /* สีเดียวกับพื้นหลังตาราง */
+    padding: 0 1rem; /* สร้างช่องว่างซ้ายขวาให้ตัวอักษร */
+    transform: translateY(-50%); /* ดึงตัวอักษรขึ้นมาครึ่งหนึ่ง */
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
+
 }
+/* --------------------------------------------------------- */
 
 .tier-row-grid {
     display: grid;
@@ -61,25 +71,26 @@
 .tier-level-text {
     font-size: 1.56rem;
     color: #ffffff;
-    text-shadow: 
-        -1px -1px 0 #000,  
+    text-shadow:
+        -1px -1px 0 #000,
          1px -1px 0 #000,
         -1px  1px 0 #000,
          1px  1px 0 #000;
 }
 
-/* --- ส่วนแก้ไข: ทำให้ช่องชิดกัน --- */
 .character-cell {
-    padding: 0; /* เอา padding ออก */
+    padding: 0.5rem 1rem 1.5rem 1rem; /* แก้ไข: ลด padding-top ลง */
     min-height: auto;
     border-left: 1px solid #333;
 }
+.character-cell:first-child {
+    border-left: none;
+}
 
-/* --- ส่วนแก้ไข: ทำให้รูปชิดกัน --- */
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 0; /* เอาระยะห่างออก */
+    gap: 0;
     align-items: flex-start;
 }
 
@@ -87,19 +98,7 @@
 .character-icon-container { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .character-image-wrapper { position: relative; }
 .character-image-wrapper.hovering .tooltip-container { opacity: 1; visibility: visible; bottom: 115%; pointer-events: auto; }
-
-/* --- ส่วนแก้ไข: ปรับขนาดและสไตล์รูปภาพ --- */
-.character-icon-image { 
-    width: 80px;  /* กำหนดขนาดมาตรฐาน */
-    height: 80px;
-    object-fit: cover; 
-    border-radius: 0; /* เอามุมมนออก */
-    border: none;     /* เอาเส้นขอบออก */
-    background-color: #2a2a2a; 
-    transition: transform 0.2s ease; 
-    display: block; /* แก้ปัญหาช่องว่างเล็กๆ ใต้รูป */
-}
-
+.character-icon-image { width: 80px; height: 80px; object-fit: cover; border-radius: 0; border: none; background-color: #2a2a2a; transition: transform 0.2s ease; display: block; }
 .character-icon-container:hover .character-icon-image { transform: scale(1.1); }
 .expert-icon { position: absolute; bottom: 2px; left: 2px; width: 20px; height: 20px; }
 .character-desc-overlay { position: absolute; top: 4px; left: 4px; background-color: rgba(0, 0, 0, 0.6); color: #fff; font-size: 0.7rem; font-weight: bold; padding: 2px 5px; border-radius: 3px; }

@@ -1,8 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+// 1. เปลี่ยนกลับไปใช้ createBrowserRouter
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
-import { AuthProvider } from './context/AuthContext'; // 1. Import เข้ามา
+import { AuthProvider } from './context/AuthContext';
 
 import Layout from './components/Layout.jsx';
 import App from './App.jsx';
@@ -17,6 +17,7 @@ import ProfilePage from './pages/ProfilePage.tsx';
 
 import './App.css';
 
+// 2. เปลี่ยนกลับไปใช้ createBrowserRouter
 const router = createBrowserRouter([
   {
     path: "/",
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider> {/* 2. ครอบแอปทั้งหมด */}
+    <AuthProvider>
       <RouterProvider router={router} />
     </AuthProvider>
   </StrictMode>,
