@@ -146,26 +146,21 @@ const TierListPage = () => {
     const [selectedMode, setSelectedMode] = useState(null);
 
     const handleExportAsPng = () => {
-        const elementToCapture = document.getElementById('tier-list-export-area'); 
-        if (elementToCapture) {
-            html2canvas(elementToCapture, {
-                allowTaint: true,
-                useCORS: true,
-                scale: 2,
-                backgroundColor: '#1a1a1a', // สีพื้นหลังของรูป
-                width: elementToCapture.scrollWidth,
-                height: elementToCapture.scrollHeight,
-                windowWidth: elementToCapture.scrollWidth,
-                windowHeight: elementToCapture.scrollHeight,
-            }).then(canvas => {
-                const link = document.createElement('a');
-                const activeList = tierLists.find(list => list.attributes.game_mode === selectedMode);
-                const fileName = activeList ? `${activeList.attributes.title}-tier-list.png` : 'tier-list.png';
-                link.download = fileName;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
-        }
+        const elementToCapture = document.getElementById('tier-list-table');
+    if (elementToCapture) {
+        html2canvas(elementToCapture, {
+            allowTaint: true,
+            useCORS: true,
+            scale: 2,
+        }).then(canvas => {
+            const link = document.createElement('a');
+            const activeList = tierLists.find(list => list.attributes.game_mode === selectedMode);
+            const fileName = activeList ? `${activeList.attributes.title}-tier-list.png` : 'tier-list.png';
+            link.download = fileName;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    }
     };
 
     useEffect(() => {
