@@ -184,20 +184,30 @@
 
     /* จัดให้หัวข้อ DPS อยู่ตรงกลางของพื้นที่ที่เหลือ */
     .tier-table-header .role-header.dps {
-        grid-column: 2 / -1; /* ทำให้กินพื้นที่ 2 คอลัมน์ที่เหลือ */
+        grid-column: 2 / -1; /* ทำให้กินพื้นที่คอลัมน์ที่เหลือทั้งหมด */
         text-align: center;
     }
 
-    /* ซ่อนคอลัมน์ Support และ Def */
-    .tier-row-grid .character-cell:nth-child(3),
-    .tier-row-grid .character-cell:nth-child(4) {
-        display: none;
+    /* ทำให้คอลัมน์ DPS, SUPPORT, DEF แสดงผลซ้อนกันในแนวตั้ง */
+    .tier-row-grid {
+        display: block; /* เปลี่ยนการแสดงผลหลัก */
     }
 
-    /* ทำให้คอลัมน์ DPS ขยายเต็มพื้นที่ */
-    .tier-row-grid .character-cell:nth-child(2) {
-        grid-column: 2 / -1; /* ทำให้กินพื้นที่ 2 คอลัมน์ที่เหลือ */
-        border-left: none;
+    .tier-header-cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80px; /* กำหนดความสูงให้คงที่ */
+    }
+
+    .tier-roles-grid {
+        display: block; /* ยกเลิกการใช้งาน Grid */
+    }
+
+    .character-cell {
+        border-left: none; /* เอาเส้นแบ่งแนวตั้งออก */
+        padding: 1rem;
+        min-height: auto;
     }
 
     /* ทำให้รูปภาพเล็กลงเล็กน้อย */
@@ -206,8 +216,9 @@
         height: 60px;
     }
 
-    /* จัดเรียงตัวละครในคอลัมน์ DPS ใหม่ */
+    /* จัดเรียงตัวละครในแต่ละแถว */
     .characters-grid {
-        justify-content: center; /* จัดให้อยู่กลางถ้ามีที่เหลือ */
+        justify-content: flex-start; /* จัดชิดซ้าย */
+        gap: 1rem;
     }
 }
