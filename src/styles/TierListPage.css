@@ -17,16 +17,17 @@
 
 .role-header {
     text-align: center;
-    padding: 0.5rem;
+    padding: 0.2rem ;
+    
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1rem;
 
 }
 
-.role-header.dps { color: #e82934; }
-.role-header.support { color: #f2cc8b; }
-.role-header.def { color: #a2cc56; }
+.role-header.dps { color: #e82934; position: relative; left: -20%;}
+.role-header.support { color: #f2cc8b; position: relative; left: -20%;}
+.role-header.def { color: #a2cc56; position: relative; left: -20%;}
 
 .tier-group-header {
     display: flex;
