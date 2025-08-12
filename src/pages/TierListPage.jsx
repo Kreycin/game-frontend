@@ -97,11 +97,11 @@ const TierListDisplay = ({ list }) => {
     return (
         <div id="tier-list-table" className="tier-table-wrapper">
             <header className="tier-table-header">
-                <div />
-                <div className="role-header dps">⚔️ DPS</div>
-                <div className="role-header support">⭐ SUPPORT</div>
-                <div className="role-header def">🛡️ DEF</div>
-            </header>
+            <div />
+            <div className="role-header dps"><span>⚔️ DPS</span></div>
+            <div className="role-header support"><span>⭐ SUPPORT</span></div>
+            <div className="role-header def"><span>🛡️ DEF</span></div>
+        </header>
             <main>
                 {Object.entries(groupedTiers).map(([groupName, tiersInGroup]) => (
                     <div className="tier-group" key={groupName}>
@@ -153,26 +153,32 @@ const TierListPage = () => {
             useCORS: true,
             scale: 2,
              backgroundColor: '#1a1a1a',
-    onclone: (clonedDoc) => {
-        // --- จุดที่ 1: ขยับตัวเลข Tier Level (T0, T1) ---
-        const tierLevelElements = clonedDoc.querySelectorAll('.tier-level-text');
-        tierLevelElements.forEach(el => {
-            el.style.transform = 'translateY(-8px)';
-        });
+onclone: (clonedDoc) => {
+    // --- จุดที่ 1: ขยับตัวเลข Tier Level (เหมือนเดิม) ---
+    const tierLevelElements = clonedDoc.querySelectorAll('.tier-level-text');
+    tierLevelElements.forEach(el => {
+        el.style.transform = 'translateY(-8px)';
+    });
 
-        // --- จุดที่ 2: ขยับชื่อกลุ่ม (Apex, Meta, Viable) ---
-        const groupHeaderElements = clonedDoc.querySelectorAll('.tier-group-header span');
-        groupHeaderElements.forEach(el => {
-            // ชื่อกลุ่มอาจจะต้องขยับคนละระยะกับ T-Level
-            el.style.transform = 'translateY(-8px)';
-        });
+    // --- จุดที่ 2: ขยับชื่อกลุ่ม (เหมือนเดิม) ---
+    const groupHeaderElements = clonedDoc.querySelectorAll('.tier-group-header span');
+    groupHeaderElements.forEach(el => {
+        el.style.transform = 'translateY(-8px)';
+    });
 
-        // --- จุดที่ 3: ขยับชื่อประเภท (DPS, SUPPORT, DEF) ---
-        const roleHeaderElements = clonedDoc.querySelectorAll('.role-header');
-        roleHeaderElements.forEach(el => {
-            el.style.transform = 'translateY(-8px)';
-        });
+    // --- จุดที่ 3: (สำคัญ!) เปลี่ยนเป้าหมายไปที่ <span> ด้านใน ---
+    // ขยับ <span> ของ DPS และ DEF
+    const dpsDefSpans = clonedDoc.querySelectorAll('.role-header.dps span, .role-header.def span');
+    dpsDefSpans.forEach(el => {
+        el.style.transform = 'translateY(-8px)';
+    });
+
+    // ขยับ <span> ของ SUPPORT
+    const supportSpan = clonedDoc.querySelector('.role-header.support span');
+    if (supportSpan) {
+        supportSpan.style.transform = 'translateY(-10px)';
     }
+}
         }).then(canvas => {
             const link = document.createElement('a');
             const activeList = tierLists.find(list => list.attributes.game_mode === selectedMode);
