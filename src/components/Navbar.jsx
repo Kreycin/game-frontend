@@ -1,3 +1,5 @@
+// src/components/Navbar.jsx
+
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -10,11 +12,11 @@ const navLinks = [
 ];
 
 const Navbar = () => {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn, profile, logout } = useAuth();
 
   return (
-    <header className="navbar-container flex justify-between items-center">
-      <nav>
+    <header className="navbar-container">
+      <nav className="navbar-main-links">
         {navLinks.map((link) => (
           <NavLink 
             key={link.to} 
@@ -26,30 +28,27 @@ const Navbar = () => {
         ))}
       </nav>
 
-      <div>
+      <div className="navbar-right-section">
         {isLoggedIn ? (
-          <div className="flex items-center space-x-4">
-            <Link to="/profile" className="hover:text-blue-400 transition font-semibold">
-              Profile
+          <div className="user-actions">
+            <Link to="/profile" className="profile-link">
+              {profile?.displayName || 'Profile'}
             </Link>
-            <button 
-              onClick={logout}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300"
-            >
+            <button onClick={logout} className="logout-button">
               Logout
             </button>
           </div>
         ) : (
-          <div className="space-x-4">
-            <Link to="/login" className="hover:text-gray-300 py-2 px-4">Login</Link>
-            <Link 
-              to="/register" 
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            >
+          <div className="guest-actions">
+            <Link to="/login" className="login-link">Login</Link>
+            <Link to="/register" className="register-button">
               Register
             </Link>
           </div>
         )}
+
+        {/* ตำแหน่งของปุ่มแปลภาษาที่ถูกต้อง */}
+        <div id="google_translate_element"></div>
       </div>
     </header>
   );
