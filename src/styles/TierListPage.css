@@ -79,18 +79,18 @@
 }
 
 .character-cell {
-    padding: 1rem;
+    padding: 0; /* เอา padding ออกทั้งหมด */
     min-height: auto;
     border-left: 1px solid #333;
-}
-.character-cell:first-child {
-    border-left: none;
+    /* เพิ่ม display flex เพื่อช่วยจัดเรียง */
+    display: flex; 
+    align-items: flex-start;
 }
 
 .characters-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 0;
+    gap: 0; /* เอาระยะห่างออก */
     align-items: flex-start;
 }
 
