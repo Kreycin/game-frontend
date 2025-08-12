@@ -79,7 +79,7 @@
 }
 
 .character-cell {
-    padding: 0.5rem 1rem 1.5rem 1rem; /* แก้ไข: ลด padding-top ลง */
+    padding: 1rem;
     min-height: auto;
     border-left: 1px solid #333;
 }
