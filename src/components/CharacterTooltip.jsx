@@ -1,39 +1,47 @@
 // src/components/CharacterTooltip.jsx
 
 import React from 'react';
-// --- บรรทัดที่สำคัญที่สุดคือบรรทัดนี้ ---
 import '../styles/CharacterTooltip.css';
 
-const CharacterTooltip = ({ character }) => {
+const CharacterTooltip = ({ character, expertInfo }) => {
+  // ถ้าไม่มีข้อมูลตัวละคร ก็ไม่ต้องแสดงอะไรเลย
   if (!character) {
     return null;
   }
 
   return (
     <div className="tooltip-container">
-      {character.description && (
+      {/* Section: Character Name */}
+      <div className="tooltip-section">
+        <h3 className="tooltip-character-name">{character.name}</h3>
+      </div>
+
+      {/* Section: Expert Tag */}
+      {expertInfo.expert_bonus > 0 && expertInfo.expert_tag_description && (
         <div className="tooltip-section">
-          <h4>Description</h4>
-          <p>{character.description}</p>
+          <h4>
+            Expert Tag: +{expertInfo.expert_bonus}
+          </h4>
+          <p>{expertInfo.expert_tag_description}</p>
         </div>
       )}
 
-      {character.condition_detail && (
+      {/* Section: Condition */}
+      {expertInfo.condition && (
         <div className="tooltip-section">
           <h4>
             Condition
-            {character.condition && (
-              <span className="condition-tag">{character.condition}</span>
-            )}
+            <span className="condition-tag">{expertInfo.condition}</span>
           </h4>
-          <p>{character.condition_detail}</p>
+          <p>{expertInfo.condition_detail}</p>
         </div>
       )}
 
-      {character.highlight && (
+      {/* Section: Highlight */}
+      {expertInfo.highlight && (
         <div className="tooltip-section">
           <h4>Highlight</h4>
-          <p>{character.highlight}</p>
+          <p>{expertInfo.highlight}</p>
         </div>
       )}
     </div>
