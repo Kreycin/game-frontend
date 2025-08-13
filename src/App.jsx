@@ -14,8 +14,6 @@ import CountdownTimer from './components/CountdownTimer';
 import OverlayPage from './components/OverlayPage';
 import CommentSection from './components/CommentSection';
 
-
-
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
 const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
 
@@ -43,6 +41,39 @@ const getYouTubeEmbedUrl = (url) => {
 };
 
 function App() {
+  // --- START: โค้ดสำหรับปุ่ม PWA Install (เพิ่มเข้ามา) ---
+  const [installPrompt, setInstallPrompt] = useState(null);
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+      console.log('PWA install prompt is ready.');
+    };
+
+    window.addEventListener('beforeinstallprompt', handler);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler);
+    };
+  }, []);
+
+  const handleInstallClick = () => {
+    if (!installPrompt) {
+      return;
+    }
+    installPrompt.prompt();
+    installPrompt.then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the A2HS prompt');
+      } else {
+        console.log('User dismissed the A2HS prompt');
+      }
+      setInstallPrompt(null);
+    });
+  };
+  // --- END: โค้ดสำหรับปุ่ม PWA Install ---
+
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [guestId, setGuestId] = useState(null);
@@ -50,26 +81,20 @@ function App() {
   
   const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
   useEffect(() => {
-    // 1. แอปจะลองหา "บัตรพนักงาน" (jwt) ในกระเป๋าก่อน
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      // ถ้าเจอ: ก็รู้เลยว่าคนนี้เป็นสมาชิก
       setIsLoggedIn(true);
       console.log("สถานะ: สมาชิกล็อกอินอยู่");
     } else {
-      // 2. ถ้าไม่เจอ "บัตรพนักงาน": แอปจะคิดว่าเป็นแขก
       setIsLoggedIn(false);
-      // 3. แล้วลองค้นหา "บัตรประชาชนชั่วคราว" (guestId) ในกระเป๋า
       let currentGuestId = localStorage.getItem('guestId');
       if (!currentGuestId) {
-        // 4. ถ้าไม่เจอเลย (แสดงว่าเป็นแขกใหม่เอี่ยม): แอปจะปั๊มบัตรใหม่ให้ทันที
         currentGuestId = uuidv4();
         localStorage.setItem('guestId', currentGuestId);
         console.log("สถานะ: แขกใหม่! สร้าง ID ให้แล้ว:", currentGuestId);
       } else {
         console.log("สถานะ: แขกคนเดิม ID:", currentGuestId);
       }
-      // เก็บ ID แขกไว้ในสมองของแอป
       setGuestId(currentGuestId);
     }
   }, []);
@@ -122,31 +147,20 @@ function App() {
   useEffect(() => {
     const fetchCharacter = async () => {
       try {
-      // 1. ดึงข้อมูลตัวละครทั้งหมด (เหมือนเดิม)
-      const response = await axios.get(`${STRAPI_API_URL}?timestamp=${new Date().getTime()}`);
-      const allCharacters = response.data.data; // นี่คือรายการตัวละครทั้งหมด
-
-      // 2. --- นี่คือส่วนที่แก้ไขใหม่ทั้งหมด ---
-      // ตรวจสอบว่ามีข้อมูลส่งกลับมาหรือไม่
-      if (allCharacters && allCharacters.length > 0) {
-
-        // 3. จัดเรียงข้อมูลในฝั่ง Frontend เพื่อหาตัวที่อัปเดตล่าสุด
-        // โดยแปลงเวลา (updatedAt) เป็น Date object เพื่อเปรียบเทียบ
-        const latestCharData = allCharacters.sort((a, b) => {
-          return new Date(b.attributes.updatedAt) - new Date(a.attributes.updatedAt);
-        })[0]; // เลือกตัวแรกสุดหลังจากการจัดเรียง
-
-        // 4. นำข้อมูลของตัวละครล่าสุดไปใช้งาน
-        const charToDisplay = { id: latestCharData.id, ...latestCharData.attributes };
-
-        // 5. ตั้งค่า State เพื่อแสดงผล (เหมือนเดิม)
-        const sortedStarLevels = [...charToDisplay.Star_Levels].sort((a, b) => getStarLevelNumber(b.Star_Level) - getStarLevelNumber(a.Star_Level));
-        charToDisplay.Star_Levels = sortedStarLevels;
-        setCharacter(charToDisplay);
-        if (sortedStarLevels.length > 0) {
-          setSelectedStar(sortedStarLevels[0].Star_Level);
+        const response = await axios.get(`${STRAPI_API_URL}?timestamp=${new Date().getTime()}`);
+        const allCharacters = response.data.data;
+        if (allCharacters && allCharacters.length > 0) {
+          const latestCharData = allCharacters.sort((a, b) => {
+            return new Date(b.attributes.updatedAt) - new Date(a.attributes.updatedAt);
+          })[0];
+          const charToDisplay = { id: latestCharData.id, ...latestCharData.attributes };
+          const sortedStarLevels = [...charToDisplay.Star_Levels].sort((a, b) => getStarLevelNumber(b.Star_Level) - getStarLevelNumber(a.Star_Level));
+          charToDisplay.Star_Levels = sortedStarLevels;
+          setCharacter(charToDisplay);
+          if (sortedStarLevels.length > 0) {
+            setSelectedStar(sortedStarLevels[0].Star_Level);
+          }
         }
-      }
       } catch (err) {
         setError(err);
       } finally {
@@ -155,18 +169,14 @@ function App() {
     };
     fetchCharacter();
   }, []);
-  // useEffect ที่เหลือไว้สำหรับยิง API เพื่อนับวิว (เท่านั้น)
+
   useEffect(() => {
     const INCREMENT_URL = `${API_ENDPOINT}/api/site-counter/increment`;
-
-    // ยิง API ไปแล้วไม่ต้องรอผลลัพธ์ หรือจัดการ Error ใดๆ ในฝั่ง Client
-    // เราแค่ต้องการให้มันทำงานที่ฝั่ง Backend
     fetch(INCREMENT_URL, { 
       method: 'PUT',
-      keepalive: true // keepalive ช่วยให้ request ถูกส่งไปแม้ผู้ใช้จะปิดแท็บเร็ว
+      keepalive: true
     });
-
-  }, []); // [] เพื่อให้ทำงานแค่ครั้งเดียวตอนเปิดหน้า
+  }, []);
 
   if (loading) return <div className="loading-state">Loading character...</div>;
   if (error) return <div className="error-state">Error fetching data: {error.message}</div>;
@@ -183,8 +193,17 @@ function App() {
   const embedUrl = getYouTubeEmbedUrl(character.YouTube_URL);
 
   return (
-    
     <div className="App">
+      {/* --- START: ปุ่ม PWA Install (เพิ่มเข้ามา) --- */}
+      {installPrompt && (
+        <button 
+          onClick={handleInstallClick} 
+          className="pwa-install-button"
+        >
+          ติดตั้งแอป
+        </button>
+      )}
+      {/* --- END: ปุ่ม PWA Install --- */}
 
        <CountdownTimer 
         targetDate={targetCountdownDate} 
@@ -226,7 +245,6 @@ function App() {
           </div>
         </CollapsiblePanel>
         
-        {/* --- นี่คือส่วนที่ถูกเพิ่มกลับเข้ามา --- */}
         <CollapsiblePanel title="Special" defaultExpanded={false} className="layout-special-stats">
           <div className="stats-grid-special">
             <StatItem label="Lifesteal" value={character.Lifesteal} />
@@ -245,7 +263,6 @@ function App() {
             <StatItem label="CRIT DMG" value={character.CRIT_DMG} />
           </div>
         </CollapsiblePanel>
-        {/* ------------------------------------ */}
 
         <div className="layout-skills">
           <div className="star-selector">
