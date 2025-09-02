@@ -1,6 +1,8 @@
+
+
+// src/main.jsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-// 1. เปลี่ยนกลับไปใช้ createBrowserRouter
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
@@ -15,9 +17,11 @@ import ForgotPassword from './pages/ForgotPassword.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ProfilePage from './pages/ProfilePage.tsx';
 
+// --- 1. Import หน้าใหม่เข้ามา ---
+import NotificationSettings from './pages/NotificationSettings.tsx';
+
 import './App.css';
 
-// 2. เปลี่ยนกลับไปใช้ createBrowserRouter
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +39,9 @@ const router = createBrowserRouter([
       { path: "community", element: <ComingSoonPage /> },
       { path: "download-game", element: <ComingSoonPage /> },
       { path: "about-us", element: <ComingSoonPage /> },
+      
+      // --- 2. เปลี่ยน Element ของ Route นี้ให้เป็นหน้าใหม่ของเรา ---
+      { path: "notifications", element: <NotificationSettings /> },
     ]
   }
 ]);

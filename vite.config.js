@@ -1,17 +1,23 @@
+// vite.config.js
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa' // <--- 1. นำเข้าปลั๊กอิน
+import { VitePWA } from 'vite-plugin-pwa'
+import path from 'path' // <-- 1. Import 'path' เข้ามา
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({ 
+      // ... (ส่วน PWA ของคุณเหมือนเดิม) ...
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      workbox: {
+        importScripts: ['firebase-messaging-sw.js']
+      },
       manifest: {
-        name: 'Character Sheet Web App',
-        short_name: 'CharacterSheet',
+        name: 'DS Game Hub',
+        short_name: 'DS Game Hub',
         description: 'Your one-stop platform for the latest game character info, tier lists, and guides.',
         theme_color: '#ffffff',
         background_color: '#ffffff',
@@ -19,7 +25,6 @@ export default defineConfig({
         scope: '/',
         start_url: '/',
         orientation: 'portrait',
-        // --- ส่วนที่แก้ไขและเพิ่มเติม ---
         screenshots: [
           {
             src: 'screenshot-desktop.png',
@@ -51,11 +56,18 @@ export default defineConfig({
             src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'maskable' // แก้ไขตรงนี้
+            purpose: 'maskable'
           }
         ]
-        // --- จบส่วนที่แก้ไข ---
       } 
     })
   ],
+  // --- 2. เพิ่มส่วนนี้เข้าไป ---
+  resolve: {
+    alias: {
+      // โค้ดส่วนนี้จะบอก Vite ว่า @ คือ src
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  // --------------------------
 })

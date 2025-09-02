@@ -1,6 +1,8 @@
+// src/context/AuthContext.tsx
+
 import React, { createContext, useState, useEffect, useContext, useCallback, ReactNode } from 'react';
 import axios from 'axios';
-import { db } from '../firebase';
+import { db } from '../firebase'; // Make sure this firebase instance is for Firestore
 import { doc, getDoc } from 'firebase/firestore';
 
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
@@ -15,8 +17,10 @@ export interface UserProfile {
   displayName: string;
 }
 
+// 1. Add jwt to the context type
 interface AuthContextType {
   user: User | null;
+  jwt: string | null; // Added for notification system
   profile: UserProfile | null;
   isLoggedIn: boolean;
   loading: boolean;
@@ -30,6 +34,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [jwt, setJwt] = useState<string | null>(null); // 2. Add state for JWT
   const [loading, setLoading] = useState(true);
 
   const fetchProfile = useCallback(async (userId: number, username: string) => {
@@ -51,6 +56,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const checkUser = async () => {
       const token = localStorage.getItem('jwt');
       if (token) {
+        setJwt(token); // 3. Set JWT from localStorage on initial load
         try {
           const { data: userData } = await axios.get(`${API_ENDPOINT}/api/users/me`, {
             headers: { Authorization: `Bearer ${token}` }
@@ -60,6 +66,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         } catch (error) {
           console.error("Failed to verify token", error);
           localStorage.removeItem('jwt');
+          setJwt(null); // Clear JWT if invalid
         }
       }
       setLoading(false);
@@ -69,12 +76,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = (token: string, userData: User) => {
     localStorage.setItem('jwt', token);
+    setJwt(token); // 4. Set JWT on login
     setUser(userData);
     fetchProfile(userData.id, userData.username);
   };
 
   const logout = () => {
     localStorage.removeItem('jwt');
+    setJwt(null); // 5. Clear JWT on logout
     setUser(null);
     setProfile(null);
     window.location.href = '/'; // Reload to clear all states
@@ -87,7 +96,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [user, fetchProfile]);
 
   return (
-    <AuthContext.Provider value={{ user, profile, isLoggedIn: !!user, loading, login, logout, refetchProfile }}>
+    // 6. Provide jwt through the context
+    <AuthContext.Provider value={{ user, jwt, profile, isLoggedIn: !!user, loading, login, logout, refetchProfile }}>
       {!loading && children}
     </AuthContext.Provider>
   );

@@ -14,43 +14,50 @@ const GUIDE_API_URL = `${API_ENDPOINT}/api/tier-list-guide`;
 const BlocksRenderer = ({ blocks }) => {
     if (!blocks) return null;
 
-    return blocks.map((block, index) => {
-        switch (block.type) {
-            case 'paragraph':
-                return (
-                    <p key={`block-${index}`} className="guide-paragraph">
-                        {block.children.map((child, childIndex) => {
-                            let element = <span key={`child-${childIndex}`}>{child.text}</span>;
-                            if (child.bold) element = <strong>{element}</strong>;
-                            if (child.italic) element = <em>{element}</em>;
-                            if (child.underline) element = <u>{element}</u>;
-                            if (child.code) element = <code>{element}</code>;
-                            return element;
-                        })}
-                    </p>
-                );
-            case 'list':
-                const ListTag = block.format === 'ordered' ? 'ol' : 'ul';
-                return (
-                    <ListTag key={`block-${index}`} className="guide-list">
-                        {block.children.map((listItem, listIndex) => (
-                            <li key={`list-item-${listIndex}`}>
-                                {listItem.children.map((child, childIndex) => {
-                                    let element = <span key={`list-child-${childIndex}`}>{child.text}</span>;
-                                    if (child.bold) element = <strong>{element}</strong>;
-                                    if (child.italic) element = <em>{element}</em>;
-                                    if (child.underline) element = <u>{element}</u>;
-                                    if (child.code) element = <code>{element}</code>;
-                                    return element;
-                                })}
-                            </li>
-                        ))}
-                    </ListTag>
-                );
-            default:
-                return <p key={`block-${index}`}>Unsupported block type: {block.type}</p>;
-        }
-    });
+return blocks.map((block, index) => {
+    switch (block.type) {
+        case 'paragraph':
+            return (
+                <p key={`block-${index}`} className="guide-paragraph">
+                    {block.children.map((child, childIndex) => {
+                        // --- ⬇️ ส่วนที่แก้ไข ⬇️ ---
+                        let content = child.text;
+                        if (child.bold) content = <strong>{content}</strong>;
+                        if (child.italic) content = <em>{content}</em>;
+                        if (child.underline) content = <u>{content}</u>;
+                        if (child.code) content = <code>{content}</code>;
+                        
+                        // ใช้ React.Fragment เพื่อใส่ key โดยไม่สร้าง HTML tag เพิ่ม
+                        return <React.Fragment key={`child-${childIndex}`}>{content}</React.Fragment>;
+                        // --- ⬆️ จบส่วนที่แก้ไข ⬆️ ---
+                    })}
+                </p>
+            );
+        case 'list':
+            const ListTag = block.format === 'ordered' ? 'ol' : 'ul';
+            return (
+                <ListTag key={`block-${index}`} className="guide-list">
+                    {block.children.map((listItem, listIndex) => (
+                        <li key={`list-item-${listIndex}`}>
+                            {listItem.children.map((child, childIndex) => {
+                                // --- ⬇️ ส่วนที่แก้ไข (เหมือนกับข้างบน) ⬇️ ---
+                                let content = child.text;
+                                if (child.bold) content = <strong>{content}</strong>;
+                                if (child.italic) content = <em>{content}</em>;
+                                if (child.underline) content = <u>{content}</u>;
+                                if (child.code) content = <code>{content}</code>;
+                                
+                                return <React.Fragment key={`list-child-${childIndex}`}>{content}</React.Fragment>;
+                                // --- ⬆️ จบส่วนที่แก้ไข ⬆️ ---
+                            })}
+                        </li>
+                    ))}
+                </ListTag>
+            );
+        default:
+            return <p key={`block-${index}`}>Unsupported block type: {block.type}</p>;
+    }
+});
 };
 
 // --- Component สำหรับแสดงผลส่วน Guide ---

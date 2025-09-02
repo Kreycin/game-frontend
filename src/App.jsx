@@ -1,6 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
 // src/App.jsx
-// Force clean redeploy on Vercel - 29 June 2025
+import { v4 as uuidv4 } from 'uuid';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
@@ -41,7 +40,6 @@ const getYouTubeEmbedUrl = (url) => {
 };
 
 function App() {
-  // --- START: โค้ดสำหรับปุ่ม PWA Install (เพิ่มเข้ามา) ---
   const [installPrompt, setInstallPrompt] = useState(null);
 
   useEffect(() => {
@@ -72,7 +70,6 @@ function App() {
       setInstallPrompt(null);
     });
   };
-  // --- END: โค้ดสำหรับปุ่ม PWA Install ---
 
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -194,7 +191,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* --- START: ปุ่ม PWA Install (เพิ่มเข้ามา) --- */}
       {installPrompt && (
         <button 
           onClick={handleInstallClick} 
@@ -203,7 +199,6 @@ function App() {
           ติดตั้งแอป
         </button>
       )}
-      {/* --- END: ปุ่ม PWA Install --- */}
 
        <CountdownTimer 
         targetDate={targetCountdownDate} 
@@ -254,7 +249,7 @@ function App() {
             <StatItem label="Debuff Acc" value={character.Debuff_Acc} />
             <StatItem label="Debuff Res" value={character.Debuff_Res} />
             <StatItem label="Accuracy" value={character.Accuracy} />
-            <StatItem label="Doge" value={character.Doge} />
+            <StatItem label="Dodge" value={character.Doge} />
             <StatItem label="Healing Amt" value={character.Healing_Amt} />
             <StatItem label="Healing Amt(P)" value={character.Healing_Amt_P} />
             <StatItem label="Extra DMG" value={character.Extra_DMG} />
