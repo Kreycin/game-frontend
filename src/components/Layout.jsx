@@ -11,7 +11,7 @@ const Layout = () => {
   return (
     <>
       {/* ปุ่มสำหรับเข้าไปยังหน้าตั้งค่า Notification */}
-       {/*
+       
       {user && (
          <Link 
             to="/notifications" 
@@ -34,7 +34,7 @@ const Layout = () => {
             In-Game Notification 🔔
         </Link>
       )}
-        */}
+       
       
       <Navbar />
       <main>
