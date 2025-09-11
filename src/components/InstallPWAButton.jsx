@@ -1,12 +1,22 @@
 // src/components/InstallPWAButton.jsx
 
 import { useState, useEffect } from 'react';
+import InstallGuideModal from './InstallGuideModal'; // <-- Import Modal ใหม่
 import './InstallPWAButton.css';
 
 const InstallPWAButton = () => {
   const [installPrompt, setInstallPrompt] = useState(null);
+  const [isAndroid, setIsAndroid] = useState(false);
+  const [showInstallGuide, setShowInstallGuide] = useState(false); // <-- State ใหม่
 
   useEffect(() => {
+    // ตรวจสอบว่าเป็น Android หรือไม่
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    if (/android/i.test(userAgent)) {
+      setIsAndroid(true);
+    }
+    
+    // Listener สำหรับ event การติดตั้ง
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setInstallPrompt(e);
@@ -20,27 +30,34 @@ const InstallPWAButton = () => {
   }, []);
 
   const handleInstallClick = async () => {
-    if (!installPrompt) {
-      return;
+    // ถ้าเบราว์เซอร์พร้อม ให้ติดตั้งทันที
+    if (installPrompt) {
+      await installPrompt.prompt();
+      setInstallPrompt(null); // ซ่อนปุ่มหลังจากแสดง prompt
+    } else {
+      // ถ้าไม่พร้อม ให้เปิด Pop-up สอน
+      setShowInstallGuide(true);
     }
-    const result = await installPrompt.prompt();
-    console.log(`Install prompt was: ${result.outcome}`);
-    setInstallPrompt(null); // Hide the button after prompting
   };
 
-  // The button will only be rendered if the install prompt is available
-  if (!installPrompt) {
+  // ปุ่มจะแสดงผลเฉพาะบน Android เท่านั้น
+  if (!isAndroid) {
     return null;
   }
 
   return (
-    <button className="fab-install-button" onClick={handleInstallClick} title="Install App">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="7 10 12 15 17 10" />
-        <line x1="12" y1="15" x2="12" y2="3" />
-      </svg>
-    </button>
+    <>
+      <button className="fab-install-button" onClick={handleInstallClick} title="Install App">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+      </button>
+      
+      {/* แสดง Pop-up เมื่อ State เป็น true */}
+      {showInstallGuide && <InstallGuideModal onClose={() => setShowInstallGuide(false)} />}
+    </>
   );
 };
 
