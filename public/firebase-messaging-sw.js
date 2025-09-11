@@ -30,7 +30,8 @@ messaging.onBackgroundMessage(function(payload) {
   const notificationTitle = payload.data.title;
   const notificationOptions = {
     body: payload.data.body,
-    icon: '/pwa-192x192.png' // You can customize the icon here
+    icon: '/pwa-192x192.png', // You can customize the icon here
+    sound: payload.data.sound ? `/${payload.data.sound}.mp3` : undefined // 
   };
 
   // Display the notification.
