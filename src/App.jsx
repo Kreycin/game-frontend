@@ -12,6 +12,7 @@ import StatItem from './components/StatItem';
 import CountdownTimer from './components/CountdownTimer';
 import OverlayPage from './components/OverlayPage';
 import CommentSection from './components/CommentSection';
+import InstallPWAButton from './components/InstallPWAButton';
 
 const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
 const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
@@ -40,36 +41,6 @@ const getYouTubeEmbedUrl = (url) => {
 };
 
 function App() {
-  const [installPrompt, setInstallPrompt] = useState(null);
-
-  useEffect(() => {
-    const handler = (e) => {
-      e.preventDefault();
-      setInstallPrompt(e);
-      console.log('PWA install prompt is ready.');
-    };
-
-    window.addEventListener('beforeinstallprompt', handler);
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handler);
-    };
-  }, []);
-
-  const handleInstallClick = () => {
-    if (!installPrompt) {
-      return;
-    }
-    installPrompt.prompt();
-    installPrompt.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the A2HS prompt');
-      } else {
-        console.log('User dismissed the A2HS prompt');
-      }
-      setInstallPrompt(null);
-    });
-  };
 
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -191,15 +162,6 @@ function App() {
 
   return (
     <div className="App">
-      {installPrompt && (
-        <button 
-          onClick={handleInstallClick} 
-          className="pwa-install-button"
-        >
-          ติดตั้งแอป
-        </button>
-      )}
-
        <CountdownTimer 
         targetDate={targetCountdownDate} 
         prefixText={
@@ -315,6 +277,7 @@ function App() {
           isLoggedIn={isLoggedIn}
         />
       </div>
+      <InstallPWAButton />
     </div>
   );
 }
