@@ -47,7 +47,10 @@ const NotificationSettings = () => {
 
   // **[แก้ไข]** เขียน Logic การ Save ใหม่ทั้งหมด
   const handleSave = async () => {
-    if (!user) { alert("Please log in to save your settings."); return; }
+    if (!user) {
+      alert("Please log in to save your settings.");
+      return;
+    }
     setIsSaving(true);
     try {
       const fcmToken = await getFcmToken();
@@ -57,27 +60,16 @@ const NotificationSettings = () => {
         return;
       }
 
+      // **[แก้ไข]** สร้าง payload สำหรับ custom 'upsert' endpoint
       const payload = {
-        data: {
-          fcmToken,
-          selectedServer,
-          user: user.id,
-        },
+        fcmToken,
+        selectedServer,
       };
 
-      if (notificationSettingId) {
-        // **ถ้ามี ID อยู่แล้ว: ให้อัปเดต (PUT)**
-        await axios.put(`${API_ENDPOINT}/api/user-notifications/${notificationSettingId}`, payload, {
-          headers: { Authorization: `Bearer ${jwt}` },
-        });
-      } else {
-        // **ถ้ายังไม่มี ID: ให้สร้างใหม่ (POST)**
-        const { data: responseData } = await axios.post(`${API_ENDPOINT}/api/user-notifications`, payload, {
-          headers: { Authorization: `Bearer ${jwt}` },
-        });
-        // บันทึก ID ใหม่ที่เพิ่งสร้างไว้ เผื่อ user กด save อีกครั้ง
-        setNotificationSettingId(responseData.data.id);
-      }
+      // **[แก้ไข]** เรียกใช้ custom endpoint ของเราเพียงที่เดียว
+      await axios.post(`${API_ENDPOINT}/api/user-notifications/upsert`, payload, {
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
 
       alert('✅ Settings saved successfully!');
     } catch (error) {
