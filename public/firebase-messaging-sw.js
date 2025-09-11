@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyCzvdcPmv3KAySs1SwbHC7AtesAw7HFbKM",
   authDomain: "characterchat-1501e.firebaseapp.com",
   projectId: "characterchat-1501e",
-  storageBucket: "characterchat-1501e.appspot.com", // Corrected from .firebasestorage.app
+  storageBucket: "characterchat-1501e.appspot.com",
   messagingSenderId: "269692914059",
   appId: "1:269692914059:web:210dec6c8899ca22b9c78e"
 };
@@ -19,34 +19,20 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 /**
- * This is the standard, more reliable way to handle push notifications.
- * It listens for the 'push' event directly.
+ * Use the Firebase-specific onBackgroundMessage handler.
+ * This gives you full control over the notification when your app is in the background.
  */
-self.addEventListener('push', (event) => {
-  console.log('[Service Worker] Push Received.');
+messaging.onBackgroundMessage(function(payload) {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
 
-  let payload;
-  try {
-    // The data sent from Firebase is a JSON string.
-    payload = event.data.json();
-    console.log('[Service Worker] Push data payload: ', payload);
-  } catch (e) {
-    console.error('[Service Worker] Push event data could not be parsed as JSON.', e);
-    // If the data is not JSON, we can't process it.
-    return;
-  }
-
-  // Extract notification data from the payload.
-  // Firebase Console sends data in a 'notification' object.
-  const notificationTitle = payload.notification.title || 'New Notification';
+  // IMPORTANT: Read title and body from the 'data' payload,
+  // which aligns with the recommended backend fix.
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: payload.notification.body || 'You have a new message.',
-    icon: payload.notification.icon || '/pwa-192x192.png',
-    // You can add more options here like badge, actions, etc.
+    body: payload.data.body,
+    icon: '/pwa-192x192.png' // You can customize the icon here
   };
 
-  // This tells the browser to wait until the notification is shown.
-  event.waitUntil(
-    self.registration.showNotification(notificationTitle, notificationOptions)
-  );
+  // Display the notification.
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
