@@ -1,291 +1,74 @@
 // src/App.jsx
-import { v4 as uuidv4 } from 'uuid';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import html2canvas from 'html2canvas';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CharacterSheetPage from './pages/CharacterSheetPage';
 import './App.css';
-import SkillCard from './components/SkillCard';
-import VideoSection from './components/VideoSection';
-import CollapsiblePanel from './components/CollapsiblePanel';
-import StatItem from './components/StatItem';
-import CountdownTimer from './components/CountdownTimer';
-import OverlayPage from './components/OverlayPage';
-import CommentSection from './components/CommentSection';
-import InstallPWAButton from './components/InstallPWAButton';
 
-const API_ENDPOINT = import.meta.env.VITE_STRAPI_API_URL || 'http://localhost:1337';
-const STRAPI_API_URL = `${API_ENDPOINT}/api/character-sheet`;
-
-const getStarLevelNumber = (starString) => {
-  if (!starString) return 0;
-  return parseInt(starString.replace('star', ''), 10);
-};
-
-const renderRichText = (richTextArray) => {
-    if (!richTextArray) return null;
-    return richTextArray.map((block, index) => (
-      <p key={index}>{block.children.map(child => child.text).join('')}</p>
-    ));
-};
-
-const getYouTubeEmbedUrl = (url) => {
-  if (!url) return null;
-  let videoId = null;
-  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-  const match = url.match(regex);
-  if (match && match[1]) {
-    videoId = match[1];
-  }
-  return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
-};
+// ชุดข้อความสำหรับหน้า Loading
+const loadingMessages = [
+  "Waking up the server...",
+  "Connecting to the game world...",
+  "Summoning the latest tier lists...",
+  "Polishing character sheets...",
+  "Almost there, hang tight!",
+  "Assembling the heroes..."
+];
 
 function App() {
-
-  const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [guestId, setGuestId] = useState(null);
-  const targetCountdownDate = '2025-08-15T11:00:00+07:00';
-  
-  const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      setIsLoggedIn(true);
-      console.log("สถานะ: สมาชิกล็อกอินอยู่");
-    } else {
-      setIsLoggedIn(false);
-      let currentGuestId = localStorage.getItem('guestId');
-      if (!currentGuestId) {
-        currentGuestId = uuidv4();
-        localStorage.setItem('guestId', currentGuestId);
-        console.log("สถานะ: แขกใหม่! สร้าง ID ให้แล้ว:", currentGuestId);
-      } else {
-        console.log("สถานะ: แขกคนเดิม ID:", currentGuestId);
-      }
-      setGuestId(currentGuestId);
-    }
-  }, []);
-  
-  // if (isOverlayActive) {
-  //   return <OverlayPage targetDate={targetCountdownDate} />;
-  // }
-  
-  const [character, setCharacter] = useState(null);
-  const [selectedStar, setSelectedStar] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const handleExportAsImage = () => {
-    if (!character) return;
-    const elementToCapture = document.getElementById('character-sheet-container');
-    if (elementToCapture) {
-      const watermark = document.createElement('div');
-      watermark.innerText = 'Made by Kreycin';
-      watermark.style.position = 'absolute';
-      watermark.style.right = '45px';
-      watermark.style.bottom = '10px';
-      watermark.style.fontSize = '12px';
-      watermark.style.color = 'rgba(255, 255, 255, 0.4)';
-      watermark.style.zIndex = '9999';
-      watermark.style.pointerEvents = 'none';
-      elementToCapture.appendChild(watermark);
-
-      html2canvas(elementToCapture, {
-        backgroundColor: '#1a1a1a',
-        useCORS: true,
-        scale: 2,
-      }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `${character.Name || 'character-sheet'}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        if (elementToCapture.contains(watermark)) {
-          elementToCapture.removeChild(watermark);
-        }
-      }).catch(err => {
-        console.error("Error during canvas generation:", err);
-        if (elementToCapture.contains(watermark)) {
-          elementToCapture.removeChild(watermark);
-        }
-      });
-    }
-  };
+  // State นี้จะใช้สำหรับรอเซิร์ฟเวอร์ตื่นเท่านั้น
+  const [isServerWaking, setIsServerWaking] = useState(true);
+  const [currentMessage, setCurrentMessage] = useState(loadingMessages[0]);
 
   useEffect(() => {
-    const fetchCharacter = async () => {
+    // ฟังก์ชันสำหรับยิง API เพื่อปลุกเซิร์ฟเวอร์
+    const wakeUpServer = async () => {
       try {
-        const response = await axios.get(`${STRAPI_API_URL}?timestamp=${new Date().getTime()}`);
-        const allCharacters = response.data.data;
-        if (allCharacters && allCharacters.length > 0) {
-          const latestCharData = allCharacters.sort((a, b) => {
-            return new Date(b.attributes.updatedAt) - new Date(a.attributes.updatedAt);
-          })[0];
-          const charToDisplay = { id: latestCharData.id, ...latestCharData.attributes };
-          const sortedStarLevels = [...charToDisplay.Star_Levels].sort((a, b) => getStarLevelNumber(b.Star_Level) - getStarLevelNumber(a.Star_Level));
-          charToDisplay.Star_Levels = sortedStarLevels;
-          setCharacter(charToDisplay);
-          if (sortedStarLevels.length > 0) {
-            setSelectedStar(sortedStarLevels[0].Star_Level);
-          }
-        }
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
+        const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:1337';
+        // เราไม่จำเป็นต้องรอคำตอบ แค่ยิงไปเพื่อปลุก
+        fetch(`${backendUrl}/api/health-check`);
+        
+        // ตั้งเวลาจำลองการรอเซิร์ฟเวอร์ตื่น (ปรับได้ตามจริง)
+        // จาก Log ของเราคือประมาณ 40 วินาที
+        setTimeout(() => {
+          setIsServerWaking(false);
+        }, 40000); // 40 วินาที
+
+      } catch (e) {
+        console.error("Server wake-up call failed:", e);
+        setIsServerWaking(false); // ถ้า error ก็ให้ไปต่อเลย
       }
     };
-    fetchCharacter();
+
+    wakeUpServer();
+
+    // Logic การเปลี่ยนข้อความทุก 3 วินาที
+    const messageInterval = setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * loadingMessages.length);
+      setCurrentMessage(loadingMessages[randomIndex]);
+    }, 3000);
+
+    return () => clearInterval(messageInterval);
   }, []);
 
-  // useEffect(() => {
-  //   const INCREMENT_URL = `${API_ENDPOINT}/api/site-counter/increment`;
-  //   fetch(INCREMENT_URL, { 
-  //     method: 'PUT',
-  //     keepalive: true
-  //   });
-  // }, []);
-
-  if (loading) return (
+  // ขั้นที่ 1: แสดง Splash Screen ขณะรอเซิร์ฟเวอร์ตื่น
+  if (isServerWaking) {
+    return (
       <div className="splash-screen">
         <img src="/pwa-512x512.png" alt="App Logo" className="splash-logo" />
         <div className="spinner"></div>
-        <p className="splash-message">Waking up the server, please wait...</p>
-        <p className="splash-submessage">Summoning the latest data!</p>
+        <p className="splash-message">{currentMessage}</p>
       </div>
     );
-  if (error) return <div className="error-state">Error fetching data: {error.message}</div>;
-  if (!character) return <div className="loading-state">No character data found.</div>;
+  }
 
-  const selectedStarLevelData = character.Star_Levels.find(
-    (level) => level.Star_Level === selectedStar
-  );
-
-  const currentEnhancements = selectedStarLevelData?.enhancements || [];
-  const currentSkillDescriptions = selectedStarLevelData?.skill_descriptions || [];
-  
-  const mainArtUrl = character.Main_Art?.url;
-  const embedUrl = getYouTubeEmbedUrl(character.YouTube_URL);
-
+  // ขั้นที่ 2: เซิร์ฟเวอร์ตื่นแล้ว, แสดงหน้าเว็บจริง (ซึ่งจะโชว์ Skeleton ก่อน)
   return (
-    <div className="App">
-       {/* <CountdownTimer 
-        targetDate={targetCountdownDate} 
-        prefixText={
-          <>
-            The World Serpent event will begin in :
-            <br />
-          </>
-        }
-      /> */}
-      
-      <title>{`${character.Name} - Character Sheet | Demon Slayer Game Hub`}</title>
-      <meta name="description" content={`ข้อมูลค่าพลัง, สกิล, และรายละเอียดทั้งหมดของตัวละคร ${character.Name} ระดับ ${character.Rarity}`} />
-      <meta property="og:title" content={`${character.Name} - Character Sheet`} />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://demonslayergamehub.com" />
-      {mainArtUrl && <meta property="og:image" content={mainArtUrl} />}
-      <meta property="og:description" content={`ข้อมูลค่าพลัง, สกิล, และรายละเอียดทั้งหมดของตัวละคร ${character.Name} ระดับ ${character.Rarity}`} />
-      <meta property="og:site_name" content="Demon Slayer Game Hub" />
-
-      <div id="character-sheet-container" key={character.id} className="character-sheet-container">
-        <header className="character-header layout-header">
-           <div className="name-and-id">
-              <h1>{character.Name}</h1>
-            </div>
-          <div className="tags">
-            <span className={`tag-rarity ${character.Rarity}`}>{character.Rarity}</span>
-            <span className="tag-role">{character.Role}</span>
-            {character.Element && <span className="tag-element">{character.Element}</span>}
-          </div>
-        </header>
-        {mainArtUrl && (<img src={mainArtUrl} alt={character.Name} className="main-character-art layout-art"/>)}
-        <CollapsiblePanel title="Main Stats" defaultExpanded={false} className="layout-main-stats">
-          <div className="stats-grid">
-            <StatItem label="ATK" value={character.ATK} />
-            <StatItem label="DEF" value={character.DEF} />
-            <StatItem label="HP" value={character.HP} />
-            <StatItem label="SPD" value={character.SPD} />
-          </div>
-        </CollapsiblePanel>
-        
-        <CollapsiblePanel title="Special" defaultExpanded={false} className="layout-special-stats">
-          <div className="stats-grid-special">
-            <StatItem label="Lifesteal" value={character.Lifesteal} />
-            <StatItem label="Penetration" value={character.Penetration} />
-            <StatItem label="CRIT Rate" value={character.CRIT_rate} />
-            <StatItem label="CRIT Res" value={character.CRIT_Res} />
-            <StatItem label="Debuff Acc" value={character.Debuff_Acc} />
-            <StatItem label="Debuff Res" value={character.Debuff_Res} />
-            <StatItem label="Accuracy" value={character.Accuracy} />
-            <StatItem label="Dodge" value={character.Doge} />
-            <StatItem label="Healing Amt" value={character.Healing_Amt} />
-            <StatItem label="Healing Amt(P)" value={character.Healing_Amt_P} />
-            <StatItem label="Extra DMG" value={character.Extra_DMG} />
-            <StatItem label="DMG Res" value={character.DMG_Res} />
-            <StatItem label="CRIT DMG Res" value={character.CRIT_DMG_Res} />
-            <StatItem label="CRIT DMG" value={character.CRIT_DMG} />
-          </div>
-        </CollapsiblePanel>
-
-        <div className="layout-skills">
-          <div className="star-selector">
-              {character.Star_Levels.map((level) => (
-              <button
-                  key={level.id}
-                  className={`star-button ${selectedStar === level.Star_Level ? 'active' : ''}`}
-                  onClick={() => setSelectedStar(level.Star_Level)}
-              >
-                  {getStarLevelNumber(level.Star_Level)}★
-              </button>
-              ))}
-          </div>
-          <section className="skills-grid">
-            {currentSkillDescriptions.length > 0 ? (
-              currentSkillDescriptions.map((skillDesc) => (
-                <SkillCard key={skillDesc.id} skillDescription={skillDesc} />
-              ))
-            ) : (
-              <p>No skills available for this star level.</p>
-            )}
-          </section>
-        </div>
-        <CollapsiblePanel title="Enhancements" className="layout-enhancements" defaultExpanded={true}>
-            <div className="panel-content-inner">
-                {currentEnhancements.length > 0 ? (
-                    currentEnhancements.map((enh) => {
-                    const enhancementIconUrl = enh.Enhancement_Icon?.url;
-                    return (
-                        <div key={enh.id} className="enhancement-item">
-                        {enhancementIconUrl && (
-                            <img src={enhancementIconUrl} alt="Enhancement Icon" className="enhancement-icon" />
-                        )}
-                        <div>{renderRichText(enh.Description)}</div>
-                        </div>
-                    )
-                    })
-                ) : (
-                    <p>No enhancements for this star level.</p>
-                )}
-            </div>
-        </CollapsiblePanel>
-        <VideoSection embedUrl={embedUrl} className="layout-showcase" />
-      </div>
-
-      <div className="export-container">
-        <button onClick={handleExportAsImage} className="export-button">
-          Export as PNG
-        </button>
-      </div>
-      <div className="max-w-4xl mx-auto px-4">
-        <CommentSection 
-          pageId={`character-${character.id}`}
-          user={user}
-          isLoggedIn={isLoggedIn}
-        />
-      </div>
-      <InstallPWAButton />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<CharacterSheetPage />} />
+        {/* คุณสามารถเพิ่ม Route อื่นๆ สำหรับอนาคตได้ที่นี่ */}
+      </Routes>
+    </Router>
   );
 }
 
