@@ -3,87 +3,120 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CharacterSheetPage from './pages/CharacterSheetPage';
 import './App.css';
 
-// ชุดข้อความสำหรับหน้า Loading
+// --- [เพิ่ม] รายชื่อ URL ของ GIF พื้นหลังที่คุณอัปโหลดไว้ ---
+const backgroundGifs = [
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866921/Demon_Slayer_GIF_hp1phc.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866922/Demonslayer_Kimetsunoyaiba_GIF_by_KonnichiwaFestival_d3pltd.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866922/gif-2_zm1eyw.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866922/gif_q6kglz.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866923/Kimetsu_No_Yaiba_Fight_GIF_by_iQiyi_gbctmk.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866923/Demonslayer_Zenitsu_GIF_a7tutn.gif',
+  // เพิ่ม URL ของ GIF อื่นๆ ได้ที่นี่
+];
+
+// --- [แก้ไข] ปรับปรุงข้อความให้ดูดีขึ้น ---
 const loadingMessages = [
-  "Waking up the server...",
   "Connecting to the game world...",
-  "Summoning the latest tier lists...",
+  "Summoning the latest data...",
+  "Assembling the heroes...",
   "Polishing character sheets...",
   "Almost there, hang tight!",
-  "Assembling the heroes..."
 ];
 
 function App() {
-  // --- [เพิ่ม] ส่วนสำหรับ Debug Mode ---
-  const queryParams = new URLSearchParams(window.location.search);
-  const debugMode = queryParams.get('debug');
-
-  // --- [แก้ไข] ทำให้ State เริ่มต้นขึ้นอยู่กับ debugMode ---
-  // ถ้า URL มี ?debug=splash, isServerWaking จะเป็น true ค้างไว้
-  // ถ้าไม่มี, จะเป็น true ชั่วคราวแล้วเปลี่ยนเป็น false
-  const [isServerWaking, setIsServerWaking] = useState(debugMode === 'splash' ? true : true);
+  const [isServerWaking, setIsServerWaking] = useState(true);
   const [currentMessage, setCurrentMessage] = useState(loadingMessages[0]);
+  
+  // --- [เพิ่ม] State สำหรับนับเวลาถอยหลังและเก็บ URL ของ GIF ---
+  const [countdown, setCountdown] = useState(20);
+  const [backgroundGif, setBackgroundGif] = useState('');
 
   useEffect(() => {
-    if (debugMode === 'skeleton') {
-      setIsServerWaking(false);
-      return; // จบการทำงานของ useEffect ที่นี่
-    }
-    // --- [เพิ่ม] ถ้าอยู่ใน Debug Mode, ไม่ต้องทำอะไรเลย ---
-    if (debugMode) {
-      // ทำให้ข้อความยังเปลี่ยนไปเรื่อยๆ ใน debug mode
+    // สุ่มเลือก GIF ตอนเริ่ม
+    const randomGif = backgroundGifs[Math.floor(Math.random() * backgroundGifs.length)];
+    setBackgroundGif(randomGif);
+
+    // --- [อัปเกรด] ตรรกะการปลุกเซิร์ฟเวอร์แบบอัจฉริยะ ---
+    const wakeUpServer = async () => {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:1337';
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000); // รอแค่ 3 วินาที
+
+      try {
+        // ลองยิง health-check แบบมี timeout
+        const response = await fetch(`${backendUrl}/api/health-check`, { signal: controller.signal });
+        clearTimeout(timeoutId); // ยกเลิก timeout เพราะตอบกลับทัน
+
+        if (response.ok) {
+          // ถ้าเซิร์ฟเวอร์ตอบกลับทันที (Warm) => ข้ามหน้าโหลดไปเลย
+          console.log("Server is warm. Skipping splash screen.");
+          setIsServerWaking(false);
+          return; // จบการทำงาน
+        }
+      } catch (e) {
+        // ถ้า timeout หรือ error (Cold) => เริ่มนับถอยหลัง
+        console.log("Server is cold. Starting countdown.");
+        startCountdown();
+      }
+    };
+    
+    wakeUpServer();
+
+    // ฟังก์ชันสำหรับเริ่มนับถอยหลังและเปลี่ยนข้อความ
+    const startCountdown = () => {
+      const countdownInterval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(countdownInterval);
+            setIsServerWaking(false); // เมื่อนับเสร็จ ให้ปิดหน้าโหลด
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000); // ทำงานทุก 1 วินาที
+
       const messageInterval = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * loadingMessages.length);
         setCurrentMessage(loadingMessages[randomIndex]);
-      }, 3000);
-      return () => clearInterval(messageInterval);
-    }
+      }, 3000); // เปลี่ยนข้อความทุก 3 วินาที
 
-    // ฟังก์ชันสำหรับยิง API เพื่อปลุกเซิร์ฟเวอร์ (ทำงานเฉพาะเมื่อไม่อยู่ใน debug mode)
-    const wakeUpServer = async () => {
-      try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:1337';
-        fetch(`${backendUrl}/api/health-check`);
-        
-        setTimeout(() => {
-          setIsServerWaking(false);
-        }, 20000); // 40 วินาที
-
-      } catch (e) {
-        console.error("Server wake-up call failed:", e);
-        setIsServerWaking(false);
-      }
+      // Cleanup function
+      return () => {
+        clearInterval(countdownInterval);
+        clearInterval(messageInterval);
+      };
     };
 
-    wakeUpServer();
+  }, []); // ทำงานแค่ครั้งเดียว
 
-    // Logic การเปลี่ยนข้อความทุก 3 วินาที
-    const messageInterval = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * loadingMessages.length);
-      setCurrentMessage(loadingMessages[randomIndex]);
-    }, 3000);
-
-    return () => clearInterval(messageInterval);
-    
-  }, [debugMode]); // --- [แก้ไข] เพิ่ม debugMode เข้าไปใน dependency array ---
-
-  // --- [แก้ไข] เงื่อนไขการแสดง Splash Screen ---
-  // ถ้า isServerWaking เป็น true (ไม่ว่าจะมาจาก debug mode หรือการรอปกติ) ให้แสดง Splash Screen
+  // --- [อัปเกรด] หน้า Splash Screen ใหม่ทั้งหมด ---
   if (isServerWaking) {
     return (
       <div className="splash-screen">
-        <img src="/pwa-512x512.png" alt="App Logo" className="splash-logo" />
-        <div className="spinner"></div>
-        <p className="splash-message">{currentMessage}</p>
+        {/* พื้นหลัง GIF แบบเต็มจอ */}
+        <div 
+          className="splash-background" 
+          style={{ backgroundImage: `url(${backgroundGif})` }}
+        ></div>
+        {/* เนื้อหาที่ซ้อนทับ */}
+        <div className="splash-content">
+          <img src="/pwa-512x512.png" alt="App Logo" className="splash-logo" />
+          <div className="spinner"></div>
+          <p className="splash-message">{currentMessage}</p>
+          {/* ตัวนับเวลาถอยหลัง */}
+          <p className="splash-countdown">{countdown}</p>
+        </div>
       </div>
     );
   }
 
   // เซิร์ฟเวอร์ตื่นแล้ว, แสดงหน้าเว็บจริง
   return (
-    <Routes>
-      <Route path="/" element={<CharacterSheetPage />} />
-    </Routes>
+    <Router>
+      <Routes>
+        <Route path="/" element={<CharacterSheetPage />} />
+      </Routes>
+    </Router>
   );
 }
 
