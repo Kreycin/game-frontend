@@ -66,7 +66,6 @@ body {
   .character-sheet-container {
     gap: 2rem;
     grid-template-columns: 320px 1fr; /* Left sidebar and main content */
-    align-items: start;
     grid-template-areas:
       "art              header"
       "art              skills"
@@ -236,12 +235,6 @@ body {
 }
 
 /* We will define multi-column layout for wider screens */
-@media (min-width: 551px) {
-  .skills-grid {
-    /* On screens wider than 550px, create 2 columns */
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 
 /* --- Individual Skill Card --- */
 .skill-card-small {
@@ -253,6 +246,7 @@ body {
   flex-direction: column;
   position: relative;
   transition: background-color 0.2s;
+  align-self: start;
 }
 .skill-card-small.expanded { background-color: rgba(45, 45, 45, 0.95); }
 .skill-card-header-clickable { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; cursor: pointer; }
