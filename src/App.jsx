@@ -9,18 +9,35 @@ const backgroundGifs = [
   'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866922/gif_q6kglz.gif',
   'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866923/Kimetsu_No_Yaiba_Fight_GIF_by_iQiyi_gbctmk.gif',
   'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757866923/Demonslayer_Zenitsu_GIF_a7tutn.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757869588/200_d9sx3t.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757869588/giphy_3_mhjuaj.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757869589/giphy_4_klcnem.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757869589/giphy_2_kmaoj1.gif',
+  'https://res.cloudinary.com/di8bf7ufw/image/upload/v1757869589/giphy_dbsf7d.gif',
 ];
 const loadingMessages = [
   "Connecting to database...",
-  "Summoning the latest data...",
   "Polishing character sheets...",
   "Almost there, hang tight!",
+  "Waking the server up",
+  "Tip: iOS — Add this website with Add to Home Screen to receive notifications from us",
+  "Tip: Android — Install this website to receive notifications from us",
+  "New characters will always be updated — please stay tuned every month",
+  "Since the server is limited, we have to shut it down whenever there are no users",
+  "We still have many features not yet added—stay tuned for our notifications.",
+  "Kreycin is the developer of the website",
+  "Lefty is the one who provides the tier lists and character builds",
+  "We’re always open to new ideas — contact Kreycin",
+
+
+
+
 ];
 
 function App() {
   const [isServerWaking, setIsServerWaking] = useState(true);
   const [currentMessage, setCurrentMessage] = useState(loadingMessages[0]);
-  const [countdown, setCountdown] = useState(20);
+  const [countdown, setCountdown] = useState(30);
   const [backgroundGif, setBackgroundGif] = useState('');
 
   useEffect(() => {
