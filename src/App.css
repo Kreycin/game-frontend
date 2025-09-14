@@ -387,38 +387,58 @@ body {
 }
 
 .splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999;
+  overflow: hidden; /* ป้องกันไม่ให้มี scrollbar */
+}
+
+.splash-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  /* ทำให้พื้นหลังมืดลงเล็กน้อยเพื่อให้เห็นข้อความชัดขึ้น */
+  filter: brightness(0.6);
+  transform: scale(1.1); /* ขยายเล็กน้อยเพื่อไม่ให้เห็นขอบ */
+}
+
+.splash-content {
+  position: relative; /* ทำให้เนื้อหาลอยอยู่เหนือพื้นหลัง */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100vh; /* ทำให้เต็มจอ */
-  background-color: var(--background-color);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
+  height: 100%;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* เพิ่มเงาให้ข้อความ */
 }
 
 .splash-logo {
   width: 120px;
   height: 120px;
   margin-bottom: 2rem;
-  /* Animation ให้โลโก้ค่อยๆ ปรากฏและหายไป */
   animation: pulse 2s infinite ease-in-out;
 }
 
 .splash-message {
   font-size: 1.2rem;
   font-weight: 500;
-  color: var(--text-color-primary);
   margin: 1.5rem 0 0.5rem 0;
 }
 
-.splash-submessage {
-  font-size: 0.9rem;
-  color: var(--text-color-secondary);
-  margin: 0;
+/* --- [ใหม่] สไตล์สำหรับตัวนับถอยหลัง --- */
+.splash-countdown {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--accent-color-ur); /* ใช้สีเดียวกับเว็บ */
+  margin-top: 1rem;
 }
 
 /* --- Spinner Animation --- */
@@ -426,29 +446,18 @@ body {
   width: 40px;
   height: 40px;
   border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--accent-color-ur); /* ใช้สีเดียวกับเว็บ */
+  border-top-color: var(--accent-color-ur);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
 /* --- Keyframe Animations --- */
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes pulse {
-  0% {
-    opacity: 0.6;
-    transform: scale(0.95);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0.6;
-    transform: scale(0.95);
-  }
+  0% { opacity: 0.6; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.6; transform: scale(0.95); }
 }

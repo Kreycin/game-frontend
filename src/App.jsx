@@ -112,9 +112,7 @@ function App() {
   // เซิร์ฟเวอร์ตื่นแล้ว, แสดงหน้าเว็บจริง
   return (
     <Router>
-      <Routes>
         <Route path="/" element={<CharacterSheetPage />} />
-      </Routes>
     </Router>
   );
 }
