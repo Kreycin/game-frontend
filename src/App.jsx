@@ -89,7 +89,7 @@ function App() {
       const messageInterval = setInterval(() => {
         const randomIndex = Math.floor(Math.random() * loadingMessages.length);
         setCurrentMessage(loadingMessages[randomIndex]);
-      }, 3000);
+      }, 5000);
 
       return () => {
         clearInterval(countdownInterval);
