@@ -46,6 +46,12 @@ function App() {
 
     const wakeUpServer = async () => {
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+      if (!backendUrl) {
+        console.error("VITE_BACKEND_URL is not set! Starting cold start sequence as a fallback.");
+        startCountdown();
+        return;
+      }
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3000);
 
@@ -55,7 +61,10 @@ function App() {
         if (response.ok) {
           console.log("Server is warm. Skipping splash screen.");
           setIsServerWaking(false);
-          return;
+        } else {
+          // ถ้าเซิร์ฟเวอร์ตอบกลับแต่ไม่สำเร็จ (เช่น 503) ให้เริ่มนับถอยหลัง
+          console.log("Server responded with an error. Starting countdown.");
+          startCountdown();
         }
         // ถ้า response ไม่ ok แต่ตอบกลับ ก็ยังถือว่า cold start
         startCountdown();
