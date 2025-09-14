@@ -16,9 +16,8 @@ const backgroundGifs = [
 
 // --- [แก้ไข] ปรับปรุงข้อความให้ดูดีขึ้น ---
 const loadingMessages = [
-  "Connecting to the game world...",
+  "Connecting to database...",
   "Summoning the latest data...",
-  "Assembling the heroes...",
   "Polishing character sheets...",
   "Almost there, hang tight!",
 ];
