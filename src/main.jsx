@@ -39,8 +39,6 @@ const router = createBrowserRouter([
       { path: "community", element: <ComingSoonPage /> },
       { path: "download-game", element: <ComingSoonPage /> },
       { path: "about-us", element: <ComingSoonPage /> },
-      
-      // --- 2. เปลี่ยน Element ของ Route นี้ให้เป็นหน้าใหม่ของเรา ---
       { path: "notifications", element: <NotificationSettings /> },
     ]
   }

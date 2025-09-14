@@ -138,13 +138,13 @@ function App() {
     fetchCharacter();
   }, []);
 
-  useEffect(() => {
-    const INCREMENT_URL = `${API_ENDPOINT}/api/site-counter/increment`;
-    fetch(INCREMENT_URL, { 
-      method: 'PUT',
-      keepalive: true
-    });
-  }, []);
+  // useEffect(() => {
+  //   const INCREMENT_URL = `${API_ENDPOINT}/api/site-counter/increment`;
+  //   fetch(INCREMENT_URL, { 
+  //     method: 'PUT',
+  //     keepalive: true
+  //   });
+  // }, []);
 
   if (loading) return <div className="loading-state">Loading character...</div>;
   if (error) return <div className="error-state">Error fetching data: {error.message}</div>;
