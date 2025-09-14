@@ -2,8 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
-
-import './App.css';
+import '../App.css';
 import SkillCard from './components/SkillCard';
 import VideoSection from './components/VideoSection';
 import CollapsiblePanel from './components/CollapsiblePanel';
