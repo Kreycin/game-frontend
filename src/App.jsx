@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import CharacterSheetPage from './pages/CharacterSheetPage';
 import './App.css';
 
@@ -111,9 +111,9 @@ function App() {
 
   // เซิร์ฟเวอร์ตื่นแล้ว, แสดงหน้าเว็บจริง
   return (
-    <Router>
-        <Route path="/" element={<CharacterSheetPage />} />
-    </Router>
+    <Routes>
+      <Route path="/" element={<CharacterSheetPage />} />
+    </Routes>
   );
 }
 
