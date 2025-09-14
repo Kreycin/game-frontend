@@ -67,9 +67,9 @@ function App() {
     }
   }, []);
   
-  if (isOverlayActive) {
-    return <OverlayPage targetDate={targetCountdownDate} />;
-  }
+  // if (isOverlayActive) {
+  //   return <OverlayPage targetDate={targetCountdownDate} />;
+  // }
   
   const [character, setCharacter] = useState(null);
   const [selectedStar, setSelectedStar] = useState(null);
@@ -162,7 +162,7 @@ function App() {
 
   return (
     <div className="App">
-       <CountdownTimer 
+       {/* <CountdownTimer 
         targetDate={targetCountdownDate} 
         prefixText={
           <>
@@ -170,7 +170,7 @@ function App() {
             <br />
           </>
         }
-      />
+      /> */}
       
       <title>{`${character.Name} - Character Sheet | Demon Slayer Game Hub`}</title>
       <meta name="description" content={`ข้อมูลค่าพลัง, สกิล, และรายละเอียดทั้งหมดของตัวละคร ${character.Name} ระดับ ${character.Rarity}`} />
