@@ -47,7 +47,7 @@ function App() {
         
         setTimeout(() => {
           setIsServerWaking(false);
-        }, 40000); // 40 วินาที
+        }, 20000); // 40 วินาที
 
       } catch (e) {
         console.error("Server wake-up call failed:", e);
