@@ -45,7 +45,11 @@ function CharacterSheetPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [guestId, setGuestId] = useState(null);
   const targetCountdownDate = '2025-08-15T11:00:00+07:00';
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const isSkeletonDebug = queryParams.get('debug') === 'skeleton';
   
+
   const isOverlayActive = import.meta.env.VITE_OVERLAY_MODE === 'true';
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -112,6 +116,11 @@ function CharacterSheetPage() {
   };
 
   useEffect(() => {
+    if (isSkeletonDebug) {
+      setLoading(false); // ตั้งค่า loading เป็น false เพื่อไม่ให้แสดง Skeleton ซ้ำซ้อน
+      return;
+    }
+
     const fetchCharacter = async () => {
       try {
         const response = await axios.get(`${STRAPI_API_URL}?timestamp=${new Date().getTime()}`);
@@ -135,7 +144,7 @@ function CharacterSheetPage() {
       }
     };
     fetchCharacter();
-  }, []);
+  }, [isSkeletonDebug]);
 
   // useEffect(() => {
   //   const INCREMENT_URL = `${API_ENDPOINT}/api/site-counter/increment`;
@@ -144,7 +153,7 @@ function CharacterSheetPage() {
   //     keepalive: true
   //   });
   // }, []);
-
+  if (isSkeletonDebug) return <CharacterSheetSkeleton />;
   if (loading) return <CharacterSheetSkeleton />;
   if (error) return <div className="error-state">Error fetching data: {error.message}</div>;
   if (!character) return <div className="loading-state">No character data found.</div>;

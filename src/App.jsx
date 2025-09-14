@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CharacterSheetPage from './pages/CharacterSheetPage';
@@ -15,27 +14,40 @@ const loadingMessages = [
 ];
 
 function App() {
-  // State นี้จะใช้สำหรับรอเซิร์ฟเวอร์ตื่นเท่านั้น
-  const [isServerWaking, setIsServerWaking] = useState(true);
+  // --- [เพิ่ม] ส่วนสำหรับ Debug Mode ---
+  const queryParams = new URLSearchParams(window.location.search);
+  const debugMode = queryParams.get('debug');
+
+  // --- [แก้ไข] ทำให้ State เริ่มต้นขึ้นอยู่กับ debugMode ---
+  // ถ้า URL มี ?debug=splash, isServerWaking จะเป็น true ค้างไว้
+  // ถ้าไม่มี, จะเป็น true ชั่วคราวแล้วเปลี่ยนเป็น false
+  const [isServerWaking, setIsServerWaking] = useState(debugMode === 'splash' ? true : true);
   const [currentMessage, setCurrentMessage] = useState(loadingMessages[0]);
 
   useEffect(() => {
-    // ฟังก์ชันสำหรับยิง API เพื่อปลุกเซิร์ฟเวอร์
+    // --- [เพิ่ม] ถ้าอยู่ใน Debug Mode, ไม่ต้องทำอะไรเลย ---
+    if (debugMode) {
+      // ทำให้ข้อความยังเปลี่ยนไปเรื่อยๆ ใน debug mode
+      const messageInterval = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * loadingMessages.length);
+        setCurrentMessage(loadingMessages[randomIndex]);
+      }, 3000);
+      return () => clearInterval(messageInterval);
+    }
+
+    // ฟังก์ชันสำหรับยิง API เพื่อปลุกเซิร์ฟเวอร์ (ทำงานเฉพาะเมื่อไม่อยู่ใน debug mode)
     const wakeUpServer = async () => {
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:1337';
-        // เราไม่จำเป็นต้องรอคำตอบ แค่ยิงไปเพื่อปลุก
         fetch(`${backendUrl}/api/health-check`);
         
-        // ตั้งเวลาจำลองการรอเซิร์ฟเวอร์ตื่น (ปรับได้ตามจริง)
-        // จาก Log ของเราคือประมาณ 40 วินาที
         setTimeout(() => {
           setIsServerWaking(false);
         }, 40000); // 40 วินาที
 
       } catch (e) {
         console.error("Server wake-up call failed:", e);
-        setIsServerWaking(false); // ถ้า error ก็ให้ไปต่อเลย
+        setIsServerWaking(false);
       }
     };
 
@@ -48,9 +60,11 @@ function App() {
     }, 3000);
 
     return () => clearInterval(messageInterval);
-  }, []);
+    
+  }, [debugMode]); // --- [แก้ไข] เพิ่ม debugMode เข้าไปใน dependency array ---
 
-  // ขั้นที่ 1: แสดง Splash Screen ขณะรอเซิร์ฟเวอร์ตื่น
+  // --- [แก้ไข] เงื่อนไขการแสดง Splash Screen ---
+  // ถ้า isServerWaking เป็น true (ไม่ว่าจะมาจาก debug mode หรือการรอปกติ) ให้แสดง Splash Screen
   if (isServerWaking) {
     return (
       <div className="splash-screen">
@@ -61,12 +75,11 @@ function App() {
     );
   }
 
-  // ขั้นที่ 2: เซิร์ฟเวอร์ตื่นแล้ว, แสดงหน้าเว็บจริง (ซึ่งจะโชว์ Skeleton ก่อน)
+  // เซิร์ฟเวอร์ตื่นแล้ว, แสดงหน้าเว็บจริง
   return (
     <Router>
       <Routes>
         <Route path="/" element={<CharacterSheetPage />} />
-        {/* คุณสามารถเพิ่ม Route อื่นๆ สำหรับอนาคตได้ที่นี่ */}
       </Routes>
     </Router>
   );
