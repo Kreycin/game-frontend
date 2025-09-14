@@ -146,7 +146,14 @@ function App() {
   //   });
   // }, []);
 
-  if (loading) return <div className="loading-state">Loading character...</div>;
+  if (loading) return (
+      <div className="splash-screen">
+        <img src="/pwa-512x512.png" alt="App Logo" className="splash-logo" />
+        <div className="spinner"></div>
+        <p className="splash-message">Waking up the server, please wait...</p>
+        <p className="splash-submessage">Summoning the latest data!</p>
+      </div>
+    );
   if (error) return <div className="error-state">Error fetching data: {error.message}</div>;
   if (!character) return <div className="loading-state">No character data found.</div>;
 
