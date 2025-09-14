@@ -25,6 +25,10 @@ function App() {
   const [currentMessage, setCurrentMessage] = useState(loadingMessages[0]);
 
   useEffect(() => {
+    if (debugMode === 'skeleton') {
+      setIsServerWaking(false);
+      return; // จบการทำงานของ useEffect ที่นี่
+    }
     // --- [เพิ่ม] ถ้าอยู่ใน Debug Mode, ไม่ต้องทำอะไรเลย ---
     if (debugMode) {
       // ทำให้ข้อความยังเปลี่ยนไปเรื่อยๆ ใน debug mode
