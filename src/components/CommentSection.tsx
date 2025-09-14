@@ -4,8 +4,8 @@ import { collection, query, where, onSnapshot, orderBy, addDoc, serverTimestamp,
 import { useAuth } from '../context/AuthContext';
 
 // --- URL รูปภาพเริ่มต้นจาก Cloudinary ---
-const DEFAULT_ICON_URL = "https://res.cloudinary.com/di8bf7ufw/image/upload/v1754677494/b5ae7146_d3f2_47ec_8c5d_8637f39e1259_removalai_preview_9f237cbeff.png";
-const DEFAULT_FRAME_URL = "https://res.cloudinary.com/di8bf7ufw/image/upload/v1754677622/thumbnail_IMG_1694_removebg_preview_4b49eeba14.png";
+const DEFAULT_ICON_URL = "https://res.cloudinary.com/di8bf7ufw/image/upload/v1757845754/default-icon.png_wqrpnw.png";
+const DEFAULT_FRAME_URL = "https://res.cloudinary.com/di8bf7ufw/image/upload/v1757845753/default-frame.png_gna3cg.png";
 // ------------------------------------
 
 // --- "พิมพ์เขียว" (Interfaces) ---
