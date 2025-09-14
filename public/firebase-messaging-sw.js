@@ -31,7 +31,7 @@ messaging.onBackgroundMessage(function(payload) {
   const notificationOptions = {
     body: payload.data.body,
     icon: '/pwa-192x192.png', // You can customize the icon here
-    sound: payload.data.sound ? `${self.location.origin}/${payload.data.sound}.mp3` : undefined
+    sound: 'https://res.cloudinary.com/di8bf7ufw/video/upload/v1757847611/titlecard_gz9met.mp3'
   };
 
   // Display the notification.
