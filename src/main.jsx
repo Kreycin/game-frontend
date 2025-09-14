@@ -7,7 +7,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 
 import Layout from './components/Layout.jsx';
-import App from './App.jsx';
+//import App from './App.jsx';
+import CharacterSheetPage from './pages/CharacterSheetPage';
 import ComingSoonPage from './pages/ComingSoonPage.jsx';
 import GameGuide from './pages/GameGuide';
 import TierListPage from './pages/TierListPage.jsx';
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { index: true, element: <App /> },
+      { index: true, element: <CharacterSheetPage /> },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "forgot-password", element: <ForgotPassword /> },
