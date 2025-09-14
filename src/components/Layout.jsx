@@ -44,7 +44,7 @@ const Layout = () => {
   // --- คัดลอก State และ useEffect มาจาก App.jsx ---
   const [isServerWaking, setIsServerWaking] = useState(true);
   const [currentMessage, setCurrentMessage] = useState(loadingMessages[0]);
-  const [countdown, setCountdown] = useState(25);
+  const [countdown, setCountdown] = useState(30);
   const [backgroundGif, setBackgroundGif] = useState('');
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const Layout = () => {
       }
       
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 3000);
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
 
       try {
         const response = await fetch(`${backendUrl}/api/health-check`, { signal: controller.signal });
