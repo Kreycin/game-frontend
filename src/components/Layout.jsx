@@ -1,6 +1,6 @@
 // src/components/Layout.jsx
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import { useAuth } from '../context/AuthContext';
