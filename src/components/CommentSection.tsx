@@ -44,11 +44,11 @@ const CommentCard: React.FC<{ comment: Comment }> = ({ comment }) => {
               alt="User Icon" 
               className="w-full h-full object-cover rounded-full" 
             />
-            <img 
+            {/* <img 
               src={DEFAULT_FRAME_URL} 
               alt="User Frame" 
               className="absolute top-0 left-0 w-full h-full object-contain" 
-            />
+            /> */}
           </>
         )}
       </div>
